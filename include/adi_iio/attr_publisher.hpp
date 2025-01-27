@@ -10,6 +10,9 @@
 
 #define QOS_QUEUE_SIZE 10
 
+#define READ_SUFFIX "/read"
+#define WRITE_SUFFIX "/write"
+
 class AttrPubSub {
     public:
     virtual ~AttrPubSub() {}

@@ -3,17 +3,18 @@
 #include "adi_iio/attr_publisher.hpp"
 #include <memory>
 
-IIOAttrTopic::IIOAttrTopic(std::shared_ptr<IIONode> nh, std::string attrPath, topicType_t type, int loopRate)
+IIOAttrTopic::IIOAttrTopic(std::shared_ptr<IIONode> nh, std::string topicName, std::string attrPath, topicType_t type, int loopRate)
   : m_loopRate(loopRate)
 {
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Created IIOAttrTopic");  
   m_nh = nh;
   m_attrPath = attrPath;
+  m_topicName = topicName;
   m_topicType = type;
   m_stopThread = false;
 
   // Start the thread for the publishing loop
-  m_pub = std::make_unique<StringPubSub>(m_nh, this, m_attrPath);
+  m_pub = std::make_unique<StringPubSub>(m_nh, this, m_topicName);
   m_th = std::thread(&IIOAttrTopic::publishingLoop, this);  
 }
 

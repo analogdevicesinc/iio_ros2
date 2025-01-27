@@ -23,8 +23,10 @@ public:
   IIONode();
   virtual ~IIONode();
 
-  // service handlers
   bool rwAttrPath(std::string path, std::string &result, bool write = false, std::string value = "");
+  std::string convertAttrPathToTopicName(std::string path);
+
+  // service handlers
   void attrReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Request> request,
             std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Response>  response);
 

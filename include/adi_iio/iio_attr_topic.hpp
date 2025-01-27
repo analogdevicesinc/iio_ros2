@@ -25,7 +25,7 @@ public:
         TYPE_BOOL
     } topicType_t;
 
-    IIOAttrTopic(std::shared_ptr<IIONode> nh, std::string attrPath, topicType_t type, int loopRate);
+    IIOAttrTopic(std::shared_ptr<IIONode> nh, std::string topicName, std::string attrPath, topicType_t type, int loopRate);
     virtual ~IIOAttrTopic();
 
     void publishingLoop();
@@ -37,6 +37,7 @@ private:
 
     std::shared_ptr<IIONode> m_nh;
     std::string m_attrPath;
+    std::string m_topicName;
     topicType_t m_topicType;
     std::unique_ptr<AttrPubSub> m_pub;
 

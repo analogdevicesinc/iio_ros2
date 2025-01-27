@@ -50,6 +50,11 @@ bool IIONode::initialized()
   return m_initialized;
 }
 
+std::string IIONode::convertAttrPathToTopicName(std::string path) {
+  std::replace(path.begin(), path.end(), '-', '_');
+  return path;
+}
+
 bool IIONode::rwAttrPath(std::string path, std::string& result, bool write, std::string value)
 {
   bool ret = false;
@@ -239,8 +244,10 @@ void IIONode::attrWriteSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrWr
 }
 
  /*AttrTopicEnable.srv
+  string topic_name
   string attr_path
   int loop_rate
+  int type
   ---------------
   bool success
   string message*/
@@ -255,13 +262,18 @@ void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::
   response->success = rwAttrPath(request->attr_path, result);
   response->message = result;
 
+  std::string local_topic_name = request->topic_name;
+  if(local_topic_name == "") {
+    local_topic_name = convertAttrPathToTopicName(request->attr_path);
+  }
+
   if(response->success) {
-    if(m_attrTopicMap.find(request->attr_path) != m_attrTopicMap.end()) {
-      m_attrTopicMap.erase(request->attr_path);
+    if(m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
+      m_attrTopicMap.erase(local_topic_name);
     }
   
-    m_attrTopicMap.insert({ request->attr_path,   
-    std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), request->attr_path, IIOAttrTopic::TYPE_STRING, 1)});
+    m_attrTopicMap.insert({ local_topic_name,   
+    std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), local_topic_name,request->attr_path, IIOAttrTopic::TYPE_STRING, request->loop_rate)});
 
     response->success = true;
     response->message = "Success";
@@ -270,7 +282,7 @@ void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::
 
   /*
   AttrTopicDisable.srv
-  string attr_path
+  string topic_name
   ---
   bool success
   string message
@@ -281,9 +293,9 @@ void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv:
 {
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request disable topic %s ",
-              request->attr_path.c_str());
-  if(m_attrTopicMap.find(request->attr_path) != m_attrTopicMap.end()) {
-    m_attrTopicMap.erase(request->attr_path);
+              request->topic_name.c_str());
+  if(m_attrTopicMap.find(request->topic_name) != m_attrTopicMap.end()) {
+    m_attrTopicMap.erase(request->topic_name);
     response->success = true;
     response->message = "Success";
   } else {

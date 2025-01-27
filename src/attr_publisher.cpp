@@ -9,9 +9,9 @@ StringPubSub::StringPubSub(std::shared_ptr<IIONode> nh, UpdateCallback *up, std:
   m_topic = topic;
   m_nh = nh;
   m_updateCallback = up;
-  m_pub = m_nh->create_publisher<std_msgs::msg::String>(topic + "/read", QOS_QUEUE_SIZE);
+  m_pub = m_nh->create_publisher<std_msgs::msg::String>(topic + READ_SUFFIX, QOS_QUEUE_SIZE);
   m_sub = m_nh->create_subscription<std_msgs::msg::String>(
-       topic + "/write", QOS_QUEUE_SIZE, std::bind(&StringPubSub::update, this, _1));
+       topic + WRITE_SUFFIX, QOS_QUEUE_SIZE, std::bind(&StringPubSub::update, this, _1));
 }
 
 StringPubSub::~StringPubSub()
