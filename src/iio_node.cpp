@@ -273,7 +273,7 @@ void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::
     }
   
     m_attrTopicMap.insert({ local_topic_name,   
-    std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), local_topic_name,request->attr_path, IIOAttrTopic::TYPE_STRING, request->loop_rate)});
+    std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), local_topic_name,request->attr_path, static_cast<IIOAttrTopic::topicType_t>(request->type), request->loop_rate)});
 
     response->success = true;
     response->message = "Success";
@@ -294,8 +294,12 @@ void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv:
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request disable topic %s ",
               request->topic_name.c_str());
-  if(m_attrTopicMap.find(request->topic_name) != m_attrTopicMap.end()) {
-    m_attrTopicMap.erase(request->topic_name);
+  
+  std::string local_topic_name = request->topic_name;
+  local_topic_name = convertAttrPathToTopicName(request->topic_name); // for compatibility with enable 
+
+  if(m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
+    m_attrTopicMap.erase(local_topic_name);
     response->success = true;
     response->message = "Success";
   } else {

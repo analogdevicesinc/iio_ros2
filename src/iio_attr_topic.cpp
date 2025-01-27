@@ -14,7 +14,18 @@ IIOAttrTopic::IIOAttrTopic(std::shared_ptr<IIONode> nh, std::string topicName, s
   m_stopThread = false;
 
   // Start the thread for the publishing loop
-  m_pub = std::make_unique<StringPubSub>(m_nh, this, m_topicName);
+  switch(type) {
+    case TYPE_STRING:
+      m_pub = std::make_unique<StringPubSub>(m_nh, this, m_topicName);
+      break;
+    case TYPE_INT:
+      m_pub = std::make_unique<Int32PubSub>(m_nh, this, m_topicName);
+      break;
+    default:
+      m_pub = std::make_unique<StringPubSub>(m_nh, this, m_topicName);
+      break;
+  }
+  
   m_th = std::thread(&IIOAttrTopic::publishingLoop, this);  
 }
 
