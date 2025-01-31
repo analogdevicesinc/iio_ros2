@@ -1,5 +1,6 @@
 #include "adi_iio/iio_node.hpp"
 #include "adi_iio/iio_attr_topic.hpp"
+#include "adi_iio/iio_buffer.hpp"
 #include <memory>
 
 using namespace std::chrono_literals;
@@ -50,7 +51,8 @@ bool IIONode::initialized()
   return m_initialized;
 }
 
-std::string IIONode::convertAttrPathToTopicName(std::string path) {
+std::string IIONode::convertAttrPathToTopicName(std::string path)
+{
   std::replace(path.begin(), path.end(), '-', '_');
   return path;
 }
@@ -243,14 +245,14 @@ void IIONode::attrWriteSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrWr
   response->message = result;
 }
 
- /*AttrTopicEnable.srv
-  string topic_name
-  string attr_path
-  int loop_rate
-  int type
-  ---------------
-  bool success
-  string message*/
+/*AttrTopicEnable.srv
+ string topic_name
+ string attr_path
+ int loop_rate
+ int type
+ ---------------
+ bool success
+ string message*/
 
 void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Request> request,
                                  std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Response> response)
@@ -263,55 +265,155 @@ void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::
   response->message = result;
 
   std::string local_topic_name = request->topic_name;
-  if(local_topic_name == "") {
+  if (local_topic_name == "")
+  {
     local_topic_name = convertAttrPathToTopicName(request->attr_path);
   }
 
-  if(response->success) {
-    if(m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
+  if (response->success)
+  {
+    if (m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end())
+    {
       m_attrTopicMap.erase(local_topic_name);
     }
-  
-    m_attrTopicMap.insert({ local_topic_name,   
-    std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), local_topic_name,request->attr_path, static_cast<IIOAttrTopic::topicType_t>(request->type), request->loop_rate)});
+
+    m_attrTopicMap.insert(
+        { local_topic_name,
+          std::make_shared<IIOAttrTopic>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), local_topic_name,
+                                         request->attr_path, static_cast<IIOAttrTopic::topicType_t>(request->type),
+                                         request->loop_rate) });
 
     response->success = true;
     response->message = "Success";
   }
 }
 
-  /*
-  AttrTopicDisable.srv
-  string topic_name
-  ---
-  bool success
-  string message
-  */
-  
+/*
+AttrTopicDisable.srv
+string topic_name
+---
+bool success
+string message
+*/
+
 void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Request> request,
                                   std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Response> response)
 {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request disable topic %s ", request->topic_name.c_str());
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request disable topic %s ",
-              request->topic_name.c_str());
-  
   std::string local_topic_name = request->topic_name;
-  local_topic_name = convertAttrPathToTopicName(request->topic_name); // for compatibility with enable 
+  local_topic_name = convertAttrPathToTopicName(request->topic_name);  // for compatibility with enable
 
-  if(m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
+  if (m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end())
+  {
     m_attrTopicMap.erase(local_topic_name);
+    response->success = true;
+    response->message = "Success";
+  }
+  else
+  {
+    response->success = false;
+    response->message = "Topic not found";
+  }
+}
+
+void IIONode::buffRefillSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Request> request,
+                         std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Response> response)
+{
+if (m_bufferMap.find(request->device_path) == m_bufferMap.end()) {
+    response->success = false;
+    response->message = "Buffer not found";
+  } else {
+    std::string message;
+    response->success = m_bufferMap[request->device_path]->refill(message, response->buffer);
+    response->message = message;
+  }
+}
+
+void IIONode::buffReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Request> request,
+                          std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Response> response)
+{
+  std::string channels;
+  for (auto& channel : request->channels)
+  {
+    channels += channel + " ";
+  }
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer create %s - %s - %d samples",
+              request->device_path.c_str(), channels.c_str(), request->samples_count);
+
+  std::string message;
+  
+  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
+    m_bufferMap.erase(request->device_path);
+  }
+
+  std::shared_ptr<IIOBuffer> buffer = std::make_shared<IIOBuffer>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), request->device_path, request->channels, request->samples_count);
+  m_bufferMap.insert({request->device_path, buffer});
+
+  response->success = buffer->setupIIOBuffer(message);
+  if(!response->success) {
+    m_bufferMap.erase(request->device_path);
+    response->message = message;
+    return;
+  }
+  
+  response->success = m_bufferMap[request->device_path]->refill(message, response->buffer);
+  response->message = message;
+
+}
+
+void IIONode::buffCreateSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Request> request,
+                            std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Response> response)
+{
+ std::string channels;
+  for (auto& channel : request->channels)
+  {
+    channels += channel + " ";
+  }
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer create %s - %s - %d samples",
+              request->device_path.c_str(), channels.c_str(), request->samples_count);
+
+  std::string message;
+  
+  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
+    m_bufferMap.erase(request->device_path);
+  }
+
+  std::shared_ptr<IIOBuffer> buffer = std::make_shared<IIOBuffer>(std::dynamic_pointer_cast<IIONode>(shared_from_this()), request->device_path, request->channels, request->samples_count);
+  m_bufferMap.insert({request->device_path, buffer});
+
+  response->success = buffer->setupIIOBuffer(message);
+  if(!response->success) {
+    m_bufferMap.erase(request->device_path);
+    response->message = message;
+    return;
+  }
+}
+
+void IIONode::buffDestroySrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Request> request,
+                             std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Response> response)
+{
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer destroy %s",
+              request->device_path.c_str());
+
+  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
+    m_bufferMap.erase(request->device_path);
     response->success = true;
     response->message = "Success";
   } else {
     response->success = false;
-    response->message = "Topic not found";
+    response->message = "Buffer not found";
   }
-
-
-
 }
 
 std::string IIONode::uri()
 {
   return m_uri;
+}
+
+iio_context* IIONode::ctx()
+{
+  return m_ctx;
 }

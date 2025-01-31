@@ -37,6 +37,7 @@ find_library(
 add_executable(${PROJECT_NAME} 
 		src/iio_node.cpp 
 		src/adi_iio.cpp 
+		src/iio_buffer.cpp 
 		src/iio_attr_topic.cpp
 		src/attr_publisher.cpp)
 

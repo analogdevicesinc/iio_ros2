@@ -35,6 +35,25 @@ int main(int argc, char ** argv)
     std::string(node->get_name())+"/AttrDisableTopic", 
     std::bind(&IIONode::attrDisableTopicSrv, node, std::placeholders::_1, std::placeholders::_2));
 
+  rclcpp::Service<adi_iio_interfaces::srv::BufferRead>::SharedPtr buffReadSrv =
+    node->create_service<adi_iio_interfaces::srv::BufferRead>(
+    std::string(node->get_name())+"/BufferRead", 
+    std::bind(&IIONode::buffReadSrv, node, std::placeholders::_1, std::placeholders::_2));
+
+  rclcpp::Service<adi_iio_interfaces::srv::BufferCreate>::SharedPtr buffCreateSrv =
+    node->create_service<adi_iio_interfaces::srv::BufferCreate>(
+    std::string(node->get_name())+"/BufferCreate", 
+    std::bind(&IIONode::buffCreateSrv, node, std::placeholders::_1, std::placeholders::_2));
+
+  rclcpp::Service<adi_iio_interfaces::srv::BufferDestroy>::SharedPtr buffDestroySrv =
+    node->create_service<adi_iio_interfaces::srv::BufferDestroy>(
+    std::string(node->get_name())+"/BufferDestroy", 
+    std::bind(&IIONode::buffDestroySrv, node, std::placeholders::_1, std::placeholders::_2));
+
+  rclcpp::Service<adi_iio_interfaces::srv::BufferRefill>::SharedPtr buffRefillSrv =
+    node->create_service<adi_iio_interfaces::srv::BufferRefill>(
+    std::string(node->get_name())+"/BufferRefill", 
+    std::bind(&IIONode::buffRefillSrv, node, std::placeholders::_1, std::placeholders::_2));
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
 
