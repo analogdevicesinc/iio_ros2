@@ -16,6 +16,8 @@
 #include "adi_iio_interfaces/srv/buffer_destroy.hpp"
 #include "adi_iio_interfaces/srv/buffer_refill.hpp"
 #include "adi_iio_interfaces/srv/buffer_read.hpp"
+#include "adi_iio_interfaces/srv/buffer_enable_topic.hpp"
+#include "adi_iio_interfaces/srv/buffer_disable_topic.hpp"
 #include "iio.h"
 
 class IIOAttrTopic;
@@ -27,6 +29,8 @@ public:
 
   IIONode();
   virtual ~IIONode();
+
+  void initBuffers();
 
   bool rwAttrPath(std::string path, std::string &result, bool write = false, std::string value = "");
   std::string convertAttrPathToTopicName(std::string path);
@@ -56,6 +60,11 @@ public:
   void buffDestroySrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Request> request, 
           std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Response>  response);
 
+  void buffEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Request> request, 
+          std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Response>  response);
+
+  void buffDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Request> request, 
+          std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Response>  response);
   // getters
   std::string uri();
   bool initialized();

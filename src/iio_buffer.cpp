@@ -1,25 +1,34 @@
 #include "adi_iio/iio_buffer.hpp"
 
-IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path, std::vector<std::string> channels,
-                     int32_t samples_count)
+IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
 {
   this->m_nh = nh;
   this->m_device_path = device_path;
-  this->m_channels = channels;
-  this->m_samples_count = samples_count;
   this->m_buffer = nullptr;
 }
 
 IIOBuffer::~IIOBuffer()
 {
+  destroyIIOBuffer();
+
+  m_stopThread = true;
+  if (m_th.joinable())
+  {
+    m_th.join();
+  }
+}
+
+void IIOBuffer::destroyIIOBuffer() {
   if (m_buffer)
   {
+    iio_buffer_cancel(m_buffer);
     iio_buffer_destroy(m_buffer);
+    m_buffer = nullptr;
     RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Destroyed buffer %p", (void*)m_buffer);
   }
 }
 
-bool IIOBuffer::setupIIOBuffer(std::string &message)
+bool IIOBuffer::createIIOBuffer(std::string &message)
 {
   iio_device* dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
   if (dev == nullptr)
@@ -85,14 +94,32 @@ bool IIOBuffer::setupIIOBuffer(std::string &message)
                 m_device_path.c_str(), errno, message.c_str());
     return false;
   }
+
+  m_data.layout.dim.clear();
+  m_data.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
+  m_data.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
+  m_data.layout.dim[0].label = "samples";
+  m_data.layout.dim[0].size = m_samples_count;
+  m_data.layout.dim[0].stride = m_channels.size() * m_samples_count;
+  m_data.layout.dim[1].label = "channels";
+  m_data.layout.dim[1].size = m_channels.size();
+  m_data.layout.dim[1].stride = m_channels.size();
+
+
   RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Created buffer %p", (void*)m_buffer);
   message = "Success";
   return true;
 }
 
-bool IIOBuffer::refill(std::string &message, std_msgs::msg::Int32MultiArray &buffer)
+bool IIOBuffer::refill(std::string &message)
 {
+  std::lock_guard<std::mutex> lock(m_mutex);
   iio_device* dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
+  if(!m_buffer) {
+    message = "Buffer not created";
+    return false;
+  }
+
   ssize_t size = iio_buffer_refill(m_buffer);
   RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Refilled buffer with %ld bytes from HW", size);
 
@@ -105,15 +132,7 @@ bool IIOBuffer::refill(std::string &message, std_msgs::msg::Int32MultiArray &buf
     return false;
   }
 
-  buffer.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
-  buffer.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
-  buffer.layout.dim[0].label = "samples";
-  buffer.layout.dim[0].size = m_samples_count;
-  buffer.layout.dim[0].stride = m_channels.size() * m_samples_count;
-  buffer.layout.dim[1].label = "channels";
-  buffer.layout.dim[1].size = m_channels.size();
-  buffer.layout.dim[1].stride = m_channels.size();
-
+  m_data.data.clear();
   for (int i = 0; i < m_samples_count; i++)
   {
     for (auto& channel : m_channels)
@@ -128,9 +147,51 @@ bool IIOBuffer::refill(std::string &message, std_msgs::msg::Int32MultiArray &buf
       {  // sign extension
         val = val | (~((1 << fmt->bits) - 1));
       }
-      buffer.data.push_back(val);
+      m_data.data.push_back(val);
     }
   }
   message = "Success";
   return true;
+}
+
+void IIOBuffer::enableTopic(std::string topic_name){
+  m_topic_enabled = true;
+  if(topic_name == "") {
+    m_topic_name = m_nh->convertAttrPathToTopicName(m_device_path);
+  } else {
+    m_topic_name = m_nh->convertAttrPathToTopicName(topic_name);
+  }
+  
+
+  m_pub = m_nh->create_publisher<std_msgs::msg::Int32MultiArray>(m_topic_name + BUFFER_READ_SUFFIX, BUFFER_QOS_QUEUE_SIZE);
+  m_th = std::thread(&IIOBuffer::publishingLoop, this);  
+}
+  // create topic
+  // create thread that refills
+  // update publishes to topic 
+  // move Int32MultiArray to class - and unlock mutex to get data in refill service 
+
+void IIOBuffer::publishingLoop() {
+  while (rclcpp::ok() && !m_stopThread)
+  {
+    std::string msg;
+    std_msgs::msg::Int32MultiArray buffer;
+    if(refill(msg)) {
+      m_pub->publish(m_data);
+    }
+    // Sleep to maintain the loop rate
+    //std::this_thread::yield();
+  }
+}
+
+void IIOBuffer::disableTopic() {
+  m_topic_enabled = false;
+
+  m_stopThread = true;
+  if (m_th.joinable())
+  {
+     m_th.join(); // stop thread
+  }
+  m_pub.reset(); // destroy topic
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Disabled IIOBuffer topic");  
 }

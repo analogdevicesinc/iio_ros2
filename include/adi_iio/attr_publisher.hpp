@@ -11,10 +11,10 @@
 
 #include "adi_iio/iio_node.hpp"
 
-#define QOS_QUEUE_SIZE 10
+#define ATTR_QOS_QUEUE_SIZE 10
 
-#define READ_SUFFIX "/read"
-#define WRITE_SUFFIX "/write"
+#define ATTR_READ_SUFFIX "/read"
+#define ATTR_WRITE_SUFFIX "/write"
 
 class AttrPubSub {
     public:

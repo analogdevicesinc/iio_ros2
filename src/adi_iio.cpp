@@ -8,12 +8,13 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
 
   std::shared_ptr<IIONode> node = std::make_shared<IIONode>();
-
+  
   if (!node->initialized()) {
         RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "Node initialization failed.");
         return EXIT_FAILURE; // Fail if the node isn't properly initialized
     }
 
+  node->initBuffers();
 
   rclcpp::Service<adi_iio_interfaces::srv::AttrReadString>::SharedPtr attrReadSrv =
     node->create_service<adi_iio_interfaces::srv::AttrReadString>(
@@ -54,6 +55,16 @@ int main(int argc, char ** argv)
     node->create_service<adi_iio_interfaces::srv::BufferRefill>(
     std::string(node->get_name())+"/BufferRefill", 
     std::bind(&IIONode::buffRefillSrv, node, std::placeholders::_1, std::placeholders::_2));
+
+  rclcpp::Service<adi_iio_interfaces::srv::BufferEnableTopic>::SharedPtr buffEnableTopicSrv =
+    node->create_service<adi_iio_interfaces::srv::BufferEnableTopic>(
+    std::string(node->get_name())+"/BufferEnableTopic", 
+    std::bind(&IIONode::buffEnableTopicSrv, node, std::placeholders::_1, std::placeholders::_2));
+
+  rclcpp::Service<adi_iio_interfaces::srv::BufferDisableTopic>::SharedPtr buffDisableTopicSrv =
+    node->create_service<adi_iio_interfaces::srv::BufferDisableTopic>(
+    std::string(node->get_name())+"/BufferDisableTopic", 
+    std::bind(&IIONode::buffDisableTopicSrv, node, std::placeholders::_1, std::placeholders::_2));
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
 

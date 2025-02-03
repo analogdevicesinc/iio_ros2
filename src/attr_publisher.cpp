@@ -9,9 +9,9 @@ StringPubSub::StringPubSub(std::shared_ptr<IIONode> nh, UpdateCallback *up, std:
   m_topic = topic;
   m_nh = nh;
   m_updateCallback = up;
-  m_pub = m_nh->create_publisher<std_msgs::msg::String>(topic + READ_SUFFIX, QOS_QUEUE_SIZE);
+  m_pub = m_nh->create_publisher<std_msgs::msg::String>(topic + ATTR_READ_SUFFIX, ATTR_QOS_QUEUE_SIZE);
   m_sub = m_nh->create_subscription<std_msgs::msg::String>(
-       topic + WRITE_SUFFIX, QOS_QUEUE_SIZE, std::bind(&StringPubSub::update, this, _1));
+       topic + ATTR_WRITE_SUFFIX, ATTR_QOS_QUEUE_SIZE, std::bind(&StringPubSub::update, this, _1));
 }
 
 StringPubSub::~StringPubSub()
@@ -39,9 +39,9 @@ Int32PubSub::Int32PubSub(std::shared_ptr<IIONode> nh, UpdateCallback *up, std::s
   m_topic = topic;
   m_nh = nh;
   m_updateCallback = up;
-  m_pub = m_nh->create_publisher<std_msgs::msg::Int32>(topic + READ_SUFFIX, QOS_QUEUE_SIZE);
+  m_pub = m_nh->create_publisher<std_msgs::msg::Int32>(topic + ATTR_READ_SUFFIX, ATTR_QOS_QUEUE_SIZE);
   m_sub = m_nh->create_subscription<std_msgs::msg::Int32>(
-       topic + WRITE_SUFFIX, QOS_QUEUE_SIZE, std::bind(&Int32PubSub::update, this, _1));
+       topic + ATTR_WRITE_SUFFIX, ATTR_QOS_QUEUE_SIZE, std::bind(&Int32PubSub::update, this, _1));
 }
 
 Int32PubSub::~Int32PubSub()
@@ -73,9 +73,9 @@ BoolPubSub::BoolPubSub(std::shared_ptr<IIONode> nh, UpdateCallback *up, std::str
   m_topic = topic;
   m_nh = nh;
   m_updateCallback = up;
-  m_pub = m_nh->create_publisher<std_msgs::msg::Bool>(topic + READ_SUFFIX, QOS_QUEUE_SIZE);
+  m_pub = m_nh->create_publisher<std_msgs::msg::Bool>(topic + ATTR_READ_SUFFIX, ATTR_QOS_QUEUE_SIZE);
   m_sub = m_nh->create_subscription<std_msgs::msg::Bool>(
-       topic + WRITE_SUFFIX, QOS_QUEUE_SIZE, std::bind(&BoolPubSub::update, this, _1));
+       topic + ATTR_WRITE_SUFFIX, ATTR_QOS_QUEUE_SIZE, std::bind(&BoolPubSub::update, this, _1));
 }
 
 BoolPubSub::~BoolPubSub()
@@ -107,9 +107,9 @@ Float32PubSub::Float32PubSub(std::shared_ptr<IIONode> nh, UpdateCallback *up, st
   m_topic = topic;
   m_nh = nh;
   m_updateCallback = up;
-  m_pub = m_nh->create_publisher<std_msgs::msg::Float32>(topic + READ_SUFFIX, QOS_QUEUE_SIZE);
+  m_pub = m_nh->create_publisher<std_msgs::msg::Float32>(topic + ATTR_READ_SUFFIX, ATTR_QOS_QUEUE_SIZE);
   m_sub = m_nh->create_subscription<std_msgs::msg::Float32>(
-       topic + WRITE_SUFFIX, QOS_QUEUE_SIZE, std::bind(&Float32PubSub::update, this, _1));
+       topic + ATTR_WRITE_SUFFIX, ATTR_QOS_QUEUE_SIZE, std::bind(&Float32PubSub::update, this, _1));
 }
 
 Float32PubSub::~Float32PubSub()
