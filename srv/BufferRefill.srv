@@ -1,0 +1,5 @@
+string device_path
+---
+bool success
+string message
+std_msgs/Int32MultiArray buffer

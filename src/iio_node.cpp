@@ -245,8 +245,8 @@ bool IIONode::rwAttrPath(std::string path, std::string& result, bool write, std:
   return ret;
 }
 
-void IIONode::attrReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Request> request,  // CHANGE
-                          std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Response> response)
+void IIONode::attrReadSrv(const std::shared_ptr<adi_iio::srv::AttrReadString::Request> request,  // CHANGE
+                          std::shared_ptr<adi_iio::srv::AttrReadString::Response> response)
 {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request read attr: %s", request->attr_path.c_str());
   std::string result;
@@ -254,8 +254,8 @@ void IIONode::attrReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrRea
   response->message = result;
 }
 
-void IIONode::attrWriteSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrWriteString::Request> request,  // CHANGE
-                           std::shared_ptr<adi_iio_interfaces::srv::AttrWriteString::Response> response)
+void IIONode::attrWriteSrv(const std::shared_ptr<adi_iio::srv::AttrWriteString::Request> request,  // CHANGE
+                           std::shared_ptr<adi_iio::srv::AttrWriteString::Response> response)
 {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request write attr %s value %s", request->attr_path.c_str(),
               request->value.c_str());
@@ -273,8 +273,8 @@ void IIONode::attrWriteSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrWr
  bool success
  string message*/
 
-void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Request> request,
-                                 std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Response> response)
+void IIONode::attrEnableTopicSrv(const std::shared_ptr<adi_iio::srv::AttrEnableTopic::Request> request,
+                                 std::shared_ptr<adi_iio::srv::AttrEnableTopic::Response> response)
 {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request enable topic %s with type %s with loop_rate %d Hz",
               request->attr_path.c_str(), request->attr_path.c_str(), request->loop_rate);
@@ -315,8 +315,8 @@ bool success
 string message
 */
 
-void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Request> request,
-                                  std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Response> response)
+void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio::srv::AttrDisableTopic::Request> request,
+                                  std::shared_ptr<adi_iio::srv::AttrDisableTopic::Response> response)
 {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request disable topic %s ", request->topic_name.c_str());
 
@@ -336,8 +336,8 @@ void IIONode::attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv:
   }
 }
 
-void IIONode::buffRefillSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Request> request,
-                            std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Response> response)
+void IIONode::buffRefillSrv(const std::shared_ptr<adi_iio::srv::BufferRefill::Request> request,
+                            std::shared_ptr<adi_iio::srv::BufferRefill::Response> response)
 {
   if (m_bufferMap.find(request->device_path) == m_bufferMap.end())
   {
@@ -358,8 +358,8 @@ void IIONode::buffRefillSrv(const std::shared_ptr<adi_iio_interfaces::srv::Buffe
   }
 }
 
-void IIONode::buffReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Request> request,
-                          std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Response> response)
+void IIONode::buffReadSrv(const std::shared_ptr<adi_iio::srv::BufferRead::Request> request,
+                          std::shared_ptr<adi_iio::srv::BufferRead::Response> response)
 {
   std::string channels;
   for (auto& channel : request->channels)
@@ -397,8 +397,8 @@ void IIONode::buffReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferR
   response->message = message;
 }
 
-void IIONode::buffCreateSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Request> request,
-                            std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Response> response)
+void IIONode::buffCreateSrv(const std::shared_ptr<adi_iio::srv::BufferCreate::Request> request,
+                            std::shared_ptr<adi_iio::srv::BufferCreate::Response> response)
 {
   std::string channels;
   for (auto& channel : request->channels)
@@ -427,8 +427,8 @@ void IIONode::buffCreateSrv(const std::shared_ptr<adi_iio_interfaces::srv::Buffe
   response->message = message;
 }
 
-void IIONode::buffDestroySrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Request> request,
-                             std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Response> response)
+void IIONode::buffDestroySrv(const std::shared_ptr<adi_iio::srv::BufferDestroy::Request> request,
+                             std::shared_ptr<adi_iio::srv::BufferDestroy::Response> response)
 {
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer destroy %s", request->device_path.c_str());
 
@@ -447,8 +447,8 @@ void IIONode::buffDestroySrv(const std::shared_ptr<adi_iio_interfaces::srv::Buff
   response->message = "Buffer not found";
 }
 
-void IIONode::buffEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Request> request,
-                                 std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Response> response)
+void IIONode::buffEnableTopicSrv(const std::shared_ptr<adi_iio::srv::BufferEnableTopic::Request> request,
+                                 std::shared_ptr<adi_iio::srv::BufferEnableTopic::Response> response)
 {
   if (m_bufferMap.find(request->device_path) != m_bufferMap.end())
   {
@@ -461,8 +461,8 @@ void IIONode::buffEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::
   }
 }
 
-void IIONode::buffDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Request> request,
-                                  std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Response> response)
+void IIONode::buffDisableTopicSrv(const std::shared_ptr<adi_iio::srv::BufferDisableTopic::Request> request,
+                                  std::shared_ptr<adi_iio::srv::BufferDisableTopic::Response> response)
 {
   if (m_bufferMap.find(request->device_path) != m_bufferMap.end())
   {

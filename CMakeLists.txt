@@ -9,7 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(adi_iio_interfaces REQUIRED)
+
 find_path(
 	IIO_INCLUDE_DIRS
 	NAMES iio.h
@@ -34,22 +34,43 @@ find_library(
 	      REQUIRED
 )
 
-add_executable(${PROJECT_NAME} 
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/AttrEnableTopic.srv"
+  "srv/AttrDisableTopic.srv"
+  "srv/AttrReadString.srv"
+  "srv/AttrWriteString.srv"
+  "srv/BufferRead.srv"
+  "srv/BufferRefill.srv"
+  "srv/BufferCreate.srv"
+  "srv/BufferDestroy.srv"
+  "srv/BufferEnableTopic.srv"
+  "srv/BufferDisableTopic.srv"
+
+  DEPENDENCIES std_msgs
+)
+set(NODE_NAME ${PROJECT_NAME}_node)
+rosidl_get_typesupport_target(adi_iio_srvs_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+add_executable(${NODE_NAME}
 		src/iio_node.cpp 
 		src/adi_iio.cpp 
 		src/iio_buffer.cpp 
 		src/iio_attr_topic.cpp
 		src/attr_publisher.cpp)
 
-target_include_directories(${PROJECT_NAME} 
+target_include_directories(${NODE_NAME}
 							PUBLIC ${IIO_INCLUDE_DIRS}
 							$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 							$<INSTALL_INTERFACE:include>)
-target_link_libraries(${PROJECT_NAME} ${IIO_LIBRARIES})
-ament_target_dependencies(${PROJECT_NAME} rclcpp adi_iio_interfaces std_msgs)
+
+target_link_libraries(${NODE_NAME} ${IIO_LIBRARIES} "${adi_iio_srvs_typesupport_target}")
+ament_target_dependencies(${NODE_NAME} rclcpp std_msgs)
+ament_export_dependencies(rosidl_default_runtime)
 
 install(TARGETS
-	adi_iio
+	${NODE_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 

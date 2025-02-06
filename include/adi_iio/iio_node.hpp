@@ -8,16 +8,16 @@
 #include <memory>
 
 #include <rclcpp/rclcpp.hpp>
-#include "adi_iio_interfaces/srv/attr_read_string.hpp"
-#include "adi_iio_interfaces/srv/attr_write_string.hpp"
-#include "adi_iio_interfaces/srv/attr_enable_topic.hpp"
-#include "adi_iio_interfaces/srv/attr_disable_topic.hpp"
-#include "adi_iio_interfaces/srv/buffer_create.hpp"
-#include "adi_iio_interfaces/srv/buffer_destroy.hpp"
-#include "adi_iio_interfaces/srv/buffer_refill.hpp"
-#include "adi_iio_interfaces/srv/buffer_read.hpp"
-#include "adi_iio_interfaces/srv/buffer_enable_topic.hpp"
-#include "adi_iio_interfaces/srv/buffer_disable_topic.hpp"
+#include "adi_iio/srv/attr_read_string.hpp"
+#include "adi_iio/srv/attr_write_string.hpp"
+#include "adi_iio/srv/attr_enable_topic.hpp"
+#include "adi_iio/srv/attr_disable_topic.hpp"
+#include "adi_iio/srv/buffer_create.hpp"
+#include "adi_iio/srv/buffer_destroy.hpp"
+#include "adi_iio/srv/buffer_refill.hpp"
+#include "adi_iio/srv/buffer_read.hpp"
+#include "adi_iio/srv/buffer_enable_topic.hpp"
+#include "adi_iio/srv/buffer_disable_topic.hpp"
 #include "iio.h"
 
 class IIOAttrTopic;
@@ -36,35 +36,35 @@ public:
   std::string convertAttrPathToTopicName(std::string path);
 
   // service handlers
-  void attrReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Request> request,
-            std::shared_ptr<adi_iio_interfaces::srv::AttrReadString::Response>  response);
+  void attrReadSrv(const std::shared_ptr<adi_iio::srv::AttrReadString::Request> request,
+            std::shared_ptr<adi_iio::srv::AttrReadString::Response>  response);
 
-  void attrWriteSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrWriteString::Request> request,
-          std::shared_ptr<adi_iio_interfaces::srv::AttrWriteString::Response>  response);
+  void attrWriteSrv(const std::shared_ptr<adi_iio::srv::AttrWriteString::Request> request,
+          std::shared_ptr<adi_iio::srv::AttrWriteString::Response>  response);
   
-  void attrEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Request> request,
-          std::shared_ptr<adi_iio_interfaces::srv::AttrEnableTopic::Response>  response);
+  void attrEnableTopicSrv(const std::shared_ptr<adi_iio::srv::AttrEnableTopic::Request> request,
+          std::shared_ptr<adi_iio::srv::AttrEnableTopic::Response>  response);
   
-  void attrDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::AttrDisableTopic::Response>  response);
+  void attrDisableTopicSrv(const std::shared_ptr<adi_iio::srv::AttrDisableTopic::Request> request, 
+          std::shared_ptr<adi_iio::srv::AttrDisableTopic::Response>  response);
 
-  void buffRefillSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferRefill::Response>  response);
+  void buffRefillSrv(const std::shared_ptr<adi_iio::srv::BufferRefill::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferRefill::Response>  response);
 
-  void buffReadSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferRead::Response>  response);
+  void buffReadSrv(const std::shared_ptr<adi_iio::srv::BufferRead::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferRead::Response>  response);
 
-  void buffCreateSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferCreate::Response>  response);
+  void buffCreateSrv(const std::shared_ptr<adi_iio::srv::BufferCreate::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferCreate::Response>  response);
 
-  void buffDestroySrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferDestroy::Response>  response);
+  void buffDestroySrv(const std::shared_ptr<adi_iio::srv::BufferDestroy::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferDestroy::Response>  response);
 
-  void buffEnableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferEnableTopic::Response>  response);
+  void buffEnableTopicSrv(const std::shared_ptr<adi_iio::srv::BufferEnableTopic::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferEnableTopic::Response>  response);
 
-  void buffDisableTopicSrv(const std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Request> request, 
-          std::shared_ptr<adi_iio_interfaces::srv::BufferDisableTopic::Response>  response);
+  void buffDisableTopicSrv(const std::shared_ptr<adi_iio::srv::BufferDisableTopic::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferDisableTopic::Response>  response);
   // getters
   std::string uri();
   bool initialized();

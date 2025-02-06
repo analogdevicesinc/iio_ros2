@@ -1,0 +1,5 @@
+string device_path
+string topic_name
+---
+bool success
+string message

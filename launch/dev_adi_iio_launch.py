@@ -16,7 +16,7 @@ def generate_launch_description():
 
     adi_iio_node = Node(
             package='adi_iio',
-            executable='adi_iio',
+            executable='adi_iio_node',
             name='sensor',
             output='screen',
             emulate_tty=True,

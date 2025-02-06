@@ -1,0 +1,6 @@
+string device_path
+string[] channels
+int32 samples_count
+---
+bool success
+string message
