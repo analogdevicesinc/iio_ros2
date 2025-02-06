@@ -367,7 +367,7 @@ void IIONode::buffReadSrv(const std::shared_ptr<adi_iio::srv::BufferRead::Reques
     channels += channel + " ";
   }
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer create %s - %s - %d samples",
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer read %s - %s - %d samples",
               request->device_path.c_str(), channels.c_str(), request->samples_count);
 
   std::string message;
@@ -395,6 +395,45 @@ void IIONode::buffReadSrv(const std::shared_ptr<adi_iio::srv::BufferRead::Reques
   response->success = buffer->refill(message);
   response->buffer = buffer->data();
   response->message = message;
+}
+
+
+
+void IIONode::buffWriteSrv(const std::shared_ptr<adi_iio::srv::BufferWrite::Request> request,
+                          std::shared_ptr<adi_iio::srv::BufferWrite::Response> response)
+{
+ std::string channels;
+  for (auto& channel : request->channels)
+  {
+    channels += channel + " ";
+  }
+
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request buffer read %s - %s - %d samples",
+              request->device_path.c_str(), channels.c_str(), request->buffer.layout.dim[0].size);
+
+  std::string message;
+
+  std::shared_ptr<IIOBuffer> buffer;
+  if (m_bufferMap.find(request->device_path) == m_bufferMap.end())
+  {
+    response->success = false;
+    response->message = "Device or buffer not found";
+    return;
+  }
+
+  buffer = m_bufferMap[request->device_path];
+  buffer->destroyIIOBuffer();
+  buffer->set_samples_count(request->buffer.layout.dim[0].size);
+  buffer->set_channels(request->channels);
+
+  response->success = buffer->createIIOBuffer(message);
+  if (!response->success)
+  {
+    response->message = message;
+    return;
+  }
+
+  response->success = buffer->push(message, request->buffer);
 }
 
 void IIONode::buffCreateSrv(const std::shared_ptr<adi_iio::srv::BufferCreate::Request> request,

@@ -16,6 +16,7 @@
 #include "adi_iio/srv/buffer_destroy.hpp"
 #include "adi_iio/srv/buffer_refill.hpp"
 #include "adi_iio/srv/buffer_read.hpp"
+#include "adi_iio/srv/buffer_write.hpp"
 #include "adi_iio/srv/buffer_enable_topic.hpp"
 #include "adi_iio/srv/buffer_disable_topic.hpp"
 #include "iio.h"
@@ -53,6 +54,9 @@ public:
 
   void buffReadSrv(const std::shared_ptr<adi_iio::srv::BufferRead::Request> request, 
           std::shared_ptr<adi_iio::srv::BufferRead::Response>  response);
+
+  void buffWriteSrv(const std::shared_ptr<adi_iio::srv::BufferWrite::Request> request, 
+          std::shared_ptr<adi_iio::srv::BufferWrite::Response>  response);
 
   void buffCreateSrv(const std::shared_ptr<adi_iio::srv::BufferCreate::Request> request, 
           std::shared_ptr<adi_iio::srv::BufferCreate::Response>  response);

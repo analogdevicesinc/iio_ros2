@@ -41,6 +41,11 @@ int main(int argc, char ** argv)
     std::string(node->get_name())+"/BufferRead", 
     std::bind(&IIONode::buffReadSrv, node, std::placeholders::_1, std::placeholders::_2));
 
+  rclcpp::Service<adi_iio::srv::BufferWrite>::SharedPtr buffWriteSrv =
+    node->create_service<adi_iio::srv::BufferWrite>(
+    std::string(node->get_name())+"/BufferWrite", 
+    std::bind(&IIONode::buffWriteSrv, node, std::placeholders::_1, std::placeholders::_2));
+
   rclcpp::Service<adi_iio::srv::BufferCreate>::SharedPtr buffCreateSrv =
     node->create_service<adi_iio::srv::BufferCreate>(
     std::string(node->get_name())+"/BufferCreate", 

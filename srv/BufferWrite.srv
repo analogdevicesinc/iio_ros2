@@ -1,0 +1,7 @@
+string device_path
+string[] channels
+std_msgs/Int32MultiArray buffer
+bool cyclic
+---
+bool success
+string message

@@ -154,6 +154,31 @@ bool IIOBuffer::refill(std::string &message)
   return true;
 }
 
+bool IIOBuffer::push(std::string &message, std_msgs::msg::Int32MultiArray &data) {
+  std::lock_guard<std::mutex> lock(m_mutex);
+  iio_device* dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
+  if(!m_buffer) {
+    message = "Buffer not created";
+    return false;
+  }
+
+  // get data from multiarray and add it to a memory "arena"
+  for(int i = 0; i < m_samples_count; i++) {
+    for(size_t j = 0; j < m_channels.size(); j++) {
+      iio_channel* ch = iio_device_find_channel(dev, m_channels[j].c_str(), true);
+      void* sample = ((int32_t*)iio_buffer_first(m_buffer, ch) + iio_buffer_step(m_buffer) * i);
+      int32_t val = data.data[i*m_channels.size() + j];
+      iio_channel_convert(ch, sample, &val);
+
+    }
+  }
+
+  iio_buffer_push(m_buffer);
+  message = "Success";
+  return true;
+}
+
+
 void IIOBuffer::enableTopic(std::string topic_name){
   m_topic_enabled = true;
   if(topic_name == "") {

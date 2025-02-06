@@ -42,6 +42,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/AttrReadString.srv"
   "srv/AttrWriteString.srv"
   "srv/BufferRead.srv"
+  "srv/BufferWrite.srv"
   "srv/BufferRefill.srv"
   "srv/BufferCreate.srv"
   "srv/BufferDestroy.srv"

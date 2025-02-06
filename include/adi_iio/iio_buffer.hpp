@@ -19,6 +19,7 @@ public:
     bool createIIOBuffer(std::string &message);
     void destroyIIOBuffer();
     bool refill(std::string &message);
+    bool push(std::string &message, std_msgs::msg::Int32MultiArray &data);
 
     void enableTopic(std::string topic_name);
     void disableTopic();
