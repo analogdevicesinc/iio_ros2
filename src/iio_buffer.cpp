@@ -4,6 +4,7 @@ IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
 {
   this->m_nh = nh;
   this->m_device_path = device_path;
+  m_canceled = false;
   this->m_buffer = nullptr;
 }
 
@@ -21,7 +22,9 @@ IIOBuffer::~IIOBuffer()
 void IIOBuffer::destroyIIOBuffer() {
   if (m_buffer)
   {
+    m_canceled = true;
     iio_buffer_cancel(m_buffer);
+    std::lock_guard<std::mutex> lock(m_mutex);
     iio_buffer_destroy(m_buffer);
     m_buffer = nullptr;
     RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Destroyed buffer %p", (void*)m_buffer);
@@ -30,6 +33,7 @@ void IIOBuffer::destroyIIOBuffer() {
 
 bool IIOBuffer::createIIOBuffer(std::string &message)
 {
+  std::lock_guard<std::mutex> lock(m_mutex);
   iio_device* dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
   if (dev == nullptr)
   {
@@ -86,6 +90,7 @@ bool IIOBuffer::createIIOBuffer(std::string &message)
     RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Enabling channel %s", channel.c_str());
   }
 
+  m_canceled = false;
   m_buffer = iio_device_create_buffer(dev, m_samples_count, false);
   if (m_buffer == nullptr)
   {
@@ -115,7 +120,7 @@ bool IIOBuffer::refill(std::string &message)
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device* dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
-  if(!m_buffer) {
+  if(!m_buffer || m_canceled) {
     message = "Buffer not created";
     return false;
   }
@@ -128,7 +133,6 @@ bool IIOBuffer::refill(std::string &message)
     message = strerror(-errno);
     RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "could not refill buffer in device \"%s\" - errno %d - %s",
                 m_device_path.c_str(), errno, message.c_str());
-    iio_buffer_destroy(m_buffer);
     return false;
   }
 
@@ -181,6 +185,8 @@ bool IIOBuffer::push(std::string &message, std_msgs::msg::Int32MultiArray &data)
 
 void IIOBuffer::enableTopic(std::string topic_name){
   m_topic_enabled = true;
+  m_stopThread = false;
+
   if(topic_name == "") {
     m_topic_name = m_nh->convertAttrPathToTopicName(m_device_path);
   } else {
@@ -189,7 +195,7 @@ void IIOBuffer::enableTopic(std::string topic_name){
   
 
   m_pub = m_nh->create_publisher<std_msgs::msg::Int32MultiArray>(m_topic_name + BUFFER_READ_SUFFIX, BUFFER_QOS_QUEUE_SIZE);
-  m_th = std::thread(&IIOBuffer::publishingLoop, this);  
+  m_th = std::thread(&IIOBuffer::publishingLoop, this);
 }
   // create topic
   // create thread that refills
@@ -211,8 +217,8 @@ void IIOBuffer::publishingLoop() {
 
 void IIOBuffer::disableTopic() {
   m_topic_enabled = false;
-
   m_stopThread = true;
+
   if (m_th.joinable())
   {
      m_th.join(); // stop thread

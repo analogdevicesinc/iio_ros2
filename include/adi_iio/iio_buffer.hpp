@@ -52,6 +52,7 @@ private:
     std::string m_topic_name;
     rclcpp::Publisher<std_msgs::msg::Int32MultiArray>::SharedPtr m_pub;
     std::thread m_th;
+    bool m_canceled;
     bool m_stopThread;
     std::mutex m_mutex;
 };
