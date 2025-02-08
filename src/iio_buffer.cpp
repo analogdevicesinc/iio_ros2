@@ -142,7 +142,12 @@ bool IIOBuffer::refill(std::string &message)
     for (auto& channel : m_channels)
     {
       iio_channel* ch = iio_device_find_channel(dev, channel.c_str(), false);
-      void* sample = ((int32_t*)iio_buffer_first(m_buffer, ch) + iio_buffer_step(m_buffer) * i);
+
+      uint8_t* base_ptr = (uint8_t*)iio_buffer_first(m_buffer, ch);
+      size_t step = iio_buffer_step(m_buffer); // Should be in bytes
+      uint8_t* sample = base_ptr + (step * i);
+
+      //uint8_t* sample = (((uint8_t*)iio_buffer_first(m_buffer, ch)) + iio_buffer_step(m_buffer) * i);
       int32_t val = 0;
       iio_channel_convert(ch, &val, sample);
       const iio_data_format* fmt = iio_channel_get_data_format(ch);
