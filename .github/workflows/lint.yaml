@@ -1,0 +1,43 @@
+name: Lint ROS2 package
+
+on:
+  push:
+    branches: [ "*", "ci*"]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "humble", "humble-develop", "main" ]
+  workflow_dispatch:
+
+env:
+  PACKAGE_NAME: "adi_iio"
+
+jobs:
+  ament_lint:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ROS_DISTRIBUTION: [humble]
+        linter:
+          - cppcheck
+          # - cpplint # TBD
+          - uncrustify
+          # - flake8 # TBD
+          - pep257
+          - lint_cmake
+          - xmllint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+
+      - name: Run Linter
+        env:
+          AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS: 1
+        uses: ros-tooling/action-ros-lint@master
+        with:
+          linter: ${{ matrix.linter }}
+          distribution: ${{ matrix.ROS_DISTRIBUTION }}
+          package-name: ${{ env.PACKAGE_NAME }}
