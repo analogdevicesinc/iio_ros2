@@ -1,0 +1,58 @@
+name: Build ROS2 package
+
+env:
+  LIBIIO_VERSION: libiio-v0
+  PACKAGE_NAME: "adi_iio"
+
+on:
+  push:
+    branches: [ "*", "ci*"]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "humble", "humble-develop", "main" ]
+  # Allow manual triggering from the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  build-package:
+    name: ROS ${{ matrix.ROS_DISTRIBUTION }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ROS_DISTRIBUTION: [humble]
+
+    steps:
+      - name: Setup workspace
+        run: mkdir -p ros_ws/src
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: ros2_ws/src
+
+      - name: Install dependencies
+        run: ./ci/install_dependencies.sh
+        working-directory: ros2_ws/src
+
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          use-ros2-testing: false
+
+      - name: Build the package
+        id: action_ros_ci_step
+        uses: ros-tooling/action-ros-ci@v0.4
+        with:
+          package-name: ${{ env.PACKAGE_NAME }}
+          target-ros2-distro: ${{ matrix.ROS_DISTRIBUTION }}
+          skip-tests: true # TODO: Enable tests if any (TBD)
+          import-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Store the build logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: colcon-logs
+          path: ${{ steps.action_ros_ci_step.outputs.ros-workspace-directory-name }}/log
+        if: always() # upload the logs even when the build fails
