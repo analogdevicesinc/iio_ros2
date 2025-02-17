@@ -55,9 +55,9 @@ set(NODE_NAME ${PROJECT_NAME}_node)
 rosidl_get_typesupport_target(adi_iio_srvs_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 add_executable(${NODE_NAME}
-		src/iio_node.cpp 
-		src/adi_iio.cpp 
-		src/iio_buffer.cpp 
+		src/iio_node.cpp
+		src/adi_iio.cpp
+		src/iio_buffer.cpp
 		src/iio_attr_topic.cpp
 		src/attr_publisher.cpp)
 
@@ -73,6 +73,12 @@ ament_export_dependencies(rosidl_default_runtime)
 install(TARGETS
 	${NODE_NAME}
   DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install launch files
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
 )
 
 
