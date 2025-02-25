@@ -11,27 +11,27 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 find_path(
-	IIO_INCLUDE_DIRS
-	NAMES iio.h
-	HINTS ${CMAKE_INSTALL_PREFIX}/include
-	      /include
-	      /usr/include
-	      /usr/local/include
-	      /opt/local/include
-	      REQUIRED
+  IIO_INCLUDE_DIRS
+  NAMES iio.h
+  HINTS ${CMAKE_INSTALL_PREFIX}/include
+        /include
+        /usr/include
+        /usr/local/include
+        /opt/local/include
+        REQUIRED
 )
 
 find_library(
-	IIO_LIBRARIES
-	NAMES iio libiio
-	HINTS ${CMAKE_INSTALL_PREFIX}/lib
-	      /usr/lib
-	      /usr/lib64
-	      /usr/local/lib
-	      /usr/local/lib64
-	      /opt/local/lib
-	      /opt/local/lib64
-	      REQUIRED
+  IIO_LIBRARIES
+  NAMES iio libiio
+  HINTS ${CMAKE_INSTALL_PREFIX}/lib
+        /usr/lib
+        /usr/lib64
+        /usr/local/lib
+        /usr/local/lib64
+        /opt/local/lib
+        /opt/local/lib64
+        REQUIRED
 )
 
 find_package(rosidl_default_generators REQUIRED)
@@ -55,23 +55,23 @@ set(NODE_NAME ${PROJECT_NAME}_node)
 rosidl_get_typesupport_target(adi_iio_srvs_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 add_executable(${NODE_NAME}
-		src/iio_node.cpp
-		src/adi_iio.cpp
-		src/iio_buffer.cpp
-		src/iio_attr_topic.cpp
-		src/attr_publisher.cpp)
+    src/iio_node.cpp
+    src/adi_iio.cpp
+    src/iio_buffer.cpp
+    src/iio_attr_topic.cpp
+    src/attr_publisher.cpp)
 
 target_include_directories(${NODE_NAME}
-							PUBLIC ${IIO_INCLUDE_DIRS}
-							$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-							$<INSTALL_INTERFACE:include>)
+              PUBLIC ${IIO_INCLUDE_DIRS}
+              $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+              $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${NODE_NAME} ${IIO_LIBRARIES} "${adi_iio_srvs_typesupport_target}")
 ament_target_dependencies(${NODE_NAME} rclcpp std_msgs)
 ament_export_dependencies(rosidl_default_runtime)
 
 install(TARGETS
-	${NODE_NAME}
+  ${NODE_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 

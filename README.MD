@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `adi_iio_node` is a ROS 2 node that interfaces with Analog Devices IIO devices. 
+The `adi_iio_node` is a ROS 2 node that interfaces with Analog Devices IIO devices.
 It provides a collection of services to read/write IIO attributes, and manage IIO buffers. You can also attach topics to the attributes/buffers
 
 ## Parameters
@@ -186,22 +186,22 @@ Disables a topic for a buffer.
 ## Node-Specific Concepts
 
 #### Channel and Device Attribute path
-The `attr_path` parameter is used to specify the path to a specific attribute within an IIO device. This path follows the structure of the IIO context hierarchy. 
+The `attr_path` parameter is used to specify the path to a specific attribute within an IIO device. This path follows the structure of the IIO context hierarchy.
 
-Example: 
-- An attribute path to a channel attribute might look like `ad5592r/voltage0/raw`, where `ad5592r` is the device name, `voltage0` is the channel, and `raw` is the attribute. 
+Example:
+- An attribute path to a channel attribute might look like `ad5592r/voltage0/raw`, where `ad5592r` is the device name, `voltage0` is the channel, and `raw` is the attribute.
 - A path to a device attribute would be `ad9361-phy/calib_mode`
 
 #### Topic name resolution
 
-The `EnableTopic` services can take an optional topic_name parameter. When enabling the topic, the topic_name will be used. The default value for this parameter is "". When this value is used, the specific device/channel attribute name will be used prefixed with the node name. For topics that deal with attributes, two topics will be created for read/write operations to the attribute. These topics will be suffixed with `/read` and `/write`. To adhere to ROS2 topic naming standards, "-" will be replaced by "_". 
+The `EnableTopic` services can take an optional topic_name parameter. When enabling the topic, the topic_name will be used. The default value for this parameter is "". When this value is used, the specific device/channel attribute name will be used prefixed with the node name. For topics that deal with attributes, two topics will be created for read/write operations to the attribute. These topics will be suffixed with `/read` and `/write`. To adhere to ROS2 topic naming standards, "-" will be replaced by "_".
 
 Example:
 - An adi-iio node named "radio" that enables the topic "/cf-ad9361-lpc/voltage0/sampling_frequency" will publish "/radio/cf_ad9361_lpc/voltage0/sampling_frequency/read" and be subscribed to "/radio/cf_ad9361_lpc/voltage0/sampling_frequency/write" for updates.
 
 #### Service responses
 
-All services responses contain at least two fields: a boolean indicating success and a string message. 
+All services responses contain at least two fields: a boolean indicating success and a string message.
 
 ```
 AttrReadString.srv:
@@ -212,25 +212,25 @@ bool success
 string message
 ```
 
-If the service operation is successful, the success boolean is set to `true`, and the message will be "Success". In case of failure, success boolean is set to false. The returned message contains the errno returned by the iio command along with the string interpretation of that errno. 
+If the service operation is successful, the success boolean is set to `true`, and the message will be "Success". In case of failure, success boolean is set to false. The returned message contains the errno returned by the iio command along with the string interpretation of that errno.
 
 
-#### Buffers 
+#### Buffers
 
-A buffer is a continous data capture from a device. There are a few operations that you can do with IIO buffers.
+A buffer is a continuous data capture from a device. There are a few operations that you can do with IIO buffers.
 
 Create buffer - the device start capturing data
 Refill buffer - the data is transported from the device to the client via Int32MultiArray buffer in a service response
-Enable buffer topic - the node starts a continous capture and publishes acquired data on the associated topic
+Enable buffer topic - the node starts a continuous capture and publishes acquired data on the associated topic
 Destroy buffer - the device stops capturing data
 Read buffer - a convenience operation that bundles create and refill into one service
 
 When creating a buffer a channels array is required as a parameter for the service request. An example of such an array would be:
 
-- ```{"voltage0"}``` - for a single channel or 
+- ```{"voltage0"}``` - for a single channel or
 - ```{"voltage0","voltage1","voltage2","voltage3"}``` - multiple channels
 
-The data is bundled in an Int32MultiArray. Data is interlleaved in the buffer and the buffer dimensions represent number of samples and number of channels. 
+The data is bundled in an Int32MultiArray. Data is interlleaved in the buffer and the buffer dimensions represent number of samples and number of channels.
 A request that acquires data from ```{"voltage0","voltage1"}``` the buffer would look like this
 
 {voltage0_sample0, voltage1_sample0, voltage0_sample1, voltage1_sample1, voltage0_sample2, voltage1_sample2 .... }
@@ -264,7 +264,7 @@ To build the package, you must first install the libiio dependency
 Install from source
 
 ```sh
-git clone https://github.com/analogdevicesinc/libiio 
+git clone https://github.com/analogdevicesinc/libiio
 cd libiio
 git checkout libiio-v0
 mkdir build && cd build

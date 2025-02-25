@@ -8,4 +8,3 @@ ament_cpplint \
     --filter=-whitespace/newline,-whitespace/comments,-whitespace/line_length
 
 exit 0
-

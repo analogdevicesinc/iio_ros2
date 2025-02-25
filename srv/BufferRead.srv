@@ -5,4 +5,3 @@ int32 samples_count
 bool success
 string message
 std_msgs/Int32MultiArray buffer
-

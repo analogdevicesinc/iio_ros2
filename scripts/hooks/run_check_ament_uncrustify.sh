@@ -7,4 +7,3 @@ ament_uncrustify \
     --linelength=100
 
 exit 0
-
