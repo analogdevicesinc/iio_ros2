@@ -112,7 +112,7 @@ To ensure consistency and maintain high quality across the project, please adher
 
 #### Before Submitting a Bug Report
 
-Before creating a new issue, please search the [repository's open][issues] and [recently closed][closed-issues] issues to see if the same or a similar problem has already been reported. If the issue exists and is still open, add a comment to that issue. Otherwise, feel free to create a new one.
+Before creating a new issue, please search the **repository's open** and **recently closed** issues to see if the same or a similar problem has already been reported. If the issue exists and is still open, add a comment to that issue. Otherwise, feel free to create a new one.
 
 
 #### How to Submit a Good Bug Report
@@ -216,6 +216,3 @@ be under the Apache 2 License, as dictated by that
 * [Good commit example (but extreme one)](https://dhwthompson.com/2019/my-favourite-git-commit).
 * [How should a PR look like](https://opensource.com/article/18/6/anatomy-perfect-pull-request) and [anatomy of a PR](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/).
 * [Submitting patches](https://github.com/analogdevicesinc/linux/blob/master/Documentation/process/submitting-patches.rst).
-
-[issues]: https://github.com/adi-innersource/imu-ros2/issues
-[closed-issues]: https://github.com/adi-innersource/imu-ros2/issues?q=is%3Aissue%20state%3Aclose
