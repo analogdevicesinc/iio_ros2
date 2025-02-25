@@ -32,6 +32,9 @@ jobs:
 
       - name: Setup ROS environment
         uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          use-ros2-testing: false
 
       - name: Run Linter
         env:
@@ -44,15 +47,32 @@ jobs:
 
   pre_commit:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ROS_DISTRIBUTION: [humble]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install pip packages
+        run: |
+          pip install pip --upgrade
+          pip install -r requirements.txt
+
       - name: Setup ROS environment
         uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          use-ros2-testing: false
 
       - name: Run pre-commit-checks
         run: |
+          source /opt/ros/${{ matrix.ROS_DISTRIBUTION }}/setup.sh
           make fix
           FIX_STATUS=$?
 
