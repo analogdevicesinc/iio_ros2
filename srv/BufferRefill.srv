@@ -1,3 +1,29 @@
+################################################################################
+# @file   BufferRefill.srv
+# @author Adrian-Stanea (Adrian.Stanea@analog.com)
+#
+# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
+# Copyright (c) 2025 Analog Devices, Inc.
+################################################################################
+#
+# Description:
+#   Refills a buffer.
+#
+# Request:
+#   device_path (string):
+#       - Description: The path to the device.
+#
+# Response:
+#   success (boolean):
+#       - Description: Indicates if the operation was successful.
+#   message (string):
+#       - Description: Provides additional information.
+#   buffer (Int32MultiArray):
+#       - Description: The data read from the buffer after refilling.
+#
+################################################################################
+
+
 string device_path
 ---
 bool success

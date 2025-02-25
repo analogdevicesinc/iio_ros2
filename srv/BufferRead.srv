@@ -1,3 +1,31 @@
+################################################################################
+# @file   BufferRead.srv
+# @author Adrian-Stanea (Adrian.Stanea@analog.com)
+#
+# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
+# Copyright (c) 2025 Analog Devices, Inc.
+################################################################################
+#
+# Description:
+#   Reads data from a buffer.
+#
+# Request:
+#   device_path (string):
+#       - Description: The path to the device.
+#   samples_count (int):
+#       - Description: The number of samples to read.
+#
+# Response:
+#   success (boolean):
+#       - Description: Indicates if the operation was successful.
+#   message (string):
+#       - Description: Provides additional information.
+#   buffer (Int32MultiArray):
+#       - Description: The data read from the buffer.
+#
+################################################################################
+
+
 string device_path
 string[] channels
 int32 samples_count

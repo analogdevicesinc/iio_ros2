@@ -1,3 +1,31 @@
+################################################################################
+# @file   BufferCreate.srv
+# @author Adrian-Stanea (Adrian.Stanea@analog.com)
+#
+# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
+# Copyright (c) 2025 Analog Devices, Inc.
+################################################################################
+#
+# Description:
+#   Creates a buffer.
+#
+# Request:
+#   device_path (string):
+#       - Description: The path to the device.
+#   channels (string[]):
+#       - Description: The channels to be included in the buffer.
+#   samples_count (int):
+#       - Description: The number of samples for the buffer.
+#
+# Response:
+#   success (boolean):
+#       - Description: Indicates if the operation was successful.
+#   message (string):
+#       - Description: Provides additional information.
+#
+################################################################################
+
+
 string device_path
 string[] channels
 int32 samples_count
