@@ -153,7 +153,7 @@ bool IIOBuffer::refill(std::string & message)
     for (auto & channel : m_channels) {
       iio_channel * ch = iio_device_find_channel(dev, channel.c_str(), false);
 
-      uint8_t * base_ptr = (uint8_t *)iio_buffer_first(m_buffer, ch);
+      uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
       size_t step = iio_buffer_step(m_buffer); // Should be in bytes
       uint8_t * sample = base_ptr + (step * i);
 
@@ -162,7 +162,7 @@ bool IIOBuffer::refill(std::string & message)
       iio_channel_convert(ch, &val, sample);
       const iio_data_format * fmt = iio_channel_get_data_format(ch);
       // val = val & ((1<<fmt->bits) - 1);
-      if (val & (1 << (fmt->bits))) { // sign extension
+      if (val & (1 << (fmt->bits))) {  // sign extension
         val = val | (~((1 << fmt->bits) - 1));
       }
       m_data.data.push_back(val);
@@ -185,10 +185,10 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
   for (int i = 0; i < m_samples_count; i++) {
     for (size_t j = 0; j < m_channels.size(); j++) {
       iio_channel * ch = iio_device_find_channel(dev, m_channels[j].c_str(), true);
-      void * sample = ((int32_t *)iio_buffer_first(m_buffer, ch) + iio_buffer_step(m_buffer) * i);
+      void * sample = reinterpret_cast<int32_t *>(iio_buffer_first(m_buffer, ch)) +
+        iio_buffer_step(m_buffer) * i;
       int32_t val = data.data[i * m_channels.size() + j];
       iio_channel_convert(ch, sample, &val);
-
     }
   }
 
@@ -241,6 +241,6 @@ void IIOBuffer::disableTopic()
   if (m_th.joinable()) {
     m_th.join();  // stop thread
   }
-  m_pub.reset(); // destroy topic
+  m_pub.reset();  // destroy topic
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Disabled IIOBuffer topic");
 }

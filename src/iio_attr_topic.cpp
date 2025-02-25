@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <memory>
+
 #include "adi_iio/iio_attr_topic.hpp"
 #include "adi_iio/iio_node.hpp"
 #include "adi_iio/attr_publisher.hpp"
-#include <memory>
 
 IIOAttrTopic::IIOAttrTopic(
   std::shared_ptr<IIONode> nh, std::string topicName, std::string attrPath,

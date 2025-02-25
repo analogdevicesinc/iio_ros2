@@ -108,7 +108,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
   int ret1;
   switch (segments.size()) {
     case 1:  // context_attribute
-      val = (char *)iio_context_get_attr_value(m_ctx, segments[0].c_str());
+      val = const_cast<char *>(iio_context_get_attr_value(m_ctx, segments[0].c_str()));
       if (val) {
         ret = true;
         result = val;
@@ -357,13 +357,11 @@ void IIONode::buffRefillSrv(
   } else {
     std::string message;
     if (m_bufferMap[request->device_path]->topic_enabled()) {
-
     } else {
       response->success = m_bufferMap[request->device_path]->refill(message);
       response->message = message;
     }
     response->buffer = m_bufferMap[request->device_path]->data();
-
   }
 }
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ATTR_PUBLISHER_HPP
-#define ATTR_PUBLISHER_HPP
+#ifndef ADI_IIO__ATTR_PUBLISHER_HPP_
+#define ADI_IIO__ATTR_PUBLISHER_HPP_
 
 #include <string>
 #include <memory>
@@ -105,5 +105,4 @@ private:
   rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr m_sub;
 };
 
-
-#endif
+#endif  // ADI_IIO__ATTR_PUBLISHER_HPP_

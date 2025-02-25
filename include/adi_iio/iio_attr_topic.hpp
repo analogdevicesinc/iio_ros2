@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IIO_ATTR_TOPIC_HPP
-#define IIO_ATTR_TOPIC_HPP
+#ifndef ADI_IIO__IIO_ATTR_TOPIC_HPP_
+#define ADI_IIO__IIO_ATTR_TOPIC_HPP_
+
+#include <iio.h>
+
+#include <memory>
+#include <string>
+#include <thread>
 
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
-#include <thread>
-#include "iio.h"
-#include <memory>
 
 class IIONode;
 class AttrPubSub;
@@ -64,7 +67,6 @@ private:
   std::string last_val;
   bool m_stopThread;
   rclcpp::Rate m_loopRate;
-
 };
 
-#endif
+#endif  // ADI_IIO__IIO_ATTR_TOPIC_HPP_

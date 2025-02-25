@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IIO_BUFFER_HPP
-#define IIO_BUFFER_HPP
+#ifndef ADI_IIO__IIO_BUFFER_HPP_
+#define ADI_IIO__IIO_BUFFER_HPP_
+
+#include <iio.h>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/int32_multi_array.hpp>
+
 #include "adi_iio/iio_node.hpp"
-#include "iio.h"
 
 #define BUFFER_QOS_QUEUE_SIZE 10
 
@@ -73,4 +79,4 @@ private:
   std::mutex m_mutex;
 };
 
-#endif
+#endif  // ADI_IIO__IIO_BUFFER_HPP_

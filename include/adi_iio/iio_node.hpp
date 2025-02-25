@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IIO_NODE_HPP
-#define IIO_NODE_HPP
+#ifndef ADI_IIO__IIO_NODE_HPP_
+#define ADI_IIO__IIO_NODE_HPP_
+
+#include <iio.h>
 
 #include <chrono>
 #include <functional>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
 
 #include <rclcpp/rclcpp.hpp>
+
 #include "adi_iio/srv/attr_read_string.hpp"
 #include "adi_iio/srv/attr_write_string.hpp"
 #include "adi_iio/srv/attr_enable_topic.hpp"
@@ -33,7 +36,6 @@
 #include "adi_iio/srv/buffer_write.hpp"
 #include "adi_iio/srv/buffer_enable_topic.hpp"
 #include "adi_iio/srv/buffer_disable_topic.hpp"
-#include "iio.h"
 
 class IIOAttrTopic;
 class IIOBuffer;
@@ -107,7 +109,6 @@ private:
 
   std::map<std::string, std::shared_ptr<IIOAttrTopic>> m_attrTopicMap;
   std::map<std::string, std::shared_ptr<IIOBuffer>> m_bufferMap;
-
 };
 
-#endif
+#endif  // ADI_IIO__IIO_NODE_HPP_
