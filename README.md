@@ -28,6 +28,9 @@ detailed documentation into several [guides](./doc/):
 - For information on **prerequisites, repository setup, and building the package**,
   please refer to the [Installation Guide](#installation).
 
+- For instructions on **how to build the project documentation locally,** please
+  refer to the [Building the Documentation Guide](#building_the_documentation).
+
 - To learn **how to launch the package** and begin processing sensor data, see the
   [Quick Start Guide](#quick_start).
 

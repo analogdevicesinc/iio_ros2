@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ------------------------------------------------------------------------------
+import datetime
 import os
 import sys
 
@@ -26,27 +27,26 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-copyright = '2025, Analog Devices, Inc.'
 # Values below are populated from package.xml by rosdoc2 if not set here.
 # project = 'adi_iio'
-# author = 'Analog Devices, Inc.'
+
+current_year = datetime.datetime.now().year
+author = 'Analog Devices, Inc.'
+
+copyright = f'{current_year}, {author}'
 # The full version, including alpha/beta/rc tags
 # release = '0.0.0'
 # version = '0.0'
+
+language = 'en'
 
 # -- General configuration -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.todo",
     "adi_doctools",
     "myst_parser",
-]
-
-extensions = [
     "sphinx.ext.todo",
-    "adi_doctools",
-    "myst_parser",
 ]
 
 needs_extensions = {
@@ -58,19 +58,13 @@ templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-# source_suffix = '.rst'
-# source_suffix = ['.rst', '.md']
 source_suffix = {
     '.rst': 'restructuredtext',
     '.md': 'markdown',
 }
 
-
 # The master toctree document.
 master_doc = 'index'
-
-# html_logo = ''
-# html_favicon = ''
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -141,15 +135,16 @@ todo_emit_warnings = True
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# rosdoc2 will override the theme, but you may set one here for running Sphinx
-# without the rosdoc2 tool.
-html_theme = 'cosmic'
+# rosdoc2 will override the theme, but you may set one here for running Sphinx without the rosdoc2 tool.
+html_theme = 'harmonic'
+# html_logo = ''
+# html_favicon = ''
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-html_theme_options = {}
+# html_theme_options = {}
 
 # intersphinx_mapping = {}
 intersphinx_disabled_reftypes = ["*"]
@@ -157,8 +152,7 @@ intersphinx_disabled_reftypes = ["*"]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['images',
-                    ]
+html_static_path = ['images',]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
