@@ -26,9 +26,12 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
+#
 # Values below are populated from package.xml by rosdoc2 if not set here.
-# project = 'adi_iio'
+
+# When this repo docs are generated as a submodule, use the parent repository name
+repository = os.getenv('DOC_REPOSITORY', "iio_ros2")
+project = 'adi_iio'
 
 current_year = datetime.datetime.now().year
 author = 'Analog Devices, Inc.'
