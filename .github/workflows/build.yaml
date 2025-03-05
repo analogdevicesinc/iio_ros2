@@ -10,8 +10,8 @@ on:
   merge_group:
   push:
     branches:
-      - humble
-      - humble-develop
+      - rolling
+      - rolling-develop
       - main
 
 jobs:
@@ -22,11 +22,11 @@ jobs:
       fail-fast: false
       matrix:
         ros_distribution:
-          - humble
+          - rolling
         include:
-          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
-          - docker_image: ubuntu:jammy
-            ros_distribution: humble
+          # Rolling Ridley (No End-Of-Life)
+          - docker_image: ubuntu:noble
+            ros_distribution: rolling
             ros_version: 2
 
     container:

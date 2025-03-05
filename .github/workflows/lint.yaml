@@ -11,13 +11,13 @@ env:
 
 jobs:
   ament_lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         ros_distribution:
-          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
-          - humble
+          # Rolling Ridley (No End-Of-Life)
+          - rolling
         linter:
           - cppcheck
           - uncrustify
@@ -47,13 +47,13 @@ jobs:
           package-name: ${{ env.PACKAGE_NAME }}
 
   pre_commit:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         ros_distribution:
-          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
-          - humble
+          # Rolling Ridley (No End-Of-Life)
+          - rolling
 
     steps:
       - name: Checkout code
