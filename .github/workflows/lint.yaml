@@ -11,11 +11,13 @@ env:
 
 jobs:
   ament_lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRIBUTION: [humble]
+        ros_distribution:
+          # Rolling Ridley (No End-Of-Life)
+          - rolling
         linter:
           - cppcheck
           - uncrustify
@@ -32,7 +34,7 @@ jobs:
       - name: Setup ROS environment
         uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          required-ros-distributions: ${{ matrix.ros_distribution }}
           use-ros2-testing: false
 
       - name: Run Linter
@@ -41,15 +43,18 @@ jobs:
         uses: ros-tooling/action-ros-lint@master
         with:
           linter: ${{ matrix.linter }}
-          distribution: ${{ matrix.ROS_DISTRIBUTION }}
+          distribution: ${{ matrix.ros_distribution }}
           package-name: ${{ env.PACKAGE_NAME }}
 
   pre_commit:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRIBUTION: [humble]
+        ros_distribution:
+          # Rolling Ridley (No End-Of-Life)
+          - rolling
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -59,6 +64,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install pip packages
+        working-directory: ${{ github.workspace }}
         run: |
           pip install pip --upgrade
           pip install -r requirements.txt
@@ -66,12 +72,13 @@ jobs:
       - name: Setup ROS environment
         uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          required-ros-distributions: ${{ matrix.ros_distribution }}
           use-ros2-testing: false
 
       - name: Run pre-commit-checks
+        working-directory: ${{ github.workspace }}
         run: |
-          source /opt/ros/${{ matrix.ROS_DISTRIBUTION }}/setup.sh
+          . /opt/ros/${{ matrix.ros_distribution }}/setup.sh
           make fix
           FIX_STATUS=$?
 
