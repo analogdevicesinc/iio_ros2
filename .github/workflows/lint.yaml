@@ -1,12 +1,10 @@
 name: Lint ROS2 package
 
 on:
-  push:
-    branches: [ "*", "ci*"]
-    tags: [ "v*" ]
-  pull_request:
-    branches: [ "humble", "humble-develop", "main" ]
   workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ "*"]
 
 env:
   PACKAGE_NAME: "adi_iio"
@@ -20,12 +18,13 @@ jobs:
         ROS_DISTRIBUTION: [humble]
         linter:
           - cppcheck
-          # - cpplint # TBD
           - uncrustify
-          # - flake8 # TBD
           - pep257
           - lint_cmake
           - xmllint
+          # - cpplint # TBD
+          # - flake8 # TBD
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
