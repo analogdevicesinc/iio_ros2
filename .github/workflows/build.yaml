@@ -5,22 +5,32 @@ env:
   PACKAGE_NAME: "adi_iio"
 
 on:
-  push:
-    branches: [ "*", "ci*"]
-    tags: [ "v*" ]
-  pull_request:
-    branches: [ "humble", "humble-develop", "main" ]
-  # Allow manual triggering from the GitHub UI
   workflow_dispatch:
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - humble
+      - humble-develop
+      - main
 
 jobs:
   build-package:
-    name: ROS ${{ matrix.ROS_DISTRIBUTION }}
-    runs-on: ubuntu-22.04
+    name: ROS ${{ matrix.ros_distribution }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRIBUTION: [humble]
+        ros_distribution:
+          - humble
+        include:
+          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
+            ros_version: 2
+
+    container:
+      image: ${{ matrix.docker_image }}
 
     steps:
       - name: Setup workspace
@@ -38,7 +48,7 @@ jobs:
       - name: Setup ROS environment
         uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: ${{ matrix.ROS_DISTRIBUTION }}
+          required-ros-distributions: ${{ matrix.ros_distribution }}
           use-ros2-testing: false
 
       - name: Build the package
@@ -46,7 +56,7 @@ jobs:
         uses: ros-tooling/action-ros-ci@v0.4
         with:
           package-name: ${{ env.PACKAGE_NAME }}
-          target-ros2-distro: ${{ matrix.ROS_DISTRIBUTION }}
+          target-ros2-distro: ${{ matrix.ros_distribution }}
           skip-tests: true # TODO: Enable tests if any (TBD)
           import-token: ${{ secrets.GITHUB_TOKEN }}
 
