@@ -1,8 +1,11 @@
 name: Generate documentation
 on:
+    workflow_dispatch:
     push:
-      branches: [humble]
-    pull_request:
+      branches:
+        - humble
+        - jazzy
+        - rolling
 
 jobs:
   build-doc:
