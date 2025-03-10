@@ -46,12 +46,25 @@ IIONode::IIONode()
 
 void IIONode::initBuffers()
 {
-  for (unsigned int i = 0; i < iio_context_get_devices_count(m_ctx); i++) {
-    iio_device * dev = iio_context_get_device(m_ctx, i);
-    std::string dev_name = iio_device_get_name(dev);
-    for (unsigned int j = 0; j < iio_device_get_channels_count(dev); j++) {
-      iio_channel * ch = iio_device_get_channel(dev, j);
-      if (iio_channel_is_scan_element(ch)) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Initializing buffers...");
+
+  auto devices_ptr = getDevices(ctx());
+  for (iio_device * dev : devices_ptr) {
+    const char * dev_name_cstr = iio_device_get_name(dev);
+
+    if (dev_name_cstr == nullptr) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"),
+        "device name is null, skipping buffer initialization");
+      continue;
+    }
+
+    std::string dev_name = std::string(dev_name_cstr);
+    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Parsing channels of device: %s", dev_name.c_str());
+
+    auto channels_ptr = getChannels(dev);
+    for (iio_channel * chn : channels_ptr) {
+      if (iio_channel_is_scan_element(chn)) {
         RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Inserting %s into bufferMap", dev_name.c_str());
         m_bufferMap.insert(
           {dev_name, std::make_shared<IIOBuffer>(
@@ -579,7 +592,7 @@ void IIONode::listDevicesSrv(
   const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
   std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
 {
-  (void) request; // unused
+  (void)request; // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListDevices");
   std::string msg;
 
@@ -588,7 +601,14 @@ void IIONode::listDevicesSrv(
 
   auto devices_ptr = getDevices(ctx());
   for (iio_device * dev : devices_ptr) {
-    auto dev_name = std::string(iio_device_get_name(dev));
+    const char * dev_name_cstr = iio_device_get_name(dev);
+    if (dev_name_cstr == nullptr) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("adi_iio_node"),
+        "device name is null, skipping device");
+      continue;
+    }
+    auto dev_name = std::string(dev_name_cstr);
     auto dev_path = path.append(dev_name);
     data.push_back(dev_path);
   }
@@ -724,7 +744,7 @@ void IIONode::scanContextSrv(
   const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
   std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
 {
-  (void) request; // unused
+  (void)request; // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ScanContext");
   std::string msg{"Found: "};
   std::vector<std::string> devices;
@@ -755,7 +775,14 @@ void IIONode::scanContextSrv(
   // Handle devices
   auto devices_ptr = getDevices(ctx());
   for (iio_device * dev : devices_ptr) {
-    auto dev_name = std::string(iio_device_get_name(dev));
+    const char * dev_name_cstr = iio_device_get_name(dev);
+    if (dev_name_cstr == nullptr) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("adi_iio_node"),
+        "device name is null, skipping device");
+      continue;
+    }
+    auto dev_name = std::string(dev_name_cstr);
     auto dev_path = IIOPath(ctx_path.append(dev_name));
 
     devices.push_back(dev_path.basePath());
