@@ -21,15 +21,14 @@ from launch.substitutions import FindExecutable, LaunchConfiguration
 def launch_setup(context, *args, **kwargs):
     """Manipulate runtime values of LaunchConfiguration."""
     attr_path_val = LaunchConfiguration("attr_path").perform(context)
-    value_val = LaunchConfiguration("value").perform(context)
-    request_body = f"\"{{ attr_path: {attr_path_val}, value: {value_val} }}\""
+    request_body = f"\"{{ attr_path: {attr_path_val} }}\""
 
     service_call = ExecuteProcess(
         cmd=[
             FindExecutable(name='ros2'),
             'service call',
-            '/adi_iio_node/AttrWriteString',
-            'adi_iio/srv/AttrWriteString',
+            '/adi_iio_node/AttrReadString',
+            'adi_iio/srv/AttrReadString',
             request_body
         ],
         shell=True,
@@ -42,16 +41,10 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     attr_path_args = DeclareLaunchArgument(
         name="attr_path",
-        description="The attribute path to write to."
-    )
-
-    value_arg = DeclareLaunchArgument(
-        name="value",
-        description="The value to write to the attribute."
+        description="The attribute path to read from."
     )
 
     return LaunchDescription([
         attr_path_args,
-        value_arg,
         OpaqueFunction(function=launch_setup),
     ])
