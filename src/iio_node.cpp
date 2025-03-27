@@ -427,7 +427,7 @@ void IIONode::buffWriteSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request buffer read %s - %s - %d samples",
+    rclcpp::get_logger("rclcpp"), "Service request buffer write %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->buffer.layout.dim[0].size);
 
   std::string message;
