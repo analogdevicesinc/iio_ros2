@@ -15,8 +15,10 @@
 import os
 
 from ament_index_python import get_package_share_directory
-from launch import LaunchDescription
 from launch_ros.actions import Node
+
+import launch
+from launch import LaunchDescription
 
 
 def generate_launch_description():
@@ -33,7 +35,8 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[config],
-        arguments=['--ros-args', '--log-level', 'debug']
+        arguments=['--ros-args', '--log-level', 'debug'],
+        on_exit=launch.actions.Shutdown(),
     )
 
     return LaunchDescription([
