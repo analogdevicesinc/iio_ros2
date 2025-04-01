@@ -12,6 +12,8 @@
 # Request:
 #   device_path (string):
 #       - Description: The path to the device.
+#   channels (string[]):
+#       - Description: The channels to be included in the buffer.
 #   samples_count (int):
 #       - Description: The number of samples to read.
 #
