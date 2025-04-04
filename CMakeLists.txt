@@ -13,25 +13,13 @@ find_package(std_msgs REQUIRED)
 find_path(
   IIO_INCLUDE_DIRS
   NAMES iio.h
-  HINTS ${CMAKE_INSTALL_PREFIX}/include
-        /include
-        /usr/include
-        /usr/local/include
-        /opt/local/include
-        REQUIRED
+  REQUIRED
 )
 
 find_library(
   IIO_LIBRARIES
   NAMES iio libiio
-  HINTS ${CMAKE_INSTALL_PREFIX}/lib
-        /usr/lib
-        /usr/lib64
-        /usr/local/lib
-        /usr/local/lib64
-        /opt/local/lib
-        /opt/local/lib64
-        REQUIRED
+  REQUIRED
 )
 
 find_package(rosidl_default_generators REQUIRED)
