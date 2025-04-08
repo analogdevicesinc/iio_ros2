@@ -1,4 +1,4 @@
+git+https://github.com/ros-infrastructure/rosdoc2.git@main
 https://github.com/analogdevicesinc/doctools/releases/download/latest/adi-doctools.tar.gz
-rosdoc2
 sphinx
 sphinxcontrib.wavedrom
