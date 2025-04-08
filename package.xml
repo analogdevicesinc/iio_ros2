@@ -3,9 +3,16 @@
 <package format="3">
   <name>adi_iio</name>
   <version>1.0.0</version>
-  <description>ROS package to interface with IIO devices </description>
-  <maintainer email="adrian.suciu@analog.com">adi</maintainer>
+  <description> ROS package to interface with IIO devices </description>
+  <maintainer email="adrian.suciu@analog.com">Analog Devices</maintainer>
   <license>Apache License, Version 2.0</license>
+
+  <url type="repository">https://github.com/analogdevicesinc/iio_ros2</url>
+  <url type="website">https://analogdevicesinc.github.io/iio_ros2/</url>
+  <url type="bugtracker">https://github.com/analogdevicesinc/iio_ros2/issues</url>
+
+  <author email="adrian.suciu@analog.com">Adrian Suciu</author>
+  <author email="Adrian.Stanea@analog.com">Adrian Stanea</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
@@ -17,7 +24,6 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
-  <!-- Build using rosdep key of libiio resolved by package managers -->
   <depend>libiio-dev</depend>
 
   <test_depend>ament_lint_auto</test_depend>
