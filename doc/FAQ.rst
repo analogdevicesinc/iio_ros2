@@ -41,7 +41,7 @@ Q1: How do I launch the nodes and use the provided launch files?
 
 The nodes can be launched using the provided launch files that are part of
 this project. For detailed instructions on how to run the nodes, please refer
-to the :ref:`quick_start` section.
+to the :ref:`launch` section.
 
 
 .. note::
