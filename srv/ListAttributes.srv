@@ -1,0 +1,5 @@
+string iio_path # A valid IIO path to a context/device/channel
+---
+bool success
+string message
+string[] data

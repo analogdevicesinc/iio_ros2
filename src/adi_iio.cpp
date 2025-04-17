@@ -95,6 +95,11 @@ int main(int argc, char ** argv)
     std::string(node->get_name()) + "/ListChannels",
     std::bind(&IIONode::listChannelsSrv, node, std::placeholders::_1, std::placeholders::_2));
 
+  rclcpp::Service<adi_iio::srv::ListAttributes>::SharedPtr listAttributesSrv =
+    node->create_service<adi_iio::srv::ListAttributes>(
+    std::string(node->get_name()) + "/ListAttributes",
+    std::bind(&IIONode::listAttributesSrv, node, std::placeholders::_1, std::placeholders::_2));
+
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
 
   rclcpp::spin(node);
