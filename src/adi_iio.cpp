@@ -85,6 +85,11 @@ int main(int argc, char ** argv)
     std::string(node->get_name()) + "/BufferDisableTopic",
     std::bind(&IIONode::buffDisableTopicSrv, node, std::placeholders::_1, std::placeholders::_2));
 
+  rclcpp::Service<adi_iio::srv::ListDevices>::SharedPtr listDevicesSrv =
+    node->create_service<adi_iio::srv::ListDevices>(
+    std::string(node->get_name()) + "/ListDevices",
+    std::bind(&IIONode::listDevicesSrv, node, std::placeholders::_1, std::placeholders::_2));
+
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
 
   rclcpp::spin(node);

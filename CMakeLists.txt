@@ -48,6 +48,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/BufferDestroy.srv"
   "srv/BufferEnableTopic.srv"
   "srv/BufferDisableTopic.srv"
+  "srv/ListDevices.srv"
 
   DEPENDENCIES std_msgs
 )
