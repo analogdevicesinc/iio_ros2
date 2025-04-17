@@ -542,6 +542,44 @@ void IIONode::listDevicesSrv(
   response->data = {data};
 }
 
+void IIONode::listChannelsSrv(
+  const std::shared_ptr<adi_iio::srv::ListChannels::Request> request,
+  std::shared_ptr<adi_iio::srv::ListChannels::Response> response)
+{
+  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Service request: /ListChannels");
+  std::string msg;
+
+  IIOPath path(request->iio_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = "Invalid path: " + request->iio_path;
+    setWarningResponse(response, msg);
+    return;
+  }
+
+  auto dev_name = path.getDeviceSegment();
+  iio_device * dev = iio_context_find_device(ctx(), dev_name.c_str());
+  if (dev == nullptr) {
+    msg = "Could not find device: " + dev_name;
+    setWarningResponse(response, msg);
+    return;
+  }
+
+  std::vector<std::string> data;
+
+  auto channels_ptr = getChannels(dev);
+  for (iio_channel * chn : channels_ptr) {
+    auto chn_name = std::string(iio_channel_get_id(chn));
+    auto is_output = iio_channel_is_output(chn);
+    auto chn_path = IIOPath::toExtendedChannelSegment(is_output, chn_name);
+    data.push_back(path.append(chn_path));
+  }
+
+  msg = "Found " + std::to_string(data.size()) + " channels in device: " + dev_name;
+  setSuccessResponse(response, msg);
+  response->data = {data};
+}
+
+
 std::vector<iio_device *> IIONode::getDevices(iio_context * ctx)
 {
   std::vector<iio_device *> devices;
