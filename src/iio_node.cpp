@@ -519,6 +519,27 @@ void IIONode::buffDisableTopicSrv(
     response->message = "Buffer not found";
   }
 }
+std::vector<iio_device *> IIONode::getDevices(iio_context * ctx)
+{
+  std::vector<iio_device *> devices;
+  unsigned int devices_count = iio_context_get_devices_count(ctx);
+  for (unsigned int i = 0; i < devices_count; i++) {
+    iio_device * dev = iio_context_get_device(ctx, i);
+    devices.push_back(dev);
+  }
+  return devices;
+}
+
+std::vector<iio_channel *> IIONode::getChannels(iio_device * device)
+{
+  std::vector<iio_channel *> channels;
+  unsigned int channels_count = iio_device_get_channels_count(device);
+  for (unsigned int i = 0; i < channels_count; i++) {
+    iio_channel * ch = iio_device_get_channel(device, i);
+    channels.push_back(ch);
+  }
+  return channels;
+}
 
 std::string IIONode::uri()
 {
