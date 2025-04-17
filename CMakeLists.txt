@@ -44,6 +44,7 @@ rosidl_get_typesupport_target(adi_iio_srvs_typesupport_target ${PROJECT_NAME} "r
 
 add_executable(${NODE_NAME}
     src/iio_node.cpp
+    src/iio_path.cpp
     src/adi_iio.cpp
     src/iio_buffer.cpp
     src/iio_attr_topic.cpp

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "adi_iio/iio_node.hpp"
+#include "adi_iio/iio_path.hpp"
 #include "adi_iio/iio_attr_topic.hpp"
 #include "adi_iio/iio_buffer.hpp"
 #include <memory>
