@@ -37,6 +37,7 @@
 #include "adi_iio/srv/buffer_enable_topic.hpp"
 #include "adi_iio/srv/buffer_disable_topic.hpp"
 #include "adi_iio/srv/list_devices.hpp"
+#include "adi_iio/srv/list_channels.hpp"
 
 class IIOAttrTopic;
 class IIOBuffer;
@@ -102,6 +103,11 @@ public:
   void listDevicesSrv(
     const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
     std::shared_ptr<adi_iio::srv::ListDevices::Response> response);
+
+  void listChannelsSrv(
+    const std::shared_ptr<adi_iio::srv::ListChannels::Request> request,
+    std::shared_ptr<adi_iio::srv::ListChannels::Response> response);
+
   // getters
   std::string uri();
   bool initialized();
