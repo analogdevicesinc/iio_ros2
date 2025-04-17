@@ -102,6 +102,34 @@ public:
   bool initialized();
   iio_context * ctx();
 
+protected:
+  std::vector<iio_device *> getDevices(iio_context * ctx);
+  std::vector<iio_channel *> getChannels(iio_device * device);
+
+  template<typename T>
+  void setErrorResponse(T & response, const std::string & message)
+  {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Error: %s", message.c_str());
+    response->success = false;
+    response->message = message;
+  }
+
+  template<typename T>
+  void setWarningResponse(T & response, const std::string & message)
+  {
+    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Warning: %s", message.c_str());
+    response->success = false;
+    response->message = message;
+  }
+
+  template<typename T>
+  void setSuccessResponse(T & response, const std::string & message)
+  {
+    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Success: %s", message.c_str());
+    response->success = true;
+    response->message = message;
+  }
+
 private:
   bool m_initialized;
   std::string m_uri;
