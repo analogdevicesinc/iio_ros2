@@ -519,6 +519,29 @@ void IIONode::buffDisableTopicSrv(
     response->message = "Buffer not found";
   }
 }
+
+void IIONode::listDevicesSrv(
+  const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
+  std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
+{
+  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Service request: /ListDevices");
+  std::string msg;
+
+  IIOPath path("");
+  std::vector<std::string> data;
+
+  auto devices_ptr = getDevices(ctx());
+  for (iio_device * dev : devices_ptr) {
+    auto dev_name = std::string(iio_device_get_name(dev));
+    auto dev_path = path.append(dev_name);
+    data.push_back(dev_path);
+  }
+
+  msg = "Found " + std::to_string(data.size()) + " devices";
+  setSuccessResponse(response, msg);
+  response->data = {data};
+}
+
 std::vector<iio_device *> IIONode::getDevices(iio_context * ctx)
 {
   std::vector<iio_device *> devices;
