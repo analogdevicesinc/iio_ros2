@@ -100,6 +100,11 @@ int main(int argc, char ** argv)
     std::string(node->get_name()) + "/ListAttributes",
     std::bind(&IIONode::listAttributesSrv, node, std::placeholders::_1, std::placeholders::_2));
 
+  rclcpp::Service<adi_iio::srv::ScanContext>::SharedPtr scanContextSrv =
+    node->create_service<adi_iio::srv::ScanContext>(
+    std::string(node->get_name()) + "/ScanContext",
+    std::bind(&IIONode::scanContextSrv, node, std::placeholders::_1, std::placeholders::_2));
+
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
 
   rclcpp::spin(node);

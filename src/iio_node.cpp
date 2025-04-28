@@ -654,6 +654,83 @@ void IIONode::listAttributesSrv(
   response->data = {data};
 }
 
+void IIONode::scanContextSrv(
+  const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
+  std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
+{
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request: /ScanContext");
+  std::string msg{"Found: "};
+  std::vector<std::string> devices;
+  std::vector<std::string> channels;
+  std::vector<std::string> context_attrs;
+  std::vector<std::string> device_attrs;
+  std::vector<std::string> channel_attrs;
+
+  // Handle context attributes
+  IIOPath ctx_path("");
+  int ret{};
+  std::string err_str;
+  unsigned int nb_ctx_attrs = iio_context_get_attrs_count(ctx());
+  for (unsigned int i = 0; i < nb_ctx_attrs; i++) {
+    const char * key, * value;
+    ret = iio_context_get_attr(ctx(), i, &key, &value);
+    if (ret == 0) {
+      context_attrs.push_back(ctx_path.append(std::string(key)));
+    } else {
+      err_str = strerror(-ret);
+      RCLCPP_WARN(
+        rclcpp::get_logger(
+          "rclcpp"),
+        "Unable to read IIO context attribute: %s", err_str.c_str());
+    }
+  }
+
+  // Handle devices
+  auto devices_ptr = getDevices(ctx());
+  for (iio_device * dev : devices_ptr) {
+    auto dev_name = std::string(iio_device_get_name(dev));
+    auto dev_path = IIOPath(ctx_path.append(dev_name));
+
+    devices.push_back(dev_path.basePath());
+
+    // Handle device attributes
+    unsigned int nb_attrs = iio_device_get_attrs_count(dev);
+    for (unsigned int i = 0; i < nb_attrs; i++) {
+      std::string attr_key = iio_device_get_attr(dev, i);
+      device_attrs.push_back(dev_path.append(attr_key));
+    }
+
+    // Handle device channels
+    auto channels_ptr = getChannels(dev);
+    for (iio_channel * chn : channels_ptr) {
+      auto chn_name = std::string(iio_channel_get_id(chn));
+      auto is_output = iio_channel_is_output(chn);
+      auto chn_segment = IIOPath::toExtendedChannelSegment(is_output, chn_name);
+      auto chn_path = IIOPath(dev_path.append(chn_segment));
+
+      channels.push_back(chn_path.basePath());
+
+      // Handle channel attributes
+      unsigned int nb_attrs = iio_channel_get_attrs_count(chn);
+      for (unsigned int i = 0; i < nb_attrs; i++) {
+        std::string attr_key = iio_channel_get_attr(chn, i);
+        channel_attrs.push_back(chn_path.append(attr_key));
+      }
+    }
+  }
+  msg += "Context attributes: " + std::to_string(context_attrs.size()) + "; ";
+  msg += "Devices: " + std::to_string(devices.size()) + "; ";
+  msg += "Channels: " + std::to_string(channels.size()) + "; ";
+  msg += "Device attributes: " + std::to_string(device_attrs.size()) + "; ";
+  msg += "Channel attributes: " + std::to_string(channel_attrs.size()) + "; ";
+
+  setSuccessResponse(response, msg);
+  response->devices = {devices};
+  response->channels = {channels};
+  response->context_attrs = {context_attrs};
+  response->device_attrs = {device_attrs};
+  response->channel_attrs = {channel_attrs};
+}
 
 std::vector<iio_device *> IIONode::getDevices(iio_context * ctx)
 {

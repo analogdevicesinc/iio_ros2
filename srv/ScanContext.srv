@@ -1,0 +1,8 @@
+---
+bool success
+string message
+string[] devices
+string[] channels
+string[] context_attrs
+string[] device_attrs
+string[] channel_attrs

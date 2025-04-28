@@ -39,6 +39,7 @@
 #include "adi_iio/srv/list_devices.hpp"
 #include "adi_iio/srv/list_channels.hpp"
 #include "adi_iio/srv/list_attributes.hpp"
+#include "adi_iio/srv/scan_context.hpp"
 
 class IIOAttrTopic;
 class IIOBuffer;
@@ -112,6 +113,12 @@ public:
   void listAttributesSrv(
     const std::shared_ptr<adi_iio::srv::ListAttributes::Request> request,
     std::shared_ptr<adi_iio::srv::ListAttributes::Response> response);
+
+  void scanContextSrv(
+    const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
+    std::shared_ptr<adi_iio::srv::ScanContext::Response> response
+  );
+
   // getters
   std::string uri();
   bool initialized();

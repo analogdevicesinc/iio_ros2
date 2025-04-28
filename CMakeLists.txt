@@ -51,6 +51,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/ListDevices.srv"
   "srv/ListChannels.srv"
   "srv/ListAttributes.srv"
+  "srv/ScanContext.srv"
 
   DEPENDENCIES std_msgs
 )
