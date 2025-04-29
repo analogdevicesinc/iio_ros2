@@ -576,6 +576,7 @@ void IIONode::listDevicesSrv(
   const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
   std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
 {
+  (void) request; // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListDevices");
   std::string msg;
 
@@ -720,6 +721,7 @@ void IIONode::scanContextSrv(
   const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
   std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
 {
+  (void) request; // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ScanContext");
   std::string msg{"Found: "};
   std::vector<std::string> devices;
