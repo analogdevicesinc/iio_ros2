@@ -1,34 +1,10 @@
-################################################################################
-# @file   AttrDisableTopic.srv
-# @author Adrian-Stanea (Adrian.Stanea@analog.com)
-#
-# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
-# Copyright (c) 2025 Analog Devices, Inc.
-################################################################################
-#
-# Description:
-#   Disables a topic for a specific attribute.
-#
-# Request:
-#   attr_path (string):
-#       - Description: The path to the attribute to be disabled.
-#
-# Response:
-#   success (boolean):
-#       - Description: Indicates if the operation was successful.
-#   message (string):
-#       - Description: Provides additional information.
-#
-################################################################################
-
-
 int8 STRING = 0
 int8 INT = 1
 int8 DOUBLE = 2
 int8 BOOL = 3
 
 string topic_name
-int8 type 0
+int8 type 0 # String: 0, Int: 1, Double: 2, Bool: 3
 ---
 bool success
 string message

@@ -1,29 +1,3 @@
-################################################################################
-# @file   BufferWrite.srv
-# @author Adrian-Stanea (Adrian.Stanea@analog.com)
-#
-# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
-# Copyright (c) 2025 Analog Devices, Inc.
-################################################################################
-#
-# Description:
-#   Writes data to a buffer.
-#
-# Request:
-#   device_path (string):
-#       - Description: The path to the device.
-#   buffer (Int32MultiArray):
-#       - Description: The data to be written to the buffer.
-#
-# Response:
-#   success (boolean):
-#       - Description: Indicates if the operation was successful.
-#   message (string):
-#       - Description: Provides additional information.
-#
-################################################################################
-
-
 string device_path
 string[] channels
 std_msgs/Int32MultiArray buffer
