@@ -41,7 +41,7 @@ void IIOBuffer::destroyIIOBuffer()
     std::lock_guard<std::mutex> lock(m_mutex);
     iio_buffer_destroy(m_buffer);
     m_buffer = nullptr;
-    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Destroyed buffer %p", (void *)m_buffer);
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Destroyed buffer %p", (void *)m_buffer);
   }
 }
 
@@ -85,7 +85,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
   // disable all channels
   for (unsigned int i = 0; i < iio_device_get_channels_count(dev); i++) {
     iio_channel_disable(iio_device_get_channel(dev, i));
-    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Disabling channel %d", i);
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Disabling channel %d", i);
   }
 
   // enable channels
@@ -100,7 +100,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
       return false;
     }
     iio_channel_enable(ch);
-    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Enabling channel %s", channel.c_str());
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Enabling channel %s", channel.c_str());
   }
 
   m_canceled = false;
@@ -108,7 +108,8 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
   if (m_buffer == nullptr) {
     message = strerror(-errno);
     RCLCPP_WARN(
-      rclcpp::get_logger("rclcpp"), "could not create buffer in device \"%s\" - errno %d - %s",
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not create buffer in device \"%s\" - errno %d - %s",
       m_device_path.c_str(), errno, message.c_str());
     return false;
   }
@@ -124,7 +125,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
   m_data.layout.dim[1].stride = m_channels.size();
 
 
-  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Created buffer %p", (void *)m_buffer);
+  RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Created buffer %p", (void *)m_buffer);
   message = "Success";
   return true;
 }
@@ -139,12 +140,13 @@ bool IIOBuffer::refill(std::string & message)
   }
 
   ssize_t size = iio_buffer_refill(m_buffer);
-  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Refilled buffer with %ld bytes from HW", size);
+  RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Refilled buffer with %ld bytes from HW", size);
 
   if (size < 0) {
     message = strerror(-errno);
     RCLCPP_WARN(
-      rclcpp::get_logger("rclcpp"), "could not refill buffer in device \"%s\" - errno %d - %s",
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not refill buffer in device \"%s\" - errno %d - %s",
       m_device_path.c_str(), errno, message.c_str());
     return false;
   }
@@ -243,5 +245,5 @@ void IIOBuffer::disableTopic()
     m_th.join();  // stop thread
   }
   m_pub.reset();  // destroy topic
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Disabled IIOBuffer topic");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Disabled IIOBuffer topic");
 }
