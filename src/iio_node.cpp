@@ -21,22 +21,6 @@
 using namespace std::chrono_literals;
 
 #define MAX_ATTR_SIZE 4095
-/*
-BufferTopic.srv
-
-string buffer_path
-int buffer_size
-bool enable
----
-bool success
-string message
-
-
-parameter
-----
-"URI"
-
-*/
 
 IIONode::IIONode()
 : Node("adi_iio_node")
@@ -49,11 +33,14 @@ IIONode::IIONode()
 
   if (m_ctx != nullptr) {
     RCLCPP_INFO(
-      rclcpp::get_logger(
-        "rclcpp"), "creating context %p from uri %s", (void *)m_ctx, m_uri.c_str());
+      rclcpp::get_logger("rclcpp"),
+      "creating context %p from uri %s",
+      (void *)m_ctx, m_uri.c_str());
     m_initialized = true;
   } else {
-    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "cannot create context from uri %s", m_uri.c_str());
+    RCLCPP_ERROR(
+      rclcpp::get_logger("rclcpp"),
+      "cannot create context from uri %s", m_uri.c_str());
   }
 }
 
@@ -83,223 +70,203 @@ bool IIONode::initialized()
   return m_initialized;
 }
 
-std::string IIONode::convertAttrPathToTopicName(std::string path)
-{
-  std::replace(path.begin(), path.end(), '-', '_');
-  return path;
-}
-
 bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std::string value)
 {
   bool ret = false;
-  std::string str = path;
-  std::stringstream ss(str);
-  std::string segment;
-  std::vector<std::string> segments;
+  IIOPath iio_path(path);
 
   iio_device * dev = nullptr;
   iio_channel * ch = nullptr;
 
-  while (std::getline(ss, segment, '/')) {
-    segments.push_back(segment);  // Push each part of the string into the vector
-  }
-
   char * val;
   char attr_val[MAX_ATTR_SIZE];
   int ret1;
-  switch (segments.size()) {
-    case 1:  // context_attribute
-      val = const_cast<char *>(iio_context_get_attr_value(m_ctx, segments[0].c_str()));
-      if (val) {
-        ret = true;
-        result = val;
-        RCLCPP_INFO(
-          rclcpp::get_logger("rclcpp"), "read context attribute \"%s\" with value \"%s\"",
-          segments[0].c_str(), val);
-      } else {
-        ret = false;
-        result = "";
-        RCLCPP_WARN(
-          rclcpp::get_logger(
-            "rclcpp"), "could not find context attribute \"%s\"", segments[0].c_str());
-      }
 
-      if (write) {
-        ret = false;
-        RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "context attributes cannot be written");
-      }
-      break;
-
-    case 2:  // device_attribute
-      dev = iio_context_find_device(m_ctx, segments[0].c_str());
-      if (!dev) {
-        RCLCPP_WARN(
-          rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
-          segments[0].c_str());
-        break;
-      }
-      if (write) {
-        ret1 = iio_device_attr_write(dev, segments[1].c_str(), value.c_str());
-        if (ret1 > 0) {
-          RCLCPP_INFO(
-            rclcpp::get_logger("rclcpp"),
-            "wrote device attribute \"%s\" from device \"%s\" with value \"%s\"",
-            segments[1].c_str(),
-            segments[0].c_str(), value.c_str());
-        } else {
-          result = strerror(-ret1);
-          ret = false;
-          RCLCPP_WARN(
-            rclcpp::get_logger("rclcpp"),
-            "could not write attribute \"%s\" in device \"%s\" with value \"%s\" - errno %d - %s",
-            segments[1].c_str(), segments[0].c_str(), value.c_str(), ret1, result.c_str());
-          break;
-        }
-      }
-
-      ret1 = iio_device_attr_read(dev, segments[1].c_str(), attr_val, MAX_ATTR_SIZE);
-      if (ret1 > 0) {
-        result = attr_val;
-        ret = true;
-        RCLCPP_INFO(
-          rclcpp::get_logger(
-            "rclcpp"), "read device attribute \"%s\" from device \"%s\" with value \"%s\"",
-          segments[1].c_str(), segments[0].c_str(), attr_val);
-      } else {
-        result = strerror(-ret1);
-        ret = false;
-        RCLCPP_WARN(
-          rclcpp::get_logger(
-            "rclcpp"), "could not read attribute \"%s\" in device \"%s\" - errno %d - %s",
-          segments[1].c_str(), segments[0].c_str(), ret1, result.c_str());
-      }
-      break;
-
-    case 3:  // channel_attribute
-      dev = iio_context_find_device(m_ctx, segments[0].c_str());
-      if (!dev) {
-        RCLCPP_WARN(
-          rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
-          segments[0].c_str());
-        break;
-      }
-
-      if (segments[1].find("input_") == 0) {
-        ch = iio_device_find_channel(dev, segments[1].substr(strlen("input_")).c_str(), false);
-      } else if (segments[1].find("output_") == 0) {
-        ch = iio_device_find_channel(dev, segments[1].substr(strlen("output_")).c_str(), true);
-      } else {
-        ch = iio_device_find_channel(dev, segments[1].c_str(), false);
-        if (!ch) {
-          ch = iio_device_find_channel(dev, segments[1].c_str(), true);
-        }
-      }
-
-      if (!ch) {
-        RCLCPP_WARN(
-          rclcpp::get_logger("rclcpp"), "could not find channel \"%s\"",
-          segments[1].c_str());
-        break;
-      }
-
-      if (write) {
-        ret1 = iio_channel_attr_write(ch, segments[2].c_str(), value.c_str());
-        if (ret1 > 0) {
-          RCLCPP_INFO(
-            rclcpp::get_logger("rclcpp"),
-            "wrote channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
-            segments[2].c_str(), segments[1].c_str(), segments[0].c_str(), value.c_str());
-        } else {
-          result = strerror(-ret1);
-          ret = false;
-          RCLCPP_WARN(
-            rclcpp::get_logger(
-              "rclcpp"),
-            "could not write attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"- errno %d "
-            "- %s",
-            segments[2].c_str(), segments[1].c_str(), segments[0].c_str(), value.c_str(), ret1,
-            result.c_str());
-          break;
-        }
-      }
-
-      ret1 = iio_channel_attr_read(ch, segments[2].c_str(), attr_val, MAX_ATTR_SIZE);
-      if (ret1 > 0) {
-        result = attr_val;
-        ret = true;
-        RCLCPP_INFO(
-          rclcpp::get_logger("rclcpp"),
-          "read channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
-          segments[2].c_str(), segments[1].c_str(), segments[0].c_str(), attr_val);
-      } else {
-        result = strerror(-ret1);
-        ret = false;
-        RCLCPP_WARN(
-          rclcpp::get_logger("rclcpp"),
-          "could not read attribute \"%s\" from channel \"%s\" device \"%s\" - errno %d - %s",
-          segments[2].c_str(), segments[1].c_str(), segments[0].c_str(), ret1, result.c_str());
-      }
-
-      break;
-    default:
-      result = "Service requires attr_path";
+  if (iio_path.isValid(CONTEXT_ATTR)) {
+    val =
+      const_cast<char *>(iio_context_get_attr_value(
+        m_ctx,
+        iio_path.getContextAttrSegment().c_str()));
+    if (val) {
+      ret = true;
+      result = val;
+      RCLCPP_INFO(
+        rclcpp::get_logger("rclcpp"),
+        "read context attribute \"%s\" with value \"%s\"",
+        iio_path.getContextAttrSegment().c_str(), val);
+    } else {
       ret = false;
-      break;
+      result = "";
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"),
+        "could not find context attribute \"%s\"", iio_path.getContextAttrSegment().c_str());
+    }
+
+    if (write) {
+      ret = false;
+      RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "context attributes cannot be written");
+    }
+  } else if (iio_path.isValid(DEVICE_ATTR)) {
+    dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
+    if (!dev) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
+        iio_path.getDeviceSegment().c_str());
+      return ret;
+    }
+
+    if (write) {
+      ret1 = iio_device_attr_write(dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
+      if (ret1 > 0) {
+        RCLCPP_INFO(
+          rclcpp::get_logger("rclcpp"),
+          "wrote device attribute \"%s\" from device \"%s\" with value \"%s\"",
+          iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(),
+          value.c_str());
+      } else {
+        result = strerror(-ret1);
+        ret = false;
+        RCLCPP_WARN(
+          rclcpp::get_logger("rclcpp"),
+          "could not write attribute \"%s\" in device \"%s\" with value \"%s\" - errno %d - %s",
+          iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(),
+          value.c_str(), ret1, result.c_str());
+        return ret;
+      }
+    }
+
+    ret1 = iio_device_attr_read(
+      dev, iio_path.getDeviceAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE);
+    if (ret1 > 0) {
+      result = attr_val;
+      ret = true;
+      RCLCPP_INFO(
+        rclcpp::get_logger("rclcpp"),
+        "read device attribute \"%s\" from device \"%s\" with value \"%s\"",
+        iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(), attr_val);
+    } else {
+      result = strerror(-ret1);
+      ret = false;
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"),
+        "could not read attribute \"%s\" in device \"%s\" - errno %d - %s",
+        iio_path.getDeviceAttrSegment().c_str(),
+        iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
+    }
+  } else if (iio_path.isValid(CHANNEL_ATTR)) {
+    dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
+    if (!dev) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
+        iio_path.getDeviceSegment().c_str());
+      return ret;
+    }
+
+    if (iio_path.hasExtendedChannelFormat()) {
+      auto [is_output, chn_name] = iio_path.getExtendedChannelSegment();
+      ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+    } else {
+      ch = iio_device_find_channel(dev, iio_path.getChannelSegment().c_str(), false);
+      if (!ch) {
+        ch = iio_device_find_channel(dev, iio_path.getChannelSegment().c_str(), true);
+      }
+    }
+
+    if (!ch) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"), "could not find channel \"%s\"",
+        iio_path.getChannelSegment().c_str());
+      return ret;
+    }
+
+    if (write) {
+      ret1 = iio_channel_attr_write(ch, iio_path.getChannelAttrSegment().c_str(), value.c_str());
+      if (ret1 > 0) {
+        RCLCPP_INFO(
+          rclcpp::get_logger("rclcpp"),
+          "wrote channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
+          iio_path.getChannelAttrSegment().c_str(),
+          iio_path.getChannelSegment().c_str(), iio_path.getDeviceSegment().c_str(), value.c_str());
+      } else {
+        result = strerror(-ret1);
+        ret = false;
+        RCLCPP_WARN(
+          rclcpp::get_logger(
+            "adi_iio_node"),
+          "could not write attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"- errno %d - %s",
+          iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
+          iio_path.getDeviceSegment().c_str(), value.c_str(), ret1, result.c_str());
+        return ret;
+      }
+    }
+
+    ret1 = iio_channel_attr_read(
+      ch, iio_path.getChannelAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE);
+    if (ret1 > 0) {
+      result = attr_val;
+      ret = true;
+      RCLCPP_INFO(
+        rclcpp::get_logger("rclcpp"),
+        "read channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
+        iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
+        iio_path.getDeviceSegment().c_str(), attr_val);
+    } else {
+      result = strerror(-ret1);
+      ret = false;
+      RCLCPP_WARN(
+        rclcpp::get_logger("rclcpp"),
+        "could not read attribute \"%s\" from channel \"%s\" device \"%s\" - errno %d - %s",
+        iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
+        iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
+    }
+  } else {
+    result = "Service requires a valid attr_path";
+    ret = false;
   }
 
   return ret;
 }
 
 void IIONode::attrReadSrv(
-  const std::shared_ptr<adi_iio::srv::AttrReadString::Request> request,                          // CHANGE
+  const std::shared_ptr<adi_iio::srv::AttrReadString::Request> request,   // CHANGE
   std::shared_ptr<adi_iio::srv::AttrReadString::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger(
-      "rclcpp"), "Service request read attr: %s", request->attr_path.c_str());
+    rclcpp::get_logger("rclcpp"), "Service request /AttrReadString : %s",
+    request->attr_path.c_str());
   std::string result;
   response->success = rwAttrPath(request->attr_path, result);
   response->message = result;
 }
 
 void IIONode::attrWriteSrv(
-  const std::shared_ptr<adi_iio::srv::AttrWriteString::Request> request,                           // CHANGE
+  const std::shared_ptr<adi_iio::srv::AttrWriteString::Request> request,   // CHANGE
   std::shared_ptr<adi_iio::srv::AttrWriteString::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request write attr %s value %s",
-    request->attr_path.c_str(),
-    request->value.c_str());
+    rclcpp::get_logger("rclcpp"), "Service request /AttrWriteString : %s value %s",
+    request->attr_path.c_str(), request->value.c_str());
   std::string result;
   response->success = rwAttrPath(request->attr_path, result, true, request->value);
   response->message = result;
 }
-
-/*AttrTopicEnable.srv
- string topic_name
- string attr_path
- int loop_rate
- int type
- ---------------
- bool success
- string message*/
 
 void IIONode::attrEnableTopicSrv(
   const std::shared_ptr<adi_iio::srv::AttrEnableTopic::Request> request,
   std::shared_ptr<adi_iio::srv::AttrEnableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger(
-      "rclcpp"), "Service request enable topic %s with type %s with loop_rate %d Hz",
+    rclcpp::get_logger("rclcpp"),
+    "Service request /AttrEnableTopic %s with type %s with loop_rate %d Hz",
     request->attr_path.c_str(), request->attr_path.c_str(), request->loop_rate);
 
-  std::string result;
-  response->success = rwAttrPath(request->attr_path, result);
-  response->message = result;
+  std::string message;
+  response->success = rwAttrPath(request->attr_path, message);
+  response->message = message;
 
   std::string local_topic_name = request->topic_name;
   if (local_topic_name == "") {
-    local_topic_name = convertAttrPathToTopicName(request->attr_path);
+    local_topic_name = IIOPath::toTopicName(request->attr_path);
   }
 
   if (response->success) {
@@ -314,37 +281,32 @@ void IIONode::attrEnableTopicSrv(
           request->attr_path, static_cast<IIOAttrTopic::topicType_t>(request->type),
           request->loop_rate)});
 
-    response->success = true;
-    response->message = "Success";
+    setSuccessResponse(response, "Success");
+  } else {
+    setErrorResponse(response, message);
   }
 }
-
-/*
-AttrTopicDisable.srv
-string topic_name
----
-bool success
-string message
-*/
 
 void IIONode::attrDisableTopicSrv(
   const std::shared_ptr<adi_iio::srv::AttrDisableTopic::Request> request,
   std::shared_ptr<adi_iio::srv::AttrDisableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger(
-      "rclcpp"), "Service request disable topic %s ", request->topic_name.c_str());
+    rclcpp::get_logger("rclcpp"), "Service request /AttrDisableTopic %s ",
+    request->topic_name.c_str());
+
+  std::string message;
 
   std::string local_topic_name = request->topic_name;
-  local_topic_name = convertAttrPathToTopicName(request->topic_name);  // for compatibility with enable
+  local_topic_name = IIOPath::toTopicName(request->topic_name); // for compatibility with enable
 
   if (m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
     m_attrTopicMap.erase(local_topic_name);
-    response->success = true;
-    response->message = "Success";
+    message = "Success";
+    setSuccessResponse(response, message);
   } else {
-    response->success = false;
-    response->message = "Topic not found";
+    message = "Topic not found";
+    setErrorResponse(response, message);
   }
 }
 
@@ -352,18 +314,37 @@ void IIONode::buffRefillSrv(
   const std::shared_ptr<adi_iio::srv::BufferRefill::Request> request,
   std::shared_ptr<adi_iio::srv::BufferRefill::Response> response)
 {
-  if (m_bufferMap.find(request->device_path) == m_bufferMap.end()) {
-    response->success = false;
-    response->message = "Buffer not found";
-  } else {
-    std::string message;
-    if (m_bufferMap[request->device_path]->topic_enabled()) {
-    } else {
-      response->success = m_bufferMap[request->device_path]->refill(message);
-      response->message = message;
-    }
-    response->buffer = m_bufferMap[request->device_path]->data();
+  RCLCPP_INFO(
+    rclcpp::get_logger("rclcpp"), "Service request /BufferRill %s",
+    request->device_path.c_str());
+
+  std::string message;
+  bool success = true;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    message = request->device_path + " is not a valid device path";
+    setErrorResponse(response, message);
+    return;
   }
+
+  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
+    message = "Buffer not found";
+    setErrorResponse(response, message);
+    return;
+  }
+
+  if (!m_bufferMap[path.getDeviceSegment()]->topic_enabled()) {
+    success = m_bufferMap[path.getDeviceSegment()]->refill(message);
+  }
+
+  if (!success) {
+    setErrorResponse(response, message);
+    return;
+  }
+
+  setSuccessResponse(response, message);
+  response->buffer = m_bufferMap[path.getDeviceSegment()]->data();
 }
 
 void IIONode::buffReadSrv(
@@ -376,34 +357,45 @@ void IIONode::buffReadSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request buffer read %s - %s - %d samples",
+    rclcpp::get_logger("rclcpp"), "Service request /BufferRead %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->samples_count);
 
   std::string message;
 
-  std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(request->device_path) == m_bufferMap.end()) {
-    response->success = false;
-    response->message = "Device or buffer not found";
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    message = request->device_path + " is not a valid device path";
+    setErrorResponse(response, message);
     return;
   }
 
-  buffer = m_bufferMap[request->device_path];
+  std::shared_ptr<IIOBuffer> buffer;
+  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
+    message = "Device or buffer not found.";
+    setErrorResponse(response, message);
+    return;
+  }
+
+  buffer = m_bufferMap[path.getDeviceSegment()];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->samples_count);
   buffer->set_channels(request->channels);
 
-  response->success = buffer->createIIOBuffer(message);
-  if (!response->success) {
-    response->message = message;
+  bool success = buffer->createIIOBuffer(message);
+  if (!success) {
+    setErrorResponse(response, message);
     return;
   }
 
-  response->success = buffer->refill(message);
-  response->buffer = buffer->data();
-  response->message = message;
-}
+  success = buffer->refill(message);
+  if (!success) {
+    setErrorResponse(response, message);
+    return;
+  }
 
+  setSuccessResponse(response, message);
+  response->buffer = buffer->data();
+}
 
 void IIONode::buffWriteSrv(
   const std::shared_ptr<adi_iio::srv::BufferWrite::Request> request,
@@ -415,30 +407,42 @@ void IIONode::buffWriteSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request buffer read %s - %s - %d samples",
+    rclcpp::get_logger("rclcpp"), "Service request /BufferWrite %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->buffer.layout.dim[0].size);
 
   std::string message;
 
-  std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(request->device_path) == m_bufferMap.end()) {
-    response->success = false;
-    response->message = "Device or buffer not found";
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    message = request->device_path + " is not a valid device path";
+    setErrorResponse(response, message);
     return;
   }
 
-  buffer = m_bufferMap[request->device_path];
+  std::shared_ptr<IIOBuffer> buffer;
+  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
+    message = "Device or buffer not found.";
+    setErrorResponse(response, message);
+    return;
+  }
+
+  buffer = m_bufferMap[path.getDeviceSegment()];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->buffer.layout.dim[0].size);
   buffer->set_channels(request->channels);
 
-  response->success = buffer->createIIOBuffer(message);
-  if (!response->success) {
-    response->message = message;
+  bool success = buffer->createIIOBuffer(message);
+  if (!success) {
+    setErrorResponse(response, message);
     return;
   }
 
-  response->success = buffer->push(message, request->buffer);
+  success = buffer->push(message, request->buffer);
+  if (!success) {
+    setErrorResponse(response, message);
+    return;
+  }
+  setSuccessResponse(response, message);
 }
 
 void IIONode::buffCreateSrv(
@@ -451,24 +455,37 @@ void IIONode::buffCreateSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request buffer create %s - %s - %d samples",
+    rclcpp::get_logger("rclcpp"),
+    "Service request /BufferCreate %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->samples_count);
 
   std::string message;
 
-  std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(request->device_path) == m_bufferMap.end()) {
-    response->success = false;
-    response->message = "Buffer not found";
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    message = request->device_path + " is not a valid device path";
+    setErrorResponse(response, message);
+    return;
   }
 
-  buffer = m_bufferMap[request->device_path];
+  std::shared_ptr<IIOBuffer> buffer;
+  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
+    message = "Buffer not found";
+    setWarningResponse(response, message);
+  }
+
+  buffer = m_bufferMap[path.getDeviceSegment()];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->samples_count);
   buffer->set_channels(request->channels);
 
-  response->success = buffer->createIIOBuffer(message);
-  response->message = message;
+  bool success = buffer->createIIOBuffer(message);
+  if (!success) {
+    setErrorResponse(response, message);
+    return;
+  }
+
+  setSuccessResponse(response, message);
 }
 
 void IIONode::buffDestroySrv(
@@ -476,33 +493,55 @@ void IIONode::buffDestroySrv(
   std::shared_ptr<adi_iio::srv::BufferDestroy::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger(
-      "rclcpp"), "Service request buffer destroy %s", request->device_path.c_str());
+    rclcpp::get_logger("rclcpp"),
+    "Service request /BufferDestroy %s", request->device_path.c_str());
 
-  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
-    if (m_bufferMap[request->device_path]->buffer()) {
-      m_bufferMap[request->device_path]->destroyIIOBuffer();
-      response->success = true;
-      response->message = "Success";
+  std::string msg;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = request->device_path + " is not a valid device path";
+    setErrorResponse(response, msg);
+    return;
+  }
+
+  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
+    if (m_bufferMap[path.getDeviceSegment()]->buffer()) {
+      m_bufferMap[path.getDeviceSegment()]->destroyIIOBuffer();
+      msg = "Success";
+      setSuccessResponse(response, msg);
       return;
     }
   }
 
-  response->success = false;
-  response->message = "Buffer not found";
+  msg = "Buffer not found";
+  setWarningResponse(response, msg);
 }
 
 void IIONode::buffEnableTopicSrv(
   const std::shared_ptr<adi_iio::srv::BufferEnableTopic::Request> request,
   std::shared_ptr<adi_iio::srv::BufferEnableTopic::Response> response)
 {
-  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
-    m_bufferMap[request->device_path]->enableTopic(request->topic_name);
-    response->success = true;
-    response->message = "Success";
+  RCLCPP_INFO(
+    rclcpp::get_logger("rclcpp"),
+    "Service request /BufferEnableTopic %s", request->device_path.c_str());
+
+  std::string msg;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = request->device_path + " is not a valid device path";
+    setErrorResponse(response, msg);
+    return;
+  }
+
+  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
+    m_bufferMap[path.getDeviceSegment()]->enableTopic(request->topic_name);
+    msg = "Success";
+    setSuccessResponse(response, msg);
   } else {
-    response->success = false;
-    response->message = "Buffer not found";
+    msg = "Buffer not found";
+    setWarningResponse(response, msg);
   }
 }
 
@@ -510,13 +549,26 @@ void IIONode::buffDisableTopicSrv(
   const std::shared_ptr<adi_iio::srv::BufferDisableTopic::Request> request,
   std::shared_ptr<adi_iio::srv::BufferDisableTopic::Response> response)
 {
-  if (m_bufferMap.find(request->device_path) != m_bufferMap.end()) {
-    m_bufferMap[request->device_path]->disableTopic();
-    response->success = true;
-    response->message = "Success";
+  RCLCPP_INFO(
+    rclcpp::get_logger("rclcpp"),
+    "Service request /BufferDisableTopic %s", request->device_path.c_str());
+
+  std::string msg;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = request->device_path + " is not a valid device path";
+    setErrorResponse(response, msg);
+    return;
+  }
+
+  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
+    m_bufferMap[path.getDeviceSegment()]->disableTopic();
+    msg = "Success";
+    setSuccessResponse(response, msg);
   } else {
-    response->success = false;
-    response->message = "Buffer not found";
+    msg = "Buffer not found";
+    setWarningResponse(response, msg);
   }
 }
 
@@ -524,7 +576,7 @@ void IIONode::listDevicesSrv(
   const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
   std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
 {
-  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Service request: /ListDevices");
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListDevices");
   std::string msg;
 
   IIOPath path("");
@@ -546,7 +598,7 @@ void IIONode::listChannelsSrv(
   const std::shared_ptr<adi_iio::srv::ListChannels::Request> request,
   std::shared_ptr<adi_iio::srv::ListChannels::Response> response)
 {
-  RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Service request: /ListChannels");
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListChannels");
   std::string msg;
 
   IIOPath path(request->iio_path);
@@ -583,7 +635,7 @@ void IIONode::listAttributesSrv(
   const std::shared_ptr<adi_iio::srv::ListAttributes::Request> request,
   std::shared_ptr<adi_iio::srv::ListAttributes::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request: /ListAttributes");
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListAttributes");
   std::string msg;
   std::vector<std::string> data;
 
@@ -603,7 +655,8 @@ void IIONode::listAttributesSrv(
         err_str = strerror(-ret);
         RCLCPP_WARN(
           rclcpp::get_logger(
-            "rclcpp"), "Unable to read IIO context attribute: %s", err_str.c_str());
+            "adi_iio_node"),
+          "Unable to read IIO context attribute: %s", err_str.c_str());
       }
     }
     msg = "Found " + std::to_string(data.size()) + " attributes";
@@ -631,10 +684,18 @@ void IIONode::listAttributesSrv(
       return;
     }
 
-    auto [is_output, chn_name] = path.getExtendedChannelSegment();
-    iio_channel * chn = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+    iio_channel * chn;
+    if (path.hasExtendedChannelFormat()) {
+      auto [is_output, chn_name] = path.getExtendedChannelSegment();
+      chn = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+    } else {
+      chn = iio_device_find_channel(dev, path.getChannelSegment().c_str(), false);
+      if (chn == nullptr) {
+        chn = iio_device_find_channel(dev, path.getChannelSegment().c_str(), true);
+      }
+    }
     if (chn == nullptr) {
-      msg = "Could not find channel: " + chn_name;
+      msg = "Could not find channel: " + path.getChannelSegment();
       setWarningResponse(response, msg);
       return;
     }
@@ -643,7 +704,8 @@ void IIONode::listAttributesSrv(
       std::string attr_key = iio_channel_get_attr(chn, i);
       data.push_back(path.append(attr_key));
     }
-    msg = "Found " + std::to_string(data.size()) + " attributes in channel: " + chn_name;
+    msg = "Found " + std::to_string(data.size()) + " attributes in channel: " +
+      path.getChannelSegment();
   } else {
     msg = "Invalid path: " + request->iio_path;
     setErrorResponse(response, msg);
@@ -658,7 +720,7 @@ void IIONode::scanContextSrv(
   const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
   std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request: /ScanContext");
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ScanContext");
   std::string msg{"Found: "};
   std::vector<std::string> devices;
   std::vector<std::string> channels;
@@ -680,7 +742,7 @@ void IIONode::scanContextSrv(
       err_str = strerror(-ret);
       RCLCPP_WARN(
         rclcpp::get_logger(
-          "rclcpp"),
+          "adi_iio_node"),
         "Unable to read IIO context attribute: %s", err_str.c_str());
     }
   }
