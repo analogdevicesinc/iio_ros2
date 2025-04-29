@@ -1,29 +1,3 @@
-################################################################################
-# @file   AttrWriteString.srv
-# @author Adrian-Stanea (Adrian.Stanea@analog.com)
-#
-# SPDX-License-Identifier: Apache-2.0 (see LICENSE file)
-# Copyright (c) 2025 Analog Devices, Inc.
-################################################################################
-#
-# Description:
-#   Writes an IIO attribute as a string.
-#
-# Request:
-#   attr_path (string):
-#       - Description: The path to the attribute to be written.
-#   value (string):
-#       - Description: The value to be written to the attribute.
-#
-# Response:
-#   success (boolean):
-#       - Description: Indicates if the operation was successful.
-#   message (string):
-#       - Description: Provides additional information.
-#
-################################################################################
-
-
 string attr_path
 string value
 ---
