@@ -96,6 +96,12 @@ public:
   std::pair<bool, std::string> getExtendedChannelSegment() const;
 
   /**
+   * @brief Whether the channel segment has the extended syntax format.
+   *
+   */
+  bool hasExtendedChannelFormat() const;
+
+  /**
    * @brief Extracts the channel attribute segment from the path.
    *
    * @return The channel attribute as a string.
@@ -142,6 +148,16 @@ public:
    * @return The constructed channel segment as a string.
    */
   static std::string toExtendedChannelSegment(bool output, std::string chn_name);
+
+  /**
+   * @brief Converts a path to a ROS2 topic name.
+   *
+   * @param path The input path to be converted.
+   * @return The converted topic name as a string.
+   *
+   * @note ROS2 topic names cannot contain '-' characters.
+   */
+  static std::string toTopicName(std::string path);
 
 private:
   std::string m_base_path;
