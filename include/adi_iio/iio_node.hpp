@@ -55,7 +55,6 @@ public:
   bool rwAttrPath(
     std::string path, std::string & result, bool write = false,
     std::string value = "");
-  std::string convertAttrPathToTopicName(std::string path);
 
   // service handlers
   void attrReadSrv(
@@ -131,7 +130,7 @@ protected:
   template<typename T>
   void setErrorResponse(T & response, const std::string & message)
   {
-    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Error: %s", message.c_str());
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "%s", message.c_str());
     response->success = false;
     response->message = message;
   }

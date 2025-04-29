@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "adi_iio/iio_buffer.hpp"
+#include "adi_iio/iio_path.hpp"
 
 IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
 {
@@ -204,9 +205,9 @@ void IIOBuffer::enableTopic(std::string topic_name)
   m_stopThread = false;
 
   if (topic_name == "") {
-    m_topic_name = m_nh->convertAttrPathToTopicName(m_device_path);
+    m_topic_name = IIOPath::toTopicName(m_device_path);
   } else {
-    m_topic_name = m_nh->convertAttrPathToTopicName(topic_name);
+    m_topic_name = IIOPath::toTopicName(topic_name);
   }
 
 
