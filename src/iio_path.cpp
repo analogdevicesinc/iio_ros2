@@ -55,16 +55,19 @@ std::string IIOPath::getChannelSegment() const
 std::pair<bool, std::string> IIOPath::getExtendedChannelSegment() const
 {
   auto chn_segment = getChannelSegment();
-  bool hasPrefix = chn_segment.find("input_") == 0 || chn_segment.find("output_") == 0;
-  if (!hasPrefix) {
-    return {false, ""};
-  }
 
   std::string prefix = chn_segment.substr(0, chn_segment.find('_'));
   std::string chn_name = chn_segment.substr(chn_segment.find('_') + 1);
 
   bool output = prefix == "output";
   return {output, chn_name};
+}
+
+bool IIOPath::hasExtendedChannelFormat() const
+{
+  auto chn_segment = getChannelSegment();
+  bool hasPrefix = chn_segment.find("input_") == 0 || chn_segment.find("output_") == 0;
+  return hasPrefix;
 }
 
 std::string IIOPath::getChannelAttrSegment() const
@@ -105,6 +108,12 @@ std::string IIOPath::toExtendedChannelSegment(bool output, std::string chn_name)
 {
   std::string prefix = output ? "output_" : "input_";
   return prefix + chn_name;
+}
+
+std::string IIOPath::toTopicName(std::string path)
+{
+  std::replace(path.begin(), path.end(), '-', '_');
+  return path;
 }
 
 std::vector<std::string> IIOPath::split(const std::string & str)
