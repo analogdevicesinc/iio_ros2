@@ -228,21 +228,64 @@ This section provides a concise overview of the node-specific concepts for the
 ROS2 package. It details the conventions for attribute paths, topic naming,
 service responses, and buffer operations used when interfacing with IIO devices.
 
+.. _iio_path:
 
-.. _channel_and_device_attribute_path:
-
-Channel and Device Attribute Path
+IIO Path
 --------------------------------------------------------------------------------
 
-The ``attr_path`` parameter is used to specify the path to a specific attribute
-within an IIO device. This path follows the structure of the IIO context hierarchy.
+Services use the ``iio_path`` parameter to uniquely identify Industrial I/O
+(IIO) devices, channels, and attributes following the IIO context hierarchy.
+The ``/`` character is used to separate different levels of the hierarchy.
 
-**Example:**
+Context Path
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- An attribute path to a channel attribute might look like ``ad5592r/voltage0/raw``,
-  where ``ad5592r`` is the device name, ``voltage0`` is the channel, and ``raw``
-  is the attribute.
-- A path to a device attribute would be ``ad9361-phy/calib_mode``.
+- **Description:** an empty string is used to represent an IIO context.
+- **Format:** ``""`` (empty string.)
+
+Context Attribute Path (``attr_path``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Description:** this path represents an attribute of a context.
+- **Format:** ``<context-attribute>``
+- **Example:** ``uri``, ``hw_vendor``, ``hw_serial``, etc.
+
+Device Path (``device_path``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Description:** this path represents a device of a context.
+- **Format:** ``<device-name>``
+- **Example:** ``ad9361-phy``, ``ad5592r``, etc.
+
+Device Attribute Path (``attr_path``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Description:** this path represents an attribute of a device.
+- **Format:** ``<device-name>/<device-attribute>``
+- **Example:** ``xadc/sampling_frequency``, etc.
+
+Channel Path (``channel_path``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Format:** ``<device-name>/<channel-name>``
+- **Description:** this path represents a channel of a device.
+- **Example:** ``ad5592r/input_voltage0``, ``ad5592r/output_voltage0``,
+  ``ad9361-phy/voltage0``, etc.
+- **Note:** the channel name has an extended format which uses a prefix:
+  ``input_`` or ``output_`` to indicate the direction of data flow for channels
+  that share the same name. For example, ``ad5592r/input_voltage0`` and
+  ``ad5592r/output_voltage0`` are both valid paths that refer to two different
+  channels of the same device. When the prefix is not used (e.g:
+  ``ad5592r/voltage0``) but the device has both input and output channels, the
+  input channel has priority.
+
+Channel Attribute Path (``attr_path``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Format:** ``<device-name>/<channel-name>/<channel-attribute>``
+- **Description:** this path represents an attribute of a channel.
+- **Example:** ``ad5592r/input_voltage0/scale``, ``ad5592r/output_voltage0/scale``,
+  ``/cf-ad9361-lpc/voltage0/sampling_frequency``, etc.
 
 
 .. _topic_name_resolution:
