@@ -267,8 +267,8 @@ Device Attribute Path (``attr_path``)
 Channel Path (``channel_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- **Format:** ``<device-name>/<channel-name>``
 - **Description:** this path represents a channel of a device.
+- **Format:** ``<device-name>/<channel-name>``
 - **Example:** ``ad5592r/input_voltage0``, ``ad5592r/output_voltage0``,
   ``ad9361-phy/voltage0``, etc.
 - **Note:** the channel name has an extended format which uses a prefix:
@@ -282,8 +282,8 @@ Channel Path (``channel_path``)
 Channel Attribute Path (``attr_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- **Format:** ``<device-name>/<channel-name>/<channel-attribute>``
 - **Description:** this path represents an attribute of a channel.
+- **Format:** ``<device-name>/<channel-name>/<channel-attribute>``
 - **Example:** ``ad5592r/input_voltage0/scale``, ``ad5592r/output_voltage0/scale``,
   ``/cf-ad9361-lpc/voltage0/sampling_frequency``, etc.
 
@@ -406,170 +406,248 @@ AttrDisableTopic
 AttrEnableTopic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Enables a topic for a specific attribute.
+**Description:** Enables a topic for a specific attribute.
 
-    **Request:**
+**Request:**
 
-    * ``attr_path`` (string): The path to the attribute for which a topic will be enabled.
+* ``attr_path`` (string): The path to the attribute for which a topic will be enabled.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _AttrReadString:
 
 AttrReadString
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Reads an IIO attribute as a string.
+**Description:** Reads an IIO attribute as a string.
 
-    **Request:**
+**Request:**
 
-    * ``attr_path`` (string): The path to the attribute to be read.
+* ``attr_path`` (string): The path to the attribute to be read.
 
-    **Response:**
+**Response:**
 
-    * ``value`` (string): The value of the attribute.
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``value`` (string): The value of the attribute.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _AttrWriteString:
 
 AttrWriteString
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Writes an IIO attribute as a string
+**Description:** Writes an IIO attribute as a string
 
-    **Request:**
+**Request:**
 
-    * ``attr_path`` (string): The path to the attribute to be written.
-    * ``value`` (string): The value to be written to the attribute.
+* ``attr_path`` (string): The path to the attribute to be written.
+* ``value`` (string): The value to be written to the attribute.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _BufferCreate:
 
 BufferCreate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Creates a buffer.
+**Description:** Creates a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
-    * ``channels`` (string[]): The channels to be read from the buffer.
-    * ``samples_count`` (int32): The number of samples for the buffer.
+* ``device_path`` (string): The path to the device.
+* ``channels`` (string[]): The channels to be read from the buffer.
+* ``samples_count`` (int32): The number of samples for the buffer.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _BufferDestroy:
 
 BufferDestroy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Destroys a buffer.
+**Description:** Destroys a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
+* ``device_path`` (string): The path to the device.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _BufferDisableTopic:
 
 BufferDisableTopic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Disables a topic for a buffer.
+**Description:** Disables a topic for a buffer.
 
-    **Request:**
-    * ``device_path`` (string): The path to the device.
+**Request:**
+* ``device_path`` (string): The path to the device.
 
-    **Response:**
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+**Response:**
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _BufferEnableTopic:
 
 BufferEnableTopic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Enables a topic for a buffer.
+**Description:** Enables a topic for a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
-    * ``topic_name`` (string): The name of the topic to be enabled.
+* ``device_path`` (string): The path to the device.
+* ``topic_name`` (string): The name of the topic to be enabled.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
 
 .. _BufferRead:
 
 BufferRead
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Reads data from a buffer.
+**Description:** Reads data from a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
-    * ``channels`` (string[]): The channels to be read from the buffer.
-    * ``samples_count`` (int32): The number of samples to read.
+* ``device_path`` (string): The path to the device.
+* ``channels`` (string[]): The channels to be read from the buffer.
+* ``samples_count`` (int32): The number of samples to read.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
-    * ``buffer`` (Int32MultiArray): The data read from the buffer.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``buffer`` (Int32MultiArray): The data read from the buffer.
 
 .. _BufferRefill:
 
 BufferRefill
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Refills a buffer.
+**Description:** Refills a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
+* ``device_path`` (string): The path to the device.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
-    * ``buffer`` (Int32MultiArray): The data read from the buffer after refilling.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``buffer`` (Int32MultiArray): The data read from the buffer after refilling.
 
 .. _BufferWrite:
 
 BufferWrite
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **Description:** Writes data to a buffer.
+**Description:** Writes data to a buffer.
 
-    **Request:**
+**Request:**
 
-    * ``device_path`` (string): The path to the device.
-    * ``channels`` (string[]): The channels where data will be written.
-    * ``buffer`` (Int32MultiArray): The data to be written to the buffer.
-    * ``cyclic`` (bool): Indicates whether the buffer should be cyclic.
+* ``device_path`` (string): The path to the device.
+* ``channels`` (string[]): The channels where data will be written.
+* ``buffer`` (Int32MultiArray): The data to be written to the buffer.
+* ``cyclic`` (bool): Indicates whether the buffer should be cyclic.
 
-    **Response:**
+**Response:**
 
-    * ``success`` (bool): Indicates whether the operation was successful.
-    * ``message`` (string): A message providing additional information.
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+
+.. _ScanContext:
+
+ScanContext
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Scans the  current IIO context and returns lists of devices,
+channels, and attributes formatted as IIO paths which can be used as request
+parameters for the other services.
+
+**Request:**
+
+* None. The operation uses the ``uri`` provided during node initialization to
+  scan for devices.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``devices`` (string[]): A list of IIO paths to the discovered devices.
+* ``channels`` (string[]): A list of IIO paths to the discovered channels.
+* ``context_attrs`` (string[]): A list of IIO paths to the discovered context attributes.
+* ``device_attrs`` (string[]): A list of IIO paths to the discovered device attributes.
+* ``channel_attrs`` (string[]): A list of IIO paths to the discovered channel attributes.
+
+.. _ListDevices:
+
+ListDevices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Lists the IIO device paths found in the current context.
+
+**Request:**
+
+* None. The operation uses the ``uri`` provided during node initialization to
+  scan for devices.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``data`` (string[]): A list containing the IIO device paths.
+
+.. _ListChannels:
+
+ListChannels
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Lists the IIO channel paths found in the targeted device.
+
+**Request:**
+
+* ``iio_path`` (string): The IIO path to the device to be scanned.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``data`` (string[]): A list containing the IIO channel paths.
+
+.. _ListAttributes:
+
+ListAttributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Lists the IIO attribute paths found in the target path. This
+can be either a context, device, or channel path.
+
+**Request:**
+
+* ``iio_path`` (string): The IIO path to a context,device or channel to be scanned.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``data`` (string[]): A list containing the IIO attribute paths.
+
 
 .. _launch:
 
