@@ -99,7 +99,7 @@ bool IIOPath::isValid(const IIOPathType type)
     case CHANNEL_ATTR:
       return m_segments.size() == 3 && !getChannelAttrSegment().empty();
     default:
-      RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "Invalid path type");
+      RCLCPP_WARN(rclcpp::get_logger("adi_iio_node"), "Invalid path type");
       return false;
   }
 }

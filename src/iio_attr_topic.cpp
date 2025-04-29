@@ -23,7 +23,7 @@ IIOAttrTopic::IIOAttrTopic(
   topicType_t type, int loopRate)
 : m_loopRate(loopRate)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Created IIOAttrTopic");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Created IIOAttrTopic");
   m_nh = nh;
   m_attrPath = attrPath;
   m_topicName = topicName;
@@ -54,7 +54,7 @@ IIOAttrTopic::~IIOAttrTopic()
   if (m_th.joinable()) {
     m_th.join();
   }
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Deleted IIOAttrTopic");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Deleted IIOAttrTopic");
 }
 
 void IIOAttrTopic::publishingLoop()

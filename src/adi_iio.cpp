@@ -24,7 +24,7 @@ int main(int argc, char ** argv)
   std::shared_ptr<IIONode> node = std::make_shared<IIONode>();
 
   if (!node->initialized()) {
-    RCLCPP_FATAL(rclcpp::get_logger("rclcpp"), "Node initialization failed.");
+    RCLCPP_FATAL(rclcpp::get_logger("adi_iio_node"), "Node initialization failed.");
     return EXIT_FAILURE;     // Fail if the node isn't properly initialized
   }
 
@@ -105,7 +105,7 @@ int main(int argc, char ** argv)
     std::string(node->get_name()) + "/ScanContext",
     std::bind(&IIONode::scanContextSrv, node, std::placeholders::_1, std::placeholders::_2));
 
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "IIO Node");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "IIO Node");
 
   rclcpp::spin(node);
   rclcpp::shutdown();

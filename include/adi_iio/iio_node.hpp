@@ -130,7 +130,7 @@ protected:
   template<typename T>
   void setErrorResponse(T & response, const std::string & message)
   {
-    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "%s", message.c_str());
+    RCLCPP_ERROR(rclcpp::get_logger("adi_iio_node"), "%s", message.c_str());
     response->success = false;
     response->message = message;
   }
@@ -138,7 +138,7 @@ protected:
   template<typename T>
   void setWarningResponse(T & response, const std::string & message)
   {
-    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Warning: %s", message.c_str());
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Warning: %s", message.c_str());
     response->success = false;
     response->message = message;
   }
@@ -146,7 +146,7 @@ protected:
   template<typename T>
   void setSuccessResponse(T & response, const std::string & message)
   {
-    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Success: %s", message.c_str());
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Success: %s", message.c_str());
     response->success = true;
     response->message = message;
   }

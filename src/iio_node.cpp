@@ -33,13 +33,13 @@ IIONode::IIONode()
 
   if (m_ctx != nullptr) {
     RCLCPP_INFO(
-      rclcpp::get_logger("rclcpp"),
+      rclcpp::get_logger("adi_iio_node"),
       "creating context %p from uri %s",
       (void *)m_ctx, m_uri.c_str());
     m_initialized = true;
   } else {
     RCLCPP_ERROR(
-      rclcpp::get_logger("rclcpp"),
+      rclcpp::get_logger("adi_iio_node"),
       "cannot create context from uri %s", m_uri.c_str());
   }
 }
@@ -91,26 +91,26 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       ret = true;
       result = val;
       RCLCPP_INFO(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "read context attribute \"%s\" with value \"%s\"",
         iio_path.getContextAttrSegment().c_str(), val);
     } else {
       ret = false;
       result = "";
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "could not find context attribute \"%s\"", iio_path.getContextAttrSegment().c_str());
     }
 
     if (write) {
       ret = false;
-      RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "context attributes cannot be written");
+      RCLCPP_WARN(rclcpp::get_logger("adi_iio_node"), "context attributes cannot be written");
     }
   } else if (iio_path.isValid(DEVICE_ATTR)) {
     dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
     if (!dev) {
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
+        rclcpp::get_logger("adi_iio_node"), "could not find device \"%s\"",
         iio_path.getDeviceSegment().c_str());
       return ret;
     }
@@ -119,7 +119,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       ret1 = iio_device_attr_write(dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
       if (ret1 > 0) {
         RCLCPP_INFO(
-          rclcpp::get_logger("rclcpp"),
+          rclcpp::get_logger("adi_iio_node"),
           "wrote device attribute \"%s\" from device \"%s\" with value \"%s\"",
           iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(),
           value.c_str());
@@ -127,7 +127,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
         result = strerror(-ret1);
         ret = false;
         RCLCPP_WARN(
-          rclcpp::get_logger("rclcpp"),
+          rclcpp::get_logger("adi_iio_node"),
           "could not write attribute \"%s\" in device \"%s\" with value \"%s\" - errno %d - %s",
           iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(),
           value.c_str(), ret1, result.c_str());
@@ -141,14 +141,14 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       result = attr_val;
       ret = true;
       RCLCPP_INFO(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "read device attribute \"%s\" from device \"%s\" with value \"%s\"",
         iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(), attr_val);
     } else {
       result = strerror(-ret1);
       ret = false;
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "could not read attribute \"%s\" in device \"%s\" - errno %d - %s",
         iio_path.getDeviceAttrSegment().c_str(),
         iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
@@ -157,7 +157,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
     dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
     if (!dev) {
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"), "could not find device \"%s\"",
+        rclcpp::get_logger("adi_iio_node"), "could not find device \"%s\"",
         iio_path.getDeviceSegment().c_str());
       return ret;
     }
@@ -174,7 +174,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
 
     if (!ch) {
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"), "could not find channel \"%s\"",
+        rclcpp::get_logger("adi_iio_node"), "could not find channel \"%s\"",
         iio_path.getChannelSegment().c_str());
       return ret;
     }
@@ -183,7 +183,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       ret1 = iio_channel_attr_write(ch, iio_path.getChannelAttrSegment().c_str(), value.c_str());
       if (ret1 > 0) {
         RCLCPP_INFO(
-          rclcpp::get_logger("rclcpp"),
+          rclcpp::get_logger("adi_iio_node"),
           "wrote channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
           iio_path.getChannelAttrSegment().c_str(),
           iio_path.getChannelSegment().c_str(), iio_path.getDeviceSegment().c_str(), value.c_str());
@@ -206,7 +206,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       result = attr_val;
       ret = true;
       RCLCPP_INFO(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "read channel attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"",
         iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
         iio_path.getDeviceSegment().c_str(), attr_val);
@@ -214,7 +214,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
       result = strerror(-ret1);
       ret = false;
       RCLCPP_WARN(
-        rclcpp::get_logger("rclcpp"),
+        rclcpp::get_logger("adi_iio_node"),
         "could not read attribute \"%s\" from channel \"%s\" device \"%s\" - errno %d - %s",
         iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
         iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
@@ -232,7 +232,7 @@ void IIONode::attrReadSrv(
   std::shared_ptr<adi_iio::srv::AttrReadString::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /AttrReadString : %s",
+    rclcpp::get_logger("adi_iio_node"), "Service request /AttrReadString : %s",
     request->attr_path.c_str());
   std::string result;
   response->success = rwAttrPath(request->attr_path, result);
@@ -244,7 +244,7 @@ void IIONode::attrWriteSrv(
   std::shared_ptr<adi_iio::srv::AttrWriteString::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /AttrWriteString : %s value %s",
+    rclcpp::get_logger("adi_iio_node"), "Service request /AttrWriteString : %s value %s",
     request->attr_path.c_str(), request->value.c_str());
   std::string result;
   response->success = rwAttrPath(request->attr_path, result, true, request->value);
@@ -256,7 +256,7 @@ void IIONode::attrEnableTopicSrv(
   std::shared_ptr<adi_iio::srv::AttrEnableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"),
+    rclcpp::get_logger("adi_iio_node"),
     "Service request /AttrEnableTopic %s with type %s with loop_rate %d Hz",
     request->attr_path.c_str(), request->attr_path.c_str(), request->loop_rate);
 
@@ -292,7 +292,7 @@ void IIONode::attrDisableTopicSrv(
   std::shared_ptr<adi_iio::srv::AttrDisableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /AttrDisableTopic %s ",
+    rclcpp::get_logger("adi_iio_node"), "Service request /AttrDisableTopic %s ",
     request->topic_name.c_str());
 
   std::string message;
@@ -315,7 +315,7 @@ void IIONode::buffRefillSrv(
   std::shared_ptr<adi_iio::srv::BufferRefill::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /BufferRill %s",
+    rclcpp::get_logger("adi_iio_node"), "Service request /BufferRill %s",
     request->device_path.c_str());
 
   std::string message;
@@ -357,7 +357,7 @@ void IIONode::buffReadSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /BufferRead %s - %s - %d samples",
+    rclcpp::get_logger("adi_iio_node"), "Service request /BufferRead %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->samples_count);
 
   std::string message;
@@ -407,7 +407,7 @@ void IIONode::buffWriteSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"), "Service request /BufferWrite %s - %s - %d samples",
+    rclcpp::get_logger("adi_iio_node"), "Service request /BufferWrite %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->buffer.layout.dim[0].size);
 
   std::string message;
@@ -455,7 +455,7 @@ void IIONode::buffCreateSrv(
   }
 
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"),
+    rclcpp::get_logger("adi_iio_node"),
     "Service request /BufferCreate %s - %s - %d samples",
     request->device_path.c_str(), channels.c_str(), request->samples_count);
 
@@ -493,7 +493,7 @@ void IIONode::buffDestroySrv(
   std::shared_ptr<adi_iio::srv::BufferDestroy::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"),
+    rclcpp::get_logger("adi_iio_node"),
     "Service request /BufferDestroy %s", request->device_path.c_str());
 
   std::string msg;
@@ -523,7 +523,7 @@ void IIONode::buffEnableTopicSrv(
   std::shared_ptr<adi_iio::srv::BufferEnableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"),
+    rclcpp::get_logger("adi_iio_node"),
     "Service request /BufferEnableTopic %s", request->device_path.c_str());
 
   std::string msg;
@@ -550,7 +550,7 @@ void IIONode::buffDisableTopicSrv(
   std::shared_ptr<adi_iio::srv::BufferDisableTopic::Response> response)
 {
   RCLCPP_INFO(
-    rclcpp::get_logger("rclcpp"),
+    rclcpp::get_logger("adi_iio_node"),
     "Service request /BufferDisableTopic %s", request->device_path.c_str());
 
   std::string msg;
@@ -576,7 +576,7 @@ void IIONode::listDevicesSrv(
   const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
   std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListDevices");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListDevices");
   std::string msg;
 
   IIOPath path("");
@@ -598,7 +598,7 @@ void IIONode::listChannelsSrv(
   const std::shared_ptr<adi_iio::srv::ListChannels::Request> request,
   std::shared_ptr<adi_iio::srv::ListChannels::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListChannels");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListChannels");
   std::string msg;
 
   IIOPath path(request->iio_path);
@@ -635,7 +635,7 @@ void IIONode::listAttributesSrv(
   const std::shared_ptr<adi_iio::srv::ListAttributes::Request> request,
   std::shared_ptr<adi_iio::srv::ListAttributes::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ListAttributes");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListAttributes");
   std::string msg;
   std::vector<std::string> data;
 
@@ -720,7 +720,7 @@ void IIONode::scanContextSrv(
   const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
   std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
 {
-  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Service request /ScanContext");
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ScanContext");
   std::string msg{"Found: "};
   std::vector<std::string> devices;
   std::vector<std::string> channels;
