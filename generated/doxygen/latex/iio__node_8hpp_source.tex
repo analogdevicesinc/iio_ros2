@@ -40,81 +40,130 @@
 \DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/buffer\_write.hpp"{}}}
 \DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/buffer\_enable\_topic.hpp"{}}}
 \DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/buffer\_disable\_topic.hpp"{}}}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIOAttrTopic}{IIOAttrTopic}};}
-\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIOBuffer}{IIOBuffer}};}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIONode}{IIONode}}\ :\ \textcolor{keyword}{public}\ rclcpp::Node}
-\DoxyCodeLine{00044\ \{}
-\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00046\ \ \ \mbox{\hyperlink{classIIONode}{IIONode}}();}
-\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classIIONode}{\string~IIONode}}();}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \textcolor{keywordtype}{void}\ initBuffers();}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \textcolor{keywordtype}{bool}\ rwAttrPath(}
-\DoxyCodeLine{00052\ \ \ \ \ std::string\ path,\ std::string\ \&\ result,\ \textcolor{keywordtype}{bool}\ write\ =\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00053\ \ \ \ \ std::string\ value\ =\ \textcolor{stringliteral}{"{}"{}});}
-\DoxyCodeLine{00054\ \ \ std::string\ convertAttrPathToTopicName(std::string\ path);}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \textcolor{comment}{//\ service\ handlers}}
-\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{void}\ attrReadSrv(}
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrReadString::Request>\ request,}
-\DoxyCodeLine{00059\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrReadString::Response>\ response);}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{void}\ attrWriteSrv(}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrWriteString::Request>\ request,}
-\DoxyCodeLine{00063\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrWriteString::Response>\ response);}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \textcolor{keywordtype}{void}\ attrEnableTopicSrv(}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrEnableTopic::Request>\ request,}
-\DoxyCodeLine{00067\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrEnableTopic::Response>\ response);}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \textcolor{keywordtype}{void}\ attrDisableTopicSrv(}
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrDisableTopic::Request>\ request,}
-\DoxyCodeLine{00071\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrDisableTopic::Response>\ response);}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{void}\ buffRefillSrv(}
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferRefill::Request>\ request,}
-\DoxyCodeLine{00075\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferRefill::Response>\ response);}
-\DoxyCodeLine{00076\ }
-\DoxyCodeLine{00077\ \ \ \textcolor{keywordtype}{void}\ buffReadSrv(}
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferRead::Request>\ request,}
-\DoxyCodeLine{00079\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferRead::Response>\ response);}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \ \ \textcolor{keywordtype}{void}\ buffWriteSrv(}
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferWrite::Request>\ request,}
-\DoxyCodeLine{00083\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferWrite::Response>\ response);}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{void}\ buffCreateSrv(}
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferCreate::Request>\ request,}
-\DoxyCodeLine{00087\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferCreate::Response>\ response);}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \ \ \textcolor{keywordtype}{void}\ buffDestroySrv(}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferDestroy::Request>\ request,}
-\DoxyCodeLine{00091\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferDestroy::Response>\ response);}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \textcolor{keywordtype}{void}\ buffEnableTopicSrv(}
-\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferEnableTopic::Request>\ request,}
-\DoxyCodeLine{00095\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferEnableTopic::Response>\ response);}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \textcolor{keywordtype}{void}\ buffDisableTopicSrv(}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferDisableTopic::Request>\ request,}
-\DoxyCodeLine{00099\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferDisableTopic::Response>\ response);}
-\DoxyCodeLine{00100\ \ \ \textcolor{comment}{//\ getters}}
-\DoxyCodeLine{00101\ \ \ std::string\ uri();}
-\DoxyCodeLine{00102\ \ \ \textcolor{keywordtype}{bool}\ initialized();}
-\DoxyCodeLine{00103\ \ \ iio\_context\ *\ ctx();}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00106\ \ \ \textcolor{keywordtype}{bool}\ m\_initialized;}
-\DoxyCodeLine{00107\ \ \ std::string\ m\_uri;}
-\DoxyCodeLine{00108\ \ \ iio\_context\ *\ m\_ctx;}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00110\ \ \ std::map<std::string,\ std::shared\_ptr<IIOAttrTopic>>\ m\_attrTopicMap;}
-\DoxyCodeLine{00111\ \ \ std::map<std::string,\ std::shared\_ptr<IIOBuffer>>\ m\_bufferMap;}
-\DoxyCodeLine{00112\ \};}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ ADI\_IIO\_\_IIO\_NODE\_HPP\_}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/list\_devices.hpp"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/list\_channels.hpp"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/list\_attributes.hpp"{}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}adi\_iio/srv/scan\_context.hpp"{}}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIOAttrTopic}{IIOAttrTopic}};}
+\DoxyCodeLine{00045\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIOBuffer}{IIOBuffer}};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classIIONode}{IIONode}}\ :\ \textcolor{keyword}{public}\ rclcpp::Node}
+\DoxyCodeLine{00048\ \{}
+\DoxyCodeLine{00049\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00050\ \ \ \mbox{\hyperlink{classIIONode}{IIONode}}();}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classIIONode}{\string~IIONode}}();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \textcolor{keywordtype}{void}\ initBuffers();}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordtype}{bool}\ rwAttrPath(}
+\DoxyCodeLine{00056\ \ \ \ \ std::string\ path,\ std::string\ \&\ result,\ \textcolor{keywordtype}{bool}\ write\ =\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00057\ \ \ \ \ std::string\ value\ =\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \textcolor{comment}{//\ service\ handlers}}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordtype}{void}\ attrReadSrv(}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrReadString::Request>\ request,}
+\DoxyCodeLine{00062\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrReadString::Response>\ response);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{void}\ attrWriteSrv(}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrWriteString::Request>\ request,}
+\DoxyCodeLine{00066\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrWriteString::Response>\ response);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{void}\ attrEnableTopicSrv(}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrEnableTopic::Request>\ request,}
+\DoxyCodeLine{00070\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrEnableTopic::Response>\ response);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{void}\ attrDisableTopicSrv(}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::AttrDisableTopic::Request>\ request,}
+\DoxyCodeLine{00074\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::AttrDisableTopic::Response>\ response);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{void}\ buffRefillSrv(}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferRefill::Request>\ request,}
+\DoxyCodeLine{00078\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferRefill::Response>\ response);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \textcolor{keywordtype}{void}\ buffReadSrv(}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferRead::Request>\ request,}
+\DoxyCodeLine{00082\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferRead::Response>\ response);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keywordtype}{void}\ buffWriteSrv(}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferWrite::Request>\ request,}
+\DoxyCodeLine{00086\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferWrite::Response>\ response);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordtype}{void}\ buffCreateSrv(}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferCreate::Request>\ request,}
+\DoxyCodeLine{00090\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferCreate::Response>\ response);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \textcolor{keywordtype}{void}\ buffDestroySrv(}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferDestroy::Request>\ request,}
+\DoxyCodeLine{00094\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferDestroy::Response>\ response);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \textcolor{keywordtype}{void}\ buffEnableTopicSrv(}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferEnableTopic::Request>\ request,}
+\DoxyCodeLine{00098\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferEnableTopic::Response>\ response);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \textcolor{keywordtype}{void}\ buffDisableTopicSrv(}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::BufferDisableTopic::Request>\ request,}
+\DoxyCodeLine{00102\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::BufferDisableTopic::Response>\ response);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{keywordtype}{void}\ listDevicesSrv(}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::ListDevices::Request>\ request,}
+\DoxyCodeLine{00106\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::ListDevices::Response>\ response);}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{void}\ listChannelsSrv(}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::ListChannels::Request>\ request,}
+\DoxyCodeLine{00110\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::ListChannels::Response>\ response);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \textcolor{keywordtype}{void}\ listAttributesSrv(}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::ListAttributes::Request>\ request,}
+\DoxyCodeLine{00114\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::ListAttributes::Response>\ response);}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordtype}{void}\ scanContextSrv(}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<adi\_iio::srv::ScanContext::Request>\ request,}
+\DoxyCodeLine{00118\ \ \ \ \ std::shared\_ptr<adi\_iio::srv::ScanContext::Response>\ response}
+\DoxyCodeLine{00119\ \ \ );}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \textcolor{comment}{//\ getters}}
+\DoxyCodeLine{00122\ \ \ std::string\ uri();}
+\DoxyCodeLine{00123\ \ \ \textcolor{keywordtype}{bool}\ initialized();}
+\DoxyCodeLine{00124\ \ \ iio\_context\ *\ ctx();}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00127\ \ \ std::vector<iio\_device\ *>\ getDevices(iio\_context\ *\ ctx);}
+\DoxyCodeLine{00128\ \ \ std::vector<iio\_channel\ *>\ getChannels(iio\_device\ *\ device);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00131\ \ \ \textcolor{keywordtype}{void}\ setErrorResponse(T\ \&\ response,\ \textcolor{keyword}{const}\ std::string\ \&\ message)}
+\DoxyCodeLine{00132\ \ \ \{}
+\DoxyCodeLine{00133\ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}adi\_iio\_node"{}}),\ \textcolor{stringliteral}{"{}\%s"{}},\ message.c\_str());}
+\DoxyCodeLine{00134\ \ \ \ \ response-\/>success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00135\ \ \ \ \ response-\/>message\ =\ message;}
+\DoxyCodeLine{00136\ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00139\ \ \ \textcolor{keywordtype}{void}\ setWarningResponse(T\ \&\ response,\ \textcolor{keyword}{const}\ std::string\ \&\ message)}
+\DoxyCodeLine{00140\ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ RCLCPP\_DEBUG(rclcpp::get\_logger(\textcolor{stringliteral}{"{}adi\_iio\_node"{}}),\ \textcolor{stringliteral}{"{}Warning:\ \%s"{}},\ message.c\_str());}
+\DoxyCodeLine{00142\ \ \ \ \ response-\/>success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00143\ \ \ \ \ response-\/>message\ =\ message;}
+\DoxyCodeLine{00144\ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00147\ \ \ \textcolor{keywordtype}{void}\ setSuccessResponse(T\ \&\ response,\ \textcolor{keyword}{const}\ std::string\ \&\ message)}
+\DoxyCodeLine{00148\ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ RCLCPP\_DEBUG(rclcpp::get\_logger(\textcolor{stringliteral}{"{}adi\_iio\_node"{}}),\ \textcolor{stringliteral}{"{}Success:\ \%s"{}},\ message.c\_str());}
+\DoxyCodeLine{00150\ \ \ \ \ response-\/>success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00151\ \ \ \ \ response-\/>message\ =\ message;}
+\DoxyCodeLine{00152\ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00155\ \ \ \textcolor{keywordtype}{bool}\ m\_initialized;}
+\DoxyCodeLine{00156\ \ \ std::string\ m\_uri;}
+\DoxyCodeLine{00157\ \ \ iio\_context\ *\ m\_ctx;}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ std::map<std::string,\ std::shared\_ptr<IIOAttrTopic>>\ m\_attrTopicMap;}
+\DoxyCodeLine{00160\ \ \ std::map<std::string,\ std::shared\_ptr<IIOBuffer>>\ m\_bufferMap;}
+\DoxyCodeLine{00161\ \};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ ADI\_IIO\_\_IIO\_NODE\_HPP\_}}
 
 \end{DoxyCode}

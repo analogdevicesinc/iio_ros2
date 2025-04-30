@@ -130,9 +130,11 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="../generated/classIIOAttrTopic.html">Class IIOAttrTopic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/classIIOBuffer.html">Class IIOBuffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/classIIONode.html">Class IIONode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/classIIOPath.html">Class IIOPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/classInt32PubSub.html">Class Int32PubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/classStringPubSub.html">Class StringPubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/classUpdateCallback.html">Class UpdateCallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/function_adi__iio_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627.html">Function main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/define_attr__publisher_8hpp_1a7b4954fb15fbeef2a254059b795c1265.html">Define ATTR_QOS_QUEUE_SIZE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/define_attr__publisher_8hpp_1ad325bc9cd075a5679a4e1895dc52a5c8.html">Define ATTR_READ_SUFFIX</a></li>
@@ -180,6 +182,14 @@ Content on this topic
 <li class="toctree-l3"><a class="reference internal" href="../generated/program_listing_file_include_adi_iio_iio_node.hpp.html">Program Listing for File iio_node.hpp</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-10" id="toctree-collapse-2-10"/><div class="collapse"><a class="reference internal" href="../generated/file_src_iio_path.cpp.html">File iio_path.cpp</a><label for="toctree-collapse-2-10"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="../generated/program_listing_file_src_iio_path.cpp.html">Program Listing for File iio_path.cpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-11" id="toctree-collapse-2-11"/><div class="collapse"><a class="reference internal" href="../generated/file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a><label for="toctree-collapse-2-11"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="../generated/program_listing_file_include_adi_iio_iio_path.hpp.html">Program Listing for File iio_path.hpp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1 current"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3" checked=""/><div class="collapse"><a class="reference internal" href="../__service_definitions.html">Service Definitions</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul class="current">
@@ -194,6 +204,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="BufferRead.html">BufferRead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BufferRefill.html">BufferRefill</a></li>
 <li class="toctree-l2"><a class="reference internal" href="BufferWrite.html">BufferWrite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ListAttributes.html">ListAttributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ListChannels.html">ListChannels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ListDevices.html">ListDevices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ScanContext.html">ScanContext</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
@@ -237,37 +251,13 @@ Content on this topic
 <h1>AttrDisableTopic<a class="headerlink" href="#attrdisabletopic" title="Link to this heading"></a></h1>
 <p>This is a ROS service definition.</p>
 <p><strong>Source</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">################################################################################</span>
-<span class="c1"># @file   AttrDisableTopic.srv</span>
-<span class="c1"># @author Adrian-Stanea (Adrian.Stanea@analog.com)</span>
-<span class="c1">#</span>
-<span class="c1"># SPDX-License-Identifier: Apache-2.0 (see LICENSE file)</span>
-<span class="c1"># Copyright (c) 2025 Analog Devices, Inc.</span>
-<span class="c1">################################################################################</span>
-<span class="c1">#</span>
-<span class="c1"># Description:</span>
-<span class="c1">#   Disables a topic for a specific attribute.</span>
-<span class="c1">#</span>
-<span class="c1"># Request:</span>
-<span class="c1">#   attr_path (string):</span>
-<span class="c1">#       - Description: The path to the attribute to be disabled.</span>
-<span class="c1">#</span>
-<span class="c1"># Response:</span>
-<span class="c1">#   success (boolean):</span>
-<span class="c1">#       - Description: Indicates if the operation was successful.</span>
-<span class="c1">#   message (string):</span>
-<span class="c1">#       - Description: Provides additional information.</span>
-<span class="c1">#</span>
-<span class="c1">################################################################################</span>
-
-
-<span class="n">int8</span> <span class="n">STRING</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">int8</span> <span class="n">STRING</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">int8</span> <span class="n">INT</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">int8</span> <span class="n">DOUBLE</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">int8</span> <span class="n">BOOL</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="n">string</span> <span class="n">topic_name</span>
-<span class="n">int8</span> <span class="nb">type</span> <span class="mi">0</span>
+<span class="n">int8</span> <span class="nb">type</span> <span class="mi">0</span> <span class="c1"># String: 0, Int: 1, Double: 2, Bool: 3</span>
 <span class="o">---</span>
 <span class="nb">bool</span> <span class="n">success</span>
 <span class="n">string</span> <span class="n">message</span>

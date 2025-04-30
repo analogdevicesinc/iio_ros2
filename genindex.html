@@ -124,9 +124,11 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIOAttrTopic.html">Class IIOAttrTopic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIOBuffer.html">Class IIOBuffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIONode.html">Class IIONode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/classIIOPath.html">Class IIOPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classInt32PubSub.html">Class Int32PubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classStringPubSub.html">Class StringPubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classUpdateCallback.html">Class UpdateCallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/function_adi__iio_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627.html">Function main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/define_attr__publisher_8hpp_1a7b4954fb15fbeef2a254059b795c1265.html">Define ATTR_QOS_QUEUE_SIZE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/define_attr__publisher_8hpp_1ad325bc9cd075a5679a4e1895dc52a5c8.html">Define ATTR_READ_SUFFIX</a></li>
@@ -174,6 +176,14 @@ Content on this topic
 <li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_include_adi_iio_iio_node.hpp.html">Program Listing for File iio_node.hpp</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-10" id="toctree-collapse-2-10"/><div class="collapse"><a class="reference internal" href="generated/file_src_iio_path.cpp.html">File iio_path.cpp</a><label for="toctree-collapse-2-10"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_src_iio_path.cpp.html">Program Listing for File iio_path.cpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-11" id="toctree-collapse-2-11"/><div class="collapse"><a class="reference internal" href="generated/file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a><label for="toctree-collapse-2-11"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_include_adi_iio_iio_path.hpp.html">Program Listing for File iio_path.hpp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="__service_definitions.html">Service Definitions</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
@@ -188,6 +198,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferRead.html">BufferRead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferRefill.html">BufferRefill</a></li>
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferWrite.html">BufferWrite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListAttributes.html">ListAttributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListChannels.html">ListChannels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListDevices.html">ListDevices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ScanContext.html">ScanContext</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
@@ -351,8 +365,6 @@ Content on this topic
 </li>
       <li><a href="generated/classIIOBuffer.html#_CPPv4N9IIOBuffer17set_samples_countE7int32_t">IIOBuffer::set_samples_count (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="generated/classIIOBuffer.html#_CPPv4N9IIOBuffer13topic_enabledEv">IIOBuffer::topic_enabled (C++ function)</a>
 </li>
       <li><a href="generated/classIIOBuffer.html#_CPPv4N9IIOBufferD0Ev">IIOBuffer::~IIOBuffer (C++ function)</a>
@@ -381,9 +393,13 @@ Content on this topic
 </li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode12buffWriteSrvEKNSt10shared_ptrIN7adi_iio3srv11BufferWrite7RequestEEENSt10shared_ptrIN7adi_iio3srv11BufferWrite8ResponseEEE">IIONode::buffWriteSrv (C++ function)</a>
 </li>
-      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode26convertAttrPathToTopicNameENSt6stringE">IIONode::convertAttrPathToTopicName (C++ function)</a>
-</li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode3ctxEv">IIONode::ctx (C++ function)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode11getChannelsEP10iio_device">IIONode::getChannels (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode10getDevicesEP11iio_context">IIONode::getDevices (C++ function)</a>
 </li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode7IIONodeEv">IIONode::IIONode (C++ function)</a>
 </li>
@@ -391,11 +407,69 @@ Content on this topic
 </li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode11initializedEv">IIONode::initialized (C++ function)</a>
 </li>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode17listAttributesSrvEKNSt10shared_ptrIN7adi_iio3srv14ListAttributes7RequestEEENSt10shared_ptrIN7adi_iio3srv14ListAttributes8ResponseEEE">IIONode::listAttributesSrv (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode15listChannelsSrvEKNSt10shared_ptrIN7adi_iio3srv12ListChannels7RequestEEENSt10shared_ptrIN7adi_iio3srv12ListChannels8ResponseEEE">IIONode::listChannelsSrv (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode14listDevicesSrvEKNSt10shared_ptrIN7adi_iio3srv11ListDevices7RequestEEENSt10shared_ptrIN7adi_iio3srv11ListDevices8ResponseEEE">IIONode::listDevicesSrv (C++ function)</a>
+</li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode10rwAttrPathENSt6stringERNSt6stringEbNSt6stringE">IIONode::rwAttrPath (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4N7IIONode14scanContextSrvEKNSt10shared_ptrIN7adi_iio3srv11ScanContext7RequestEEENSt10shared_ptrIN7adi_iio3srv11ScanContext8ResponseEEE">IIONode::scanContextSrv (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4I0EN7IIONode16setErrorResponseEvR1TRKNSt6stringE">IIONode::setErrorResponse (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4I0EN7IIONode18setSuccessResponseEvR1TRKNSt6stringE">IIONode::setSuccessResponse (C++ function)</a>
+</li>
+      <li><a href="generated/classIIONode.html#_CPPv4I0EN7IIONode18setWarningResponseEvR1TRKNSt6stringE">IIONode::setWarningResponse (C++ function)</a>
 </li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONode3uriEv">IIONode::uri (C++ function)</a>
 </li>
       <li><a href="generated/classIIONode.html#_CPPv4N7IIONodeD0Ev">IIONode::~IIONode (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv47IIOPath">IIOPath (C++ class)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath6appendERKNSt6stringE">IIOPath::append (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath8basePathEv">IIOPath::basePath (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath21getChannelAttrSegmentEv">IIOPath::getChannelAttrSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath17getChannelSegmentEv">IIOPath::getChannelSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath21getContextAttrSegmentEv">IIOPath::getContextAttrSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath20getDeviceAttrSegmentEv">IIOPath::getDeviceAttrSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath16getDeviceSegmentEv">IIOPath::getDeviceSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath25getExtendedChannelSegmentEv">IIOPath::getExtendedChannelSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4NK7IIOPath24hasExtendedChannelFormatEv">IIOPath::hasExtendedChannelFormat (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath7IIOPathENSt6stringEc">IIOPath::IIOPath (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath7isValidEK11IIOPathType">IIOPath::isValid (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath5splitERKNSt6stringE">IIOPath::split (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath24toExtendedChannelSegmentEbNSt6stringE">IIOPath::toExtendedChannelSegment (C++ function)</a>
+</li>
+      <li><a href="generated/classIIOPath.html#_CPPv4N7IIOPath11toTopicNameENSt6stringE">IIOPath::toTopicName (C++ function)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv411IIOPathType">IIOPathType (C++ enum)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType7CHANNELE">IIOPathType::CHANNEL (C++ enumerator)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType12CHANNEL_ATTRE">IIOPathType::CHANNEL_ATTR (C++ enumerator)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType7CONTEXTE">IIOPathType::CONTEXT (C++ enumerator)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType12CONTEXT_ATTRE">IIOPathType::CONTEXT_ATTR (C++ enumerator)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType6DEVICEE">IIOPathType::DEVICE (C++ enumerator)</a>
+</li>
+      <li><a href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#_CPPv4N11IIOPathType11DEVICE_ATTRE">IIOPathType::DEVICE_ATTR (C++ enumerator)</a>
 </li>
       <li><a href="generated/classInt32PubSub.html#_CPPv411Int32PubSub">Int32PubSub (C++ class)</a>
 </li>

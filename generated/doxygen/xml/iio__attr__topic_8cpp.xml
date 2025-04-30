@@ -7,7 +7,7 @@
     <includes refid="iio__node_8hpp" local="yes">adi_iio/iio_node.hpp</includes>
     <includes refid="attr__publisher_8hpp" local="yes">adi_iio/attr_publisher.hpp</includes>
     <incdepgraph>
-      <node id="24">
+      <node id="28">
         <label>adi_iio/attr_publisher.hpp</label>
         <link refid="attr__publisher_8hpp_source"/>
         <childnode refid="5" relation="include">
@@ -18,11 +18,11 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -82,6 +82,14 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>src/iio_attr_topic.cpp</label>
@@ -92,7 +100,7 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -128,6 +136,18 @@
       <node id="21">
         <label>adi_iio/srv/buffer_write.hpp</label>
       </node>
+      <node id="26">
+        <label>adi_iio/srv/list_attributes.hpp</label>
+      </node>
+      <node id="25">
+        <label>adi_iio/srv/list_channels.hpp</label>
+      </node>
+      <node id="24">
+        <label>adi_iio/srv/list_devices.hpp</label>
+      </node>
+      <node id="27">
+        <label>adi_iio/srv/scan_context.hpp</label>
+      </node>
       <node id="10">
         <label>chrono</label>
       </node>
@@ -146,13 +166,13 @@
       <node id="7">
         <label>rclcpp/rclcpp.hpp</label>
       </node>
-      <node id="26">
+      <node id="30">
         <label>std_msgs/msg/bool.hpp</label>
       </node>
-      <node id="27">
+      <node id="31">
         <label>std_msgs/msg/float32.hpp</label>
       </node>
-      <node id="25">
+      <node id="29">
         <label>std_msgs/msg/int32.hpp</label>
       </node>
       <node id="8">
@@ -195,7 +215,7 @@
 <codeline lineno="23"><highlight class="normal"><sp/><sp/>topicType_t<sp/>type,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>loopRate)</highlight></codeline>
 <codeline lineno="24"><highlight class="normal">:<sp/>m_loopRate(loopRate)</highlight></codeline>
 <codeline lineno="25"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;rclcpp&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Created<sp/>IIOAttrTopic&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;adi_iio_node&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Created<sp/>IIOAttrTopic&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/>m_nh<sp/>=<sp/>nh;</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/>m_attrPath<sp/>=<sp/>attrPath;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/>m_topicName<sp/>=<sp/>topicName;</highlight></codeline>
@@ -226,7 +246,7 @@
 <codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_th.joinable())<sp/>{</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>m_th.join();</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;rclcpp&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Deleted<sp/>IIOAttrTopic&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;adi_iio_node&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Deleted<sp/>IIOAttrTopic&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="58"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IIOAttrTopic::publishingLoop()</highlight></codeline>

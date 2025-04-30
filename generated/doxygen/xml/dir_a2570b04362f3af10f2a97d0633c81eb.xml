@@ -6,6 +6,7 @@
     <innerfile refid="iio__attr__topic_8hpp">iio_attr_topic.hpp</innerfile>
     <innerfile refid="iio__buffer_8hpp">iio_buffer.hpp</innerfile>
     <innerfile refid="iio__node_8hpp">iio_node.hpp</innerfile>
+    <innerfile refid="iio__path_8hpp">iio_path.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

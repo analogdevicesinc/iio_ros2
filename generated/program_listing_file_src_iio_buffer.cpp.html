@@ -130,9 +130,11 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="classIIOAttrTopic.html">Class IIOAttrTopic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classIIOBuffer.html">Class IIOBuffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classIIONode.html">Class IIONode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classIIOPath.html">Class IIOPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classInt32PubSub.html">Class Int32PubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classStringPubSub.html">Class StringPubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classUpdateCallback.html">Class UpdateCallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_adi__iio_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627.html">Function main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_attr__publisher_8hpp_1a7b4954fb15fbeef2a254059b795c1265.html">Define ATTR_QOS_QUEUE_SIZE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_attr__publisher_8hpp_1ad325bc9cd075a5679a4e1895dc52a5c8.html">Define ATTR_READ_SUFFIX</a></li>
@@ -180,6 +182,14 @@ Content on this topic
 <li class="toctree-l3"><a class="reference internal" href="program_listing_file_include_adi_iio_iio_node.hpp.html">Program Listing for File iio_node.hpp</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-10" id="toctree-collapse-2-10"/><div class="collapse"><a class="reference internal" href="file_src_iio_path.cpp.html">File iio_path.cpp</a><label for="toctree-collapse-2-10"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="program_listing_file_src_iio_path.cpp.html">Program Listing for File iio_path.cpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-11" id="toctree-collapse-2-11"/><div class="collapse"><a class="reference internal" href="file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a><label for="toctree-collapse-2-11"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="program_listing_file_include_adi_iio_iio_path.hpp.html">Program Listing for File iio_path.hpp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../__service_definitions.html">Service Definitions</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
@@ -194,6 +204,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferRead.html">BufferRead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferRefill.html">BufferRefill</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferWrite.html">BufferWrite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListAttributes.html">ListAttributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListChannels.html">ListChannels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListDevices.html">ListDevices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ScanContext.html">ScanContext</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
@@ -252,6 +266,7 @@ Content on this topic
 <span class="c1">// limitations under the License.</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;adi_iio/iio_buffer.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;adi_iio/iio_path.hpp&quot;</span>
 
 <span class="n">IIOBuffer</span><span class="o">::</span><span class="n">IIOBuffer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IIONode</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nh</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">device_path</span><span class="p">)</span>
 <span class="p">{</span>
@@ -279,7 +294,7 @@ Content on this topic
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">m_mutex</span><span class="p">);</span>
 <span class="w">    </span><span class="n">iio_buffer_destroy</span><span class="p">(</span><span class="n">m_buffer</span><span class="p">);</span>
 <span class="w">    </span><span class="n">m_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
-<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Destroyed buffer %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">m_buffer</span><span class="p">);</span>
+<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Destroyed buffer %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">m_buffer</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
@@ -323,7 +338,7 @@ Content on this topic
 <span class="w">  </span><span class="c1">// disable all channels</span>
 <span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">iio_device_get_channels_count</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">iio_channel_disable</span><span class="p">(</span><span class="n">iio_device_get_channel</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
-<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Disabling channel %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Disabling channel %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="c1">// enable channels</span>
@@ -338,7 +353,7 @@ Content on this topic
 <span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">iio_channel_enable</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
-<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Enabling channel %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">channel</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Enabling channel %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">channel</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="n">m_canceled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
@@ -346,7 +361,8 @@ Content on this topic
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_buffer</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strerror</span><span class="p">(</span><span class="o">-</span><span class="n">errno</span><span class="p">);</span>
 <span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span>
-<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;could not create buffer in device </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s"> - errno %d - %s&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;could not create buffer in device </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s"> - errno %d - %s&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="n">m_device_path</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">errno</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <span class="w">  </span><span class="p">}</span>
@@ -362,7 +378,7 @@ Content on this topic
 <span class="w">  </span><span class="n">m_data</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">dim</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_channels</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
 
 
-<span class="w">  </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Created buffer %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">m_buffer</span><span class="p">);</span>
+<span class="w">  </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Created buffer %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">m_buffer</span><span class="p">);</span>
 <span class="w">  </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Success&quot;</span><span class="p">;</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
@@ -377,12 +393,13 @@ Content on this topic
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_buffer_refill</span><span class="p">(</span><span class="n">m_buffer</span><span class="p">);</span>
-<span class="w">  </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Refilled buffer with %ld bytes from HW&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">  </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Refilled buffer with %ld bytes from HW&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
 
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strerror</span><span class="p">(</span><span class="o">-</span><span class="n">errno</span><span class="p">);</span>
 <span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span>
-<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;could not refill buffer in device </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s"> - errno %d - %s&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;could not refill buffer in device </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s"> - errno %d - %s&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="n">m_device_path</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">errno</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <span class="w">  </span><span class="p">}</span>
@@ -443,9 +460,9 @@ Content on this topic
 <span class="w">  </span><span class="n">m_stopThread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">topic_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">m_topic_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_nh</span><span class="o">-&gt;</span><span class="n">convertAttrPathToTopicName</span><span class="p">(</span><span class="n">m_device_path</span><span class="p">);</span>
+<span class="w">    </span><span class="n">m_topic_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">toTopicName</span><span class="p">(</span><span class="n">m_device_path</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">m_topic_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_nh</span><span class="o">-&gt;</span><span class="n">convertAttrPathToTopicName</span><span class="p">(</span><span class="n">topic_name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">m_topic_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">toTopicName</span><span class="p">(</span><span class="n">topic_name</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 
 
@@ -481,7 +498,7 @@ Content on this topic
 <span class="w">    </span><span class="n">m_th</span><span class="p">.</span><span class="n">join</span><span class="p">();</span><span class="w">  </span><span class="c1">// stop thread</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="w">  </span><span class="n">m_pub</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span><span class="w">  </span><span class="c1">// destroy topic</span>
-<span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Disabled IIOBuffer topic&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Disabled IIOBuffer topic&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>

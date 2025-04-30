@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classIIONode-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">IIONode Class Reference</div></div>
@@ -105,9 +106,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>initBuffers</b> ()</t
 <tr class="memitem:a3f9c635e8474656d4adbf64f68a51968" id="r_a3f9c635e8474656d4adbf64f68a51968"><td class="memItemLeft" align="right" valign="top"><a id="a3f9c635e8474656d4adbf64f68a51968" name="a3f9c635e8474656d4adbf64f68a51968"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>rwAttrPath</b> (std::string path, std::string &amp;result, bool write=false, std::string value=&quot;&quot;)</td></tr>
 <tr class="separator:a3f9c635e8474656d4adbf64f68a51968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8897d0c9a1ebd552b92144fa4625773a" id="r_a8897d0c9a1ebd552b92144fa4625773a"><td class="memItemLeft" align="right" valign="top"><a id="a8897d0c9a1ebd552b92144fa4625773a" name="a8897d0c9a1ebd552b92144fa4625773a"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>convertAttrPathToTopicName</b> (std::string path)</td></tr>
-<tr class="separator:a8897d0c9a1ebd552b92144fa4625773a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e8f4014e44c2c8ddeebb2794d270b9e" id="r_a2e8f4014e44c2c8ddeebb2794d270b9e"><td class="memItemLeft" align="right" valign="top"><a id="a2e8f4014e44c2c8ddeebb2794d270b9e" name="a2e8f4014e44c2c8ddeebb2794d270b9e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>attrReadSrv</b> (const std::shared_ptr&lt; adi_iio::srv::AttrReadString::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::AttrReadString::Response &gt; response)</td></tr>
 <tr class="separator:a2e8f4014e44c2c8ddeebb2794d270b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +139,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>buffEnableTopicSrv</b
 <tr class="memitem:a6e554d1a16a1ae26a36d9d8572bb22b3" id="r_a6e554d1a16a1ae26a36d9d8572bb22b3"><td class="memItemLeft" align="right" valign="top"><a id="a6e554d1a16a1ae26a36d9d8572bb22b3" name="a6e554d1a16a1ae26a36d9d8572bb22b3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>buffDisableTopicSrv</b> (const std::shared_ptr&lt; adi_iio::srv::BufferDisableTopic::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::BufferDisableTopic::Response &gt; response)</td></tr>
 <tr class="separator:a6e554d1a16a1ae26a36d9d8572bb22b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeaf85bb9910cf6136312b053dd0cbdd" id="r_aeeaf85bb9910cf6136312b053dd0cbdd"><td class="memItemLeft" align="right" valign="top"><a id="aeeaf85bb9910cf6136312b053dd0cbdd" name="aeeaf85bb9910cf6136312b053dd0cbdd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>listDevicesSrv</b> (const std::shared_ptr&lt; adi_iio::srv::ListDevices::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::ListDevices::Response &gt; response)</td></tr>
+<tr class="separator:aeeaf85bb9910cf6136312b053dd0cbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41180804d9c608a561100547404d2ada" id="r_a41180804d9c608a561100547404d2ada"><td class="memItemLeft" align="right" valign="top"><a id="a41180804d9c608a561100547404d2ada" name="a41180804d9c608a561100547404d2ada"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>listChannelsSrv</b> (const std::shared_ptr&lt; adi_iio::srv::ListChannels::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::ListChannels::Response &gt; response)</td></tr>
+<tr class="separator:a41180804d9c608a561100547404d2ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4603ed67d5f52cad32d29f565d48d3f" id="r_af4603ed67d5f52cad32d29f565d48d3f"><td class="memItemLeft" align="right" valign="top"><a id="af4603ed67d5f52cad32d29f565d48d3f" name="af4603ed67d5f52cad32d29f565d48d3f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>listAttributesSrv</b> (const std::shared_ptr&lt; adi_iio::srv::ListAttributes::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::ListAttributes::Response &gt; response)</td></tr>
+<tr class="separator:af4603ed67d5f52cad32d29f565d48d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace14a3b747fecf5b3f75394524be137a" id="r_ace14a3b747fecf5b3f75394524be137a"><td class="memItemLeft" align="right" valign="top"><a id="ace14a3b747fecf5b3f75394524be137a" name="ace14a3b747fecf5b3f75394524be137a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>scanContextSrv</b> (const std::shared_ptr&lt; adi_iio::srv::ScanContext::Request &gt; request, std::shared_ptr&lt; adi_iio::srv::ScanContext::Response &gt; response)</td></tr>
+<tr class="separator:ace14a3b747fecf5b3f75394524be137a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af780b284db2534067c3f8c7a07709102" id="r_af780b284db2534067c3f8c7a07709102"><td class="memItemLeft" align="right" valign="top"><a id="af780b284db2534067c3f8c7a07709102" name="af780b284db2534067c3f8c7a07709102"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>uri</b> ()</td></tr>
 <tr class="separator:af780b284db2534067c3f8c7a07709102"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,6 +160,27 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>initialized</b> ()</t
 <tr class="memitem:a301cc76f2facea0820db39ef3803875a" id="r_a301cc76f2facea0820db39ef3803875a"><td class="memItemLeft" align="right" valign="top"><a id="a301cc76f2facea0820db39ef3803875a" name="a301cc76f2facea0820db39ef3803875a"></a>
 iio_context *&#160;</td><td class="memItemRight" valign="bottom"><b>ctx</b> ()</td></tr>
 <tr class="separator:a301cc76f2facea0820db39ef3803875a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aeb5105d803695cec79ac3c7a30bfc826" id="r_aeb5105d803695cec79ac3c7a30bfc826"><td class="memItemLeft" align="right" valign="top"><a id="aeb5105d803695cec79ac3c7a30bfc826" name="aeb5105d803695cec79ac3c7a30bfc826"></a>
+std::vector&lt; iio_device * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getDevices</b> (iio_context *ctx)</td></tr>
+<tr class="separator:aeb5105d803695cec79ac3c7a30bfc826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834996ce9063d29559bf31ca98a3ee73" id="r_a834996ce9063d29559bf31ca98a3ee73"><td class="memItemLeft" align="right" valign="top"><a id="a834996ce9063d29559bf31ca98a3ee73" name="a834996ce9063d29559bf31ca98a3ee73"></a>
+std::vector&lt; iio_channel * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getChannels</b> (iio_device *device)</td></tr>
+<tr class="separator:a834996ce9063d29559bf31ca98a3ee73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b15b9dd484f7ae795fc6881e300a5b8" id="r_a1b15b9dd484f7ae795fc6881e300a5b8"><td class="memTemplParams" colspan="2"><a id="a1b15b9dd484f7ae795fc6881e300a5b8" name="a1b15b9dd484f7ae795fc6881e300a5b8"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1b15b9dd484f7ae795fc6881e300a5b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>setErrorResponse</b> (T &amp;response, const std::string &amp;message)</td></tr>
+<tr class="separator:a1b15b9dd484f7ae795fc6881e300a5b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65e793468c64b18052a49a179b3de8ce" id="r_a65e793468c64b18052a49a179b3de8ce"><td class="memTemplParams" colspan="2"><a id="a65e793468c64b18052a49a179b3de8ce" name="a65e793468c64b18052a49a179b3de8ce"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a65e793468c64b18052a49a179b3de8ce"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>setWarningResponse</b> (T &amp;response, const std::string &amp;message)</td></tr>
+<tr class="separator:a65e793468c64b18052a49a179b3de8ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57560c8af1e5dc017ddae36555e30d99" id="r_a57560c8af1e5dc017ddae36555e30d99"><td class="memTemplParams" colspan="2"><a id="a57560c8af1e5dc017ddae36555e30d99" name="a57560c8af1e5dc017ddae36555e30d99"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a57560c8af1e5dc017ddae36555e30d99"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>setSuccessResponse</b> (T &amp;response, const std::string &amp;message)</td></tr>
+<tr class="separator:a57560c8af1e5dc017ddae36555e30d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>

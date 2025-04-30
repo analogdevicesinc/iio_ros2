@@ -29,9 +29,6 @@ void {\bfseries init\+Buffers} ()
 \Hypertarget{classIIONode_a3f9c635e8474656d4adbf64f68a51968}\label{classIIONode_a3f9c635e8474656d4adbf64f68a51968} 
 bool {\bfseries rw\+Attr\+Path} (std\+::string path, std\+::string \&result, bool write=false, std\+::string value="{}"{})
 \item 
-\Hypertarget{classIIONode_a8897d0c9a1ebd552b92144fa4625773a}\label{classIIONode_a8897d0c9a1ebd552b92144fa4625773a} 
-std\+::string {\bfseries convert\+Attr\+Path\+To\+Topic\+Name} (std\+::string path)
-\item 
 \Hypertarget{classIIONode_a2e8f4014e44c2c8ddeebb2794d270b9e}\label{classIIONode_a2e8f4014e44c2c8ddeebb2794d270b9e} 
 void {\bfseries attr\+Read\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Attr\+Read\+String\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Attr\+Read\+String\+::\+Response $>$ response)
 \item 
@@ -65,6 +62,18 @@ void {\bfseries buff\+Enable\+Topic\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+
 \Hypertarget{classIIONode_a6e554d1a16a1ae26a36d9d8572bb22b3}\label{classIIONode_a6e554d1a16a1ae26a36d9d8572bb22b3} 
 void {\bfseries buff\+Disable\+Topic\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Buffer\+Disable\+Topic\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Buffer\+Disable\+Topic\+::\+Response $>$ response)
 \item 
+\Hypertarget{classIIONode_aeeaf85bb9910cf6136312b053dd0cbdd}\label{classIIONode_aeeaf85bb9910cf6136312b053dd0cbdd} 
+void {\bfseries list\+Devices\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Devices\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Devices\+::\+Response $>$ response)
+\item 
+\Hypertarget{classIIONode_a41180804d9c608a561100547404d2ada}\label{classIIONode_a41180804d9c608a561100547404d2ada} 
+void {\bfseries list\+Channels\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Channels\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Channels\+::\+Response $>$ response)
+\item 
+\Hypertarget{classIIONode_af4603ed67d5f52cad32d29f565d48d3f}\label{classIIONode_af4603ed67d5f52cad32d29f565d48d3f} 
+void {\bfseries list\+Attributes\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Attributes\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+List\+Attributes\+::\+Response $>$ response)
+\item 
+\Hypertarget{classIIONode_ace14a3b747fecf5b3f75394524be137a}\label{classIIONode_ace14a3b747fecf5b3f75394524be137a} 
+void {\bfseries scan\+Context\+Srv} (const std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Scan\+Context\+::\+Request $>$ request, std\+::shared\+\_\+ptr$<$ adi\+\_\+iio\+::srv\+::\+Scan\+Context\+::\+Response $>$ response)
+\item 
 \Hypertarget{classIIONode_af780b284db2534067c3f8c7a07709102}\label{classIIONode_af780b284db2534067c3f8c7a07709102} 
 std\+::string {\bfseries uri} ()
 \item 
@@ -73,6 +82,24 @@ bool {\bfseries initialized} ()
 \item 
 \Hypertarget{classIIONode_a301cc76f2facea0820db39ef3803875a}\label{classIIONode_a301cc76f2facea0820db39ef3803875a} 
 iio\+\_\+context \texorpdfstring{$\ast$}{*} {\bfseries ctx} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classIIONode_aeb5105d803695cec79ac3c7a30bfc826}\label{classIIONode_aeb5105d803695cec79ac3c7a30bfc826} 
+std\+::vector$<$ iio\+\_\+device \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Devices} (iio\+\_\+context \texorpdfstring{$\ast$}{*}ctx)
+\item 
+\Hypertarget{classIIONode_a834996ce9063d29559bf31ca98a3ee73}\label{classIIONode_a834996ce9063d29559bf31ca98a3ee73} 
+std\+::vector$<$ iio\+\_\+channel \texorpdfstring{$\ast$}{*} $>$ {\bfseries get\+Channels} (iio\+\_\+device \texorpdfstring{$\ast$}{*}device)
+\item 
+\Hypertarget{classIIONode_a1b15b9dd484f7ae795fc6881e300a5b8}\label{classIIONode_a1b15b9dd484f7ae795fc6881e300a5b8} 
+{\footnotesize template$<$typename T $>$ }\\void {\bfseries set\+Error\+Response} (T \&response, const std\+::string \&message)
+\item 
+\Hypertarget{classIIONode_a65e793468c64b18052a49a179b3de8ce}\label{classIIONode_a65e793468c64b18052a49a179b3de8ce} 
+{\footnotesize template$<$typename T $>$ }\\void {\bfseries set\+Warning\+Response} (T \&response, const std\+::string \&message)
+\item 
+\Hypertarget{classIIONode_a57560c8af1e5dc017ddae36555e30d99}\label{classIIONode_a57560c8af1e5dc017ddae36555e30d99} 
+{\footnotesize template$<$typename T $>$ }\\void {\bfseries set\+Success\+Response} (T \&response, const std\+::string \&message)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}

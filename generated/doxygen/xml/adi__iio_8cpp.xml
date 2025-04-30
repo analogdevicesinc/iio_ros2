@@ -46,6 +46,14 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>src/adi_iio.cpp</label>
@@ -92,6 +100,18 @@
       <node id="18">
         <label>adi_iio/srv/buffer_write.hpp</label>
       </node>
+      <node id="23">
+        <label>adi_iio/srv/list_attributes.hpp</label>
+      </node>
+      <node id="22">
+        <label>adi_iio/srv/list_channels.hpp</label>
+      </node>
+      <node id="21">
+        <label>adi_iio/srv/list_devices.hpp</label>
+      </node>
+      <node id="24">
+        <label>adi_iio/srv/scan_context.hpp</label>
+      </node>
       <node id="7">
         <label>chrono</label>
       </node>
@@ -134,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/adi_iio.cpp" line="20" column="5" bodyfile="src/adi_iio.cpp" bodystart="20" bodyend="93"/>
+        <location file="src/adi_iio.cpp" line="20" column="5" bodyfile="src/adi_iio.cpp" bodystart="20" bodyend="113"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -168,7 +188,7 @@
 <codeline lineno="24"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;IIONode&gt;<sp/>node<sp/>=<sp/>std::make_shared&lt;IIONode&gt;();</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!node-&gt;initialized())<sp/>{</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>RCLCPP_FATAL(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;rclcpp&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>initialization<sp/>failed.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>RCLCPP_FATAL(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;adi_iio_node&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Node<sp/>initialization<sp/>failed.&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail<sp/>if<sp/>the<sp/>node<sp/>isn&apos;t<sp/>properly<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
@@ -229,12 +249,32 @@
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string(node-&gt;get_name())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/BufferDisableTopic&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bind(&amp;IIONode::buffDisableTopicSrv,<sp/>node,<sp/>std::placeholders::_1,<sp/>std::placeholders::_2));</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;rclcpp&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;IIO<sp/>Node&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/>rclcpp::spin(node);</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/>rclcpp::shutdown();</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>rclcpp::Service&lt;adi_iio::srv::ListDevices&gt;::SharedPtr<sp/>listDevicesSrv<sp/>=</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>node-&gt;create_service&lt;adi_iio::srv::ListDevices&gt;(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string(node-&gt;get_name())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/ListDevices&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bind(&amp;IIONode::listDevicesSrv,<sp/>node,<sp/>std::placeholders::_1,<sp/>std::placeholders::_2));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>rclcpp::Service&lt;adi_iio::srv::ListChannels&gt;::SharedPtr<sp/>listChannelsSrv<sp/>=</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>node-&gt;create_service&lt;adi_iio::srv::ListChannels&gt;(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string(node-&gt;get_name())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/ListChannels&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bind(&amp;IIONode::listChannelsSrv,<sp/>node,<sp/>std::placeholders::_1,<sp/>std::placeholders::_2));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>rclcpp::Service&lt;adi_iio::srv::ListAttributes&gt;::SharedPtr<sp/>listAttributesSrv<sp/>=</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>node-&gt;create_service&lt;adi_iio::srv::ListAttributes&gt;(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string(node-&gt;get_name())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/ListAttributes&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bind(&amp;IIONode::listAttributesSrv,<sp/>node,<sp/>std::placeholders::_1,<sp/>std::placeholders::_2));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>rclcpp::Service&lt;adi_iio::srv::ScanContext&gt;::SharedPtr<sp/>scanContextSrv<sp/>=</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>node-&gt;create_service&lt;adi_iio::srv::ScanContext&gt;(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string(node-&gt;get_name())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/ScanContext&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bind(&amp;IIONode::scanContextSrv,<sp/>node,<sp/>std::placeholders::_1,<sp/>std::placeholders::_2));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>RCLCPP_INFO(rclcpp::get_logger(</highlight><highlight class="stringliteral">&quot;adi_iio_node&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;IIO<sp/>Node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>rclcpp::spin(node);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>rclcpp::shutdown();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/adi_iio.cpp"/>
   </compounddef>

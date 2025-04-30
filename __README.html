@@ -109,7 +109,15 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#adi-iio-node-specific-concepts"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node-Specific Concepts</a><ul>
-<li><a class="reference internal" href="#channel-and-device-attribute-path">Channel and Device Attribute Path</a></li>
+<li><a class="reference internal" href="#iio-path">IIO Path</a><ul>
+<li><a class="reference internal" href="#context-path">Context Path</a></li>
+<li><a class="reference internal" href="#context-attribute-path-attr-path">Context Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)</a></li>
+<li><a class="reference internal" href="#device-path-device-path">Device Path (<code class="docutils literal notranslate"><span class="pre">device_path</span></code>)</a></li>
+<li><a class="reference internal" href="#device-attribute-path-attr-path">Device Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)</a></li>
+<li><a class="reference internal" href="#channel-path-channel-path">Channel Path (<code class="docutils literal notranslate"><span class="pre">channel_path</span></code>)</a></li>
+<li><a class="reference internal" href="#channel-attribute-path-attr-path">Channel Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#topic-name-resolution">Topic Name Resolution</a></li>
 <li><a class="reference internal" href="#service-responses">Service Responses</a></li>
 <li><a class="reference internal" href="#buffers">Buffers</a></li>
@@ -129,13 +137,17 @@
 <li><a class="reference internal" href="#bufferread">BufferRead</a></li>
 <li><a class="reference internal" href="#bufferrefill">BufferRefill</a></li>
 <li><a class="reference internal" href="#bufferwrite">BufferWrite</a></li>
+<li><a class="reference internal" href="#scancontext">ScanContext</a></li>
+<li><a class="reference internal" href="#listdevices">ListDevices</a></li>
+<li><a class="reference internal" href="#listchannels">ListChannels</a></li>
+<li><a class="reference internal" href="#listattributes">ListAttributes</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#launch">Launch</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#building-the-project-documentation-locally">Building the Project Documentation Locally</a><ul>
-<li><a class="reference internal" href="#id21">Prerequisites</a></li>
+<li><a class="reference internal" href="#id25">Prerequisites</a></li>
 <li><a class="reference internal" href="#setting-up-the-virtual-environment">Setting Up the Virtual Environment</a></li>
 <li><a class="reference internal" href="#generate-the-documentation">Generate the Documentation</a></li>
 </ul>
@@ -183,9 +195,11 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIOAttrTopic.html">Class IIOAttrTopic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIOBuffer.html">Class IIOBuffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classIIONode.html">Class IIONode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/classIIOPath.html">Class IIOPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classInt32PubSub.html">Class Int32PubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classStringPubSub.html">Class StringPubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/classUpdateCallback.html">Class UpdateCallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/function_adi__iio_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627.html">Function main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/define_attr__publisher_8hpp_1a7b4954fb15fbeef2a254059b795c1265.html">Define ATTR_QOS_QUEUE_SIZE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/define_attr__publisher_8hpp_1ad325bc9cd075a5679a4e1895dc52a5c8.html">Define ATTR_READ_SUFFIX</a></li>
@@ -233,6 +247,14 @@ Content on this topic
 <li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_include_adi_iio_iio_node.hpp.html">Program Listing for File iio_node.hpp</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-10" id="toctree-collapse-2-10"/><div class="collapse"><a class="reference internal" href="generated/file_src_iio_path.cpp.html">File iio_path.cpp</a><label for="toctree-collapse-2-10"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_src_iio_path.cpp.html">Program Listing for File iio_path.cpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-11" id="toctree-collapse-2-11"/><div class="collapse"><a class="reference internal" href="generated/file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a><label for="toctree-collapse-2-11"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/program_listing_file_include_adi_iio_iio_path.hpp.html">Program Listing for File iio_path.hpp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="__service_definitions.html">Service Definitions</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
@@ -247,6 +269,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferRead.html">BufferRead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferRefill.html">BufferRefill</a></li>
 <li class="toctree-l2"><a class="reference internal" href="srv/BufferWrite.html">BufferWrite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListAttributes.html">ListAttributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListChannels.html">ListChannels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ListDevices.html">ListDevices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="srv/ScanContext.html">ScanContext</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4" checked=""/><div class="collapse"><a class="reference internal" href="__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul class="current">
@@ -287,28 +313,28 @@ Content on this topic
           <div class="body" role="main">
             
   <section id="readme">
-<h1><a class="toc-backref" href="#id23" role="doc-backlink">README</a><a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
+<h1><a class="toc-backref" href="#id27" role="doc-backlink">README</a><a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
 <section id="adi-iio-ros2-package-for-iio-integration">
-<h2><a class="toc-backref" href="#id24" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - ROS2 Package for IIO Integration</a><a class="headerlink" href="#adi-iio-ros2-package-for-iio-integration" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id28" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - ROS2 Package for IIO Integration</a><a class="headerlink" href="#adi-iio-ros2-package-for-iio-integration" title="Link to this heading"></a></h2>
 <nav class="contents" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#readme" id="id23">README</a></p>
+<li><p><a class="reference internal" href="#readme" id="id27">README</a></p>
 <ul>
-<li><p><a class="reference internal" href="#adi-iio-ros2-package-for-iio-integration" id="id24"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - ROS2 Package for IIO Integration</a></p></li>
-<li><p><a class="reference internal" href="#overview" id="id25">Overview</a></p></li>
-<li><p><a class="reference internal" href="#software-architecture" id="id26">Software Architecture</a></p></li>
-<li><p><a class="reference internal" href="#installation" id="id27">Installation</a></p></li>
-<li><p><a class="reference internal" href="#adi-iio-node-specific-concepts" id="id28"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node-Specific Concepts</a></p></li>
-<li><p><a class="reference internal" href="#adi-iio-node-description" id="id29"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node Description</a></p></li>
-<li><p><a class="reference internal" href="#building-the-project-documentation-locally" id="id30">Building the Project Documentation Locally</a></p></li>
+<li><p><a class="reference internal" href="#adi-iio-ros2-package-for-iio-integration" id="id28"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - ROS2 Package for IIO Integration</a></p></li>
+<li><p><a class="reference internal" href="#overview" id="id29">Overview</a></p></li>
+<li><p><a class="reference internal" href="#software-architecture" id="id30">Software Architecture</a></p></li>
+<li><p><a class="reference internal" href="#installation" id="id31">Installation</a></p></li>
+<li><p><a class="reference internal" href="#adi-iio-node-specific-concepts" id="id32"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node-Specific Concepts</a></p></li>
+<li><p><a class="reference internal" href="#adi-iio-node-description" id="id33"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node Description</a></p></li>
+<li><p><a class="reference internal" href="#building-the-project-documentation-locally" id="id34">Building the Project Documentation Locally</a></p></li>
 </ul>
 </li>
 </ul>
 </nav>
 </section>
 <section id="overview">
-<h2><a class="toc-backref" href="#id25" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> package bridges the gap between Analog Devices’ IIO hardware and
 the ROS2 ecosystem. It provides robust, easy-to-integrate interfaces for sensor
 data acquisition and real-time processing, enabling rapid development of advanced
@@ -354,10 +380,10 @@ via our <a class="reference external" href="https://github.com/analogdevicesinc/
 </section>
 </section>
 <section id="software-architecture">
-<span id="id1"></span><h2><a class="toc-backref" href="#id26" role="doc-backlink">Software Architecture</a><a class="headerlink" href="#software-architecture" title="Link to this heading"></a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id30" role="doc-backlink">Software Architecture</a><a class="headerlink" href="#software-architecture" title="Link to this heading"></a></h2>
 </section>
 <section id="installation">
-<span id="id2"></span><h2><a class="toc-backref" href="#id27" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id31" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>This section describes how to install the required software to run the <code class="docutils literal notranslate"><span class="pre">adi_iio</span></code>
 package.</p>
 <section id="prerequisites">
@@ -460,21 +486,71 @@ rosdep<span class="w"> </span>install<span class="w"> </span>--from-paths<span c
 </section>
 </section>
 <section id="adi-iio-node-specific-concepts">
-<span id="node-specific-concepts"></span><h2><a class="toc-backref" href="#id28" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node-Specific Concepts</a><a class="headerlink" href="#adi-iio-node-specific-concepts" title="Link to this heading"></a></h2>
+<span id="node-specific-concepts"></span><h2><a class="toc-backref" href="#id32" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node-Specific Concepts</a><a class="headerlink" href="#adi-iio-node-specific-concepts" title="Link to this heading"></a></h2>
 <p>This section provides a concise overview of the node-specific concepts for the
 ROS2 package. It details the conventions for attribute paths, topic naming,
 service responses, and buffer operations used when interfacing with IIO devices.</p>
-<section id="channel-and-device-attribute-path">
-<span id="id3"></span><h3>Channel and Device Attribute Path<a class="headerlink" href="#channel-and-device-attribute-path" title="Link to this heading"></a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">attr_path</span></code> parameter is used to specify the path to a specific attribute
-within an IIO device. This path follows the structure of the IIO context hierarchy.</p>
-<p><strong>Example:</strong></p>
+<section id="iio-path">
+<span id="id3"></span><h3>IIO Path<a class="headerlink" href="#iio-path" title="Link to this heading"></a></h3>
+<p>Services use the <code class="docutils literal notranslate"><span class="pre">iio_path</span></code> parameter to uniquely identify Industrial I/O
+(IIO) devices, channels, and attributes following the IIO context hierarchy.
+The <code class="docutils literal notranslate"><span class="pre">/</span></code> character is used to separate different levels of the hierarchy.</p>
+<section id="context-path">
+<h4>Context Path<a class="headerlink" href="#context-path" title="Link to this heading"></a></h4>
 <ul class="simple">
-<li><p>An attribute path to a channel attribute might look like <code class="docutils literal notranslate"><span class="pre">ad5592r/voltage0/raw</span></code>,
-where <code class="docutils literal notranslate"><span class="pre">ad5592r</span></code> is the device name, <code class="docutils literal notranslate"><span class="pre">voltage0</span></code> is the channel, and <code class="docutils literal notranslate"><span class="pre">raw</span></code>
-is the attribute.</p></li>
-<li><p>A path to a device attribute would be <code class="docutils literal notranslate"><span class="pre">ad9361-phy/calib_mode</span></code>.</p></li>
+<li><p><strong>Description:</strong> an empty string is used to represent an IIO context.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> (empty string.)</p></li>
 </ul>
+</section>
+<section id="context-attribute-path-attr-path">
+<h4>Context Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)<a class="headerlink" href="#context-attribute-path-attr-path" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Description:</strong> this path represents an attribute of a context.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&lt;context-attribute&gt;</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">uri</span></code>, <code class="docutils literal notranslate"><span class="pre">hw_vendor</span></code>, <code class="docutils literal notranslate"><span class="pre">hw_serial</span></code>, etc.</p></li>
+</ul>
+</section>
+<section id="device-path-device-path">
+<h4>Device Path (<code class="docutils literal notranslate"><span class="pre">device_path</span></code>)<a class="headerlink" href="#device-path-device-path" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Description:</strong> this path represents a device of a context.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&lt;device-name&gt;</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">ad9361-phy</span></code>, <code class="docutils literal notranslate"><span class="pre">ad5592r</span></code>, etc.</p></li>
+</ul>
+</section>
+<section id="device-attribute-path-attr-path">
+<h4>Device Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)<a class="headerlink" href="#device-attribute-path-attr-path" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Description:</strong> this path represents an attribute of a device.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&lt;device-name&gt;/&lt;device-attribute&gt;</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">xadc/sampling_frequency</span></code>, etc.</p></li>
+</ul>
+</section>
+<section id="channel-path-channel-path">
+<h4>Channel Path (<code class="docutils literal notranslate"><span class="pre">channel_path</span></code>)<a class="headerlink" href="#channel-path-channel-path" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Description:</strong> this path represents a channel of a device.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&lt;device-name&gt;/&lt;channel-name&gt;</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">ad5592r/input_voltage0</span></code>, <code class="docutils literal notranslate"><span class="pre">ad5592r/output_voltage0</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ad9361-phy/voltage0</span></code>, etc.</p></li>
+<li><p><strong>Note:</strong> the channel name has an extended format which uses a prefix:
+<code class="docutils literal notranslate"><span class="pre">input_</span></code> or <code class="docutils literal notranslate"><span class="pre">output_</span></code> to indicate the direction of data flow for channels
+that share the same name. For example, <code class="docutils literal notranslate"><span class="pre">ad5592r/input_voltage0</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ad5592r/output_voltage0</span></code> are both valid paths that refer to two different
+channels of the same device. When the prefix is not used (e.g:
+<code class="docutils literal notranslate"><span class="pre">ad5592r/voltage0</span></code>) but the device has both input and output channels, the
+input channel has priority.</p></li>
+</ul>
+</section>
+<section id="channel-attribute-path-attr-path">
+<h4>Channel Attribute Path (<code class="docutils literal notranslate"><span class="pre">attr_path</span></code>)<a class="headerlink" href="#channel-attribute-path-attr-path" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Description:</strong> this path represents an attribute of a channel.</p></li>
+<li><p><strong>Format:</strong> <code class="docutils literal notranslate"><span class="pre">&lt;device-name&gt;/&lt;channel-name&gt;/&lt;channel-attribute&gt;</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">ad5592r/input_voltage0/scale</span></code>, <code class="docutils literal notranslate"><span class="pre">ad5592r/output_voltage0/scale</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/cf-ad9361-lpc/voltage0/sampling_frequency</span></code>, etc.</p></li>
+</ul>
+</section>
 </section>
 <section id="topic-name-resolution">
 <span id="id4"></span><h3>Topic Name Resolution<a class="headerlink" href="#topic-name-resolution" title="Link to this heading"></a></h3>
@@ -540,7 +616,7 @@ would yield a buffer arranged as follows:</p>
 </section>
 </section>
 <section id="adi-iio-node-description">
-<span id="node-description"></span><h2><a class="toc-backref" href="#id29" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node Description</a><a class="headerlink" href="#adi-iio-node-description" title="Link to this heading"></a></h2>
+<span id="node-description"></span><h2><a class="toc-backref" href="#id33" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">adi_iio</span></code> - Node Description</a><a class="headerlink" href="#adi-iio-node-description" title="Link to this heading"></a></h2>
 <section id="parameters">
 <span id="id6"></span><h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
 <p>The node accepts the following parameters:</p>
@@ -566,8 +642,7 @@ would yield a buffer arranged as follows:</p>
 </section>
 <section id="attrenabletopic">
 <span id="id9"></span><h4>AttrEnableTopic<a class="headerlink" href="#attrenabletopic" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Enables a topic for a specific attribute.</p>
+<p><strong>Description:</strong> Enables a topic for a specific attribute.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">attr_path</span></code> (string): The path to the attribute for which a topic will be enabled.</p></li>
@@ -577,12 +652,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="attrreadstring">
 <span id="id10"></span><h4>AttrReadString<a class="headerlink" href="#attrreadstring" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Reads an IIO attribute as a string.</p>
+<p><strong>Description:</strong> Reads an IIO attribute as a string.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">attr_path</span></code> (string): The path to the attribute to be read.</p></li>
@@ -593,12 +666,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="attrwritestring">
 <span id="id11"></span><h4>AttrWriteString<a class="headerlink" href="#attrwritestring" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Writes an IIO attribute as a string</p>
+<p><strong>Description:</strong> Writes an IIO attribute as a string</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">attr_path</span></code> (string): The path to the attribute to be written.</p></li>
@@ -609,12 +680,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="buffercreate">
 <span id="id12"></span><h4>BufferCreate<a class="headerlink" href="#buffercreate" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Creates a buffer.</p>
+<p><strong>Description:</strong> Creates a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -626,12 +695,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="bufferdestroy">
 <span id="id13"></span><h4>BufferDestroy<a class="headerlink" href="#bufferdestroy" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Destroys a buffer.</p>
+<p><strong>Description:</strong> Destroys a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -641,23 +708,19 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="bufferdisabletopic">
 <span id="id14"></span><h4>BufferDisableTopic<a class="headerlink" href="#bufferdisabletopic" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Disables a topic for a buffer.</p>
+<p><strong>Description:</strong> Disables a topic for a buffer.</p>
 <p><strong>Request:</strong>
 * <code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p>
 <p><strong>Response:</strong>
 * <code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.
 * <code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p>
-</div></blockquote>
 </section>
 <section id="bufferenabletopic">
 <span id="id15"></span><h4>BufferEnableTopic<a class="headerlink" href="#bufferenabletopic" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Enables a topic for a buffer.</p>
+<p><strong>Description:</strong> Enables a topic for a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -668,12 +731,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="bufferread">
 <span id="id16"></span><h4>BufferRead<a class="headerlink" href="#bufferread" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Reads data from a buffer.</p>
+<p><strong>Description:</strong> Reads data from a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -686,12 +747,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">buffer</span></code> (Int32MultiArray): The data read from the buffer.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="bufferrefill">
 <span id="id17"></span><h4>BufferRefill<a class="headerlink" href="#bufferrefill" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Refills a buffer.</p>
+<p><strong>Description:</strong> Refills a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -702,12 +761,10 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">buffer</span></code> (Int32MultiArray): The data read from the buffer after refilling.</p></li>
 </ul>
-</div></blockquote>
 </section>
 <section id="bufferwrite">
 <span id="id18"></span><h4>BufferWrite<a class="headerlink" href="#bufferwrite" title="Link to this heading"></a></h4>
-<blockquote>
-<div><p><strong>Description:</strong> Writes data to a buffer.</p>
+<p><strong>Description:</strong> Writes data to a buffer.</p>
 <p><strong>Request:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">device_path</span></code> (string): The path to the device.</p></li>
@@ -720,11 +777,75 @@ would yield a buffer arranged as follows:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
 </ul>
-</div></blockquote>
+</section>
+<section id="scancontext">
+<span id="id19"></span><h4>ScanContext<a class="headerlink" href="#scancontext" title="Link to this heading"></a></h4>
+<p><strong>Description:</strong> Scans the  current IIO context and returns lists of devices,
+channels, and attributes formatted as IIO paths which can be used as request
+parameters for the other services.</p>
+<p><strong>Request:</strong></p>
+<ul class="simple">
+<li><p>None. The operation uses the <code class="docutils literal notranslate"><span class="pre">uri</span></code> provided during node initialization to
+scan for devices.</p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">devices</span></code> (string[]): A list of IIO paths to the discovered devices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">channels</span></code> (string[]): A list of IIO paths to the discovered channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">context_attrs</span></code> (string[]): A list of IIO paths to the discovered context attributes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device_attrs</span></code> (string[]): A list of IIO paths to the discovered device attributes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">channel_attrs</span></code> (string[]): A list of IIO paths to the discovered channel attributes.</p></li>
+</ul>
+</section>
+<section id="listdevices">
+<span id="id20"></span><h4>ListDevices<a class="headerlink" href="#listdevices" title="Link to this heading"></a></h4>
+<p><strong>Description:</strong> Lists the IIO device paths found in the current context.</p>
+<p><strong>Request:</strong></p>
+<ul class="simple">
+<li><p>None. The operation uses the <code class="docutils literal notranslate"><span class="pre">uri</span></code> provided during node initialization to
+scan for devices.</p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (string[]): A list containing the IIO device paths.</p></li>
+</ul>
+</section>
+<section id="listchannels">
+<span id="id21"></span><h4>ListChannels<a class="headerlink" href="#listchannels" title="Link to this heading"></a></h4>
+<p><strong>Description:</strong> Lists the IIO channel paths found in the targeted device.</p>
+<p><strong>Request:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iio_path</span></code> (string): The IIO path to the device to be scanned.</p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (string[]): A list containing the IIO channel paths.</p></li>
+</ul>
+</section>
+<section id="listattributes">
+<span id="id22"></span><h4>ListAttributes<a class="headerlink" href="#listattributes" title="Link to this heading"></a></h4>
+<p><strong>Description:</strong> Lists the IIO attribute paths found in the target path. This
+can be either a context, device, or channel path.</p>
+<p><strong>Request:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iio_path</span></code> (string): The IIO path to a context,device or channel to be scanned.</p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code> (bool): Indicates whether the operation was successful.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code> (string): A message providing additional information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (string[]): A list containing the IIO attribute paths.</p></li>
+</ul>
 </section>
 </section>
 <section id="launch">
-<span id="id19"></span><h3>Launch<a class="headerlink" href="#launch" title="Link to this heading"></a></h3>
+<span id="id23"></span><h3>Launch<a class="headerlink" href="#launch" title="Link to this heading"></a></h3>
 <p>To launch the node, you can use the provided launch file <code class="docutils literal notranslate"><span class="pre">adi_iio_bringup.launch.py</span></code>.
 This launch file uses the the <code class="docutils literal notranslate"><span class="pre">uri</span></code> parameter defined in the <code class="docutils literal notranslate"><span class="pre">config/adi_iio.yaml</span></code> file.</p>
 <p>The project also contains a small python script to visualize the waveform using
@@ -737,12 +858,12 @@ python3<span class="w"> </span>visualize_iio_waveform.py<span class="w"> </span>
 </section>
 </section>
 <section id="building-the-project-documentation-locally">
-<span id="id20"></span><h2><a class="toc-backref" href="#id30" role="doc-backlink">Building the Project Documentation Locally</a><a class="headerlink" href="#building-the-project-documentation-locally" title="Link to this heading"></a></h2>
+<span id="id24"></span><h2><a class="toc-backref" href="#id34" role="doc-backlink">Building the Project Documentation Locally</a><a class="headerlink" href="#building-the-project-documentation-locally" title="Link to this heading"></a></h2>
 <p>This guide describes how to build the project documentation locally using
 <strong>rosdoc2</strong>. Follow the steps below to set up your environment, build the
 documentation, and view the results.</p>
-<section id="id21">
-<h3>Prerequisites<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<section id="id25">
+<h3>Prerequisites<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Python 3:</strong> Ensure you have Python 3 installed.</p></li>
 <li><p><strong>Virtual Environment:</strong> It is highly recommended to set up a Python virtual

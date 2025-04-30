@@ -98,6 +98,7 @@
 <li><a class="reference internal" href="#classes-and-structs">Classes and Structs</a><ul>
 </ul>
 </li>
+<li><a class="reference internal" href="#enums">Enums</a></li>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#defines">Defines</a><ul>
 </ul>
@@ -153,9 +154,11 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="classIIOAttrTopic.html">Class IIOAttrTopic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classIIOBuffer.html">Class IIOBuffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classIIONode.html">Class IIONode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classIIOPath.html">Class IIOPath</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classInt32PubSub.html">Class Int32PubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classStringPubSub.html">Class StringPubSub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classUpdateCallback.html">Class UpdateCallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_adi__iio_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627.html">Function main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_attr__publisher_8hpp_1a7b4954fb15fbeef2a254059b795c1265.html">Define ATTR_QOS_QUEUE_SIZE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_attr__publisher_8hpp_1ad325bc9cd075a5679a4e1895dc52a5c8.html">Define ATTR_READ_SUFFIX</a></li>
@@ -203,6 +206,14 @@ Content on this topic
 <li class="toctree-l3"><a class="reference internal" href="program_listing_file_include_adi_iio_iio_node.hpp.html">Program Listing for File iio_node.hpp</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-10" id="toctree-collapse-2-10"/><div class="collapse"><a class="reference internal" href="file_src_iio_path.cpp.html">File iio_path.cpp</a><label for="toctree-collapse-2-10"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="program_listing_file_src_iio_path.cpp.html">Program Listing for File iio_path.cpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2-11" id="toctree-collapse-2-11"/><div class="collapse"><a class="reference internal" href="file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a><label for="toctree-collapse-2-11"><div class="icon"></div></label></div><ul>
+<li class="toctree-l3"><a class="reference internal" href="program_listing_file_include_adi_iio_iio_path.hpp.html">Program Listing for File iio_path.hpp</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../__service_definitions.html">Service Definitions</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
@@ -217,6 +228,10 @@ Content on this topic
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferRead.html">BufferRead</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferRefill.html">BufferRefill</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../srv/BufferWrite.html">BufferWrite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListAttributes.html">ListAttributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListChannels.html">ListChannels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ListDevices.html">ListDevices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../srv/ScanContext.html">ScanContext</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
@@ -256,7 +271,7 @@ Content on this topic
 <ul class="treeView" id="class-treeView">
   <li>
     <ul class="collapsibleList">
-      <li>Class <a href="classAttrPubSub.html#exhale-class-classAttrPubSub">AttrPubSub</a></li><li>Class <a href="classBoolPubSub.html#exhale-class-classBoolPubSub">BoolPubSub</a></li><li>Class <a href="classFloat32PubSub.html#exhale-class-classFloat32PubSub">Float32PubSub</a></li><li>Class <a href="classIIOAttrTopic.html#exhale-class-classIIOAttrTopic">IIOAttrTopic</a></li><li>Class <a href="classIIOBuffer.html#exhale-class-classIIOBuffer">IIOBuffer</a></li><li>Class <a href="classIIONode.html#exhale-class-classIIONode">IIONode</a></li><li>Class <a href="classInt32PubSub.html#exhale-class-classInt32PubSub">Int32PubSub</a></li><li>Class <a href="classStringPubSub.html#exhale-class-classStringPubSub">StringPubSub</a></li><li class="lastChild">Class <a href="classUpdateCallback.html#exhale-class-classUpdateCallback">UpdateCallback</a></li>
+      <li>Class <a href="classAttrPubSub.html#exhale-class-classAttrPubSub">AttrPubSub</a></li><li>Class <a href="classBoolPubSub.html#exhale-class-classBoolPubSub">BoolPubSub</a></li><li>Class <a href="classFloat32PubSub.html#exhale-class-classFloat32PubSub">Float32PubSub</a></li><li>Class <a href="classIIOAttrTopic.html#exhale-class-classIIOAttrTopic">IIOAttrTopic</a></li><li>Class <a href="classIIOBuffer.html#exhale-class-classIIOBuffer">IIOBuffer</a></li><li>Class <a href="classIIONode.html#exhale-class-classIIONode">IIONode</a></li><li>Class <a href="classIIOPath.html#exhale-class-classIIOPath">IIOPath</a></li><li>Class <a href="classInt32PubSub.html#exhale-class-classInt32PubSub">Int32PubSub</a></li><li>Class <a href="classStringPubSub.html#exhale-class-classStringPubSub">StringPubSub</a></li><li>Class <a href="classUpdateCallback.html#exhale-class-classUpdateCallback">UpdateCallback</a></li><li class="lastChild">Enum <a href="enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html#exhale-enum-iio-path-8hpp-1a36bc4adc60811fcc33489bbb803ddf58">IIOPathType</a></li>
     </ul>
   </li><!-- only tree view element -->
 </ul><!-- /treeView class-treeView --></section>
@@ -265,7 +280,7 @@ Content on this topic
 <ul class="treeView" id="file-treeView">
   <li>
     <ul class="collapsibleList">
-      <li>Directory <a href="dir_include.html#dir-include">include</a><ul><li class="lastChild">Directory <a href="dir_include_adi_iio.html#dir-include-adi-iio">adi_iio</a><ul><li>File <a href="file_include_adi_iio_attr_publisher.hpp.html#file-include-adi-iio-attr-publisher.hpp">attr_publisher.hpp</a></li><li>File <a href="file_include_adi_iio_iio_attr_topic.hpp.html#file-include-adi-iio-iio-attr-topic.hpp">iio_attr_topic.hpp</a></li><li>File <a href="file_include_adi_iio_iio_buffer.hpp.html#file-include-adi-iio-iio-buffer.hpp">iio_buffer.hpp</a></li><li class="lastChild">File <a href="file_include_adi_iio_iio_node.hpp.html#file-include-adi-iio-iio-node.hpp">iio_node.hpp</a></li></ul></li></ul></li><li class="lastChild">Directory <a href="dir_src.html#dir-src">src</a><ul><li>File <a href="file_src_adi_iio.cpp.html#file-src-adi-iio.cpp">adi_iio.cpp</a></li><li>File <a href="file_src_attr_publisher.cpp.html#file-src-attr-publisher.cpp">attr_publisher.cpp</a></li><li>File <a href="file_src_iio_attr_topic.cpp.html#file-src-iio-attr-topic.cpp">iio_attr_topic.cpp</a></li><li>File <a href="file_src_iio_buffer.cpp.html#file-src-iio-buffer.cpp">iio_buffer.cpp</a></li><li class="lastChild">File <a href="file_src_iio_node.cpp.html#file-src-iio-node.cpp">iio_node.cpp</a></li></ul></li>
+      <li>Directory <a href="dir_include.html#dir-include">include</a><ul><li class="lastChild">Directory <a href="dir_include_adi_iio.html#dir-include-adi-iio">adi_iio</a><ul><li>File <a href="file_include_adi_iio_attr_publisher.hpp.html#file-include-adi-iio-attr-publisher.hpp">attr_publisher.hpp</a></li><li>File <a href="file_include_adi_iio_iio_attr_topic.hpp.html#file-include-adi-iio-iio-attr-topic.hpp">iio_attr_topic.hpp</a></li><li>File <a href="file_include_adi_iio_iio_buffer.hpp.html#file-include-adi-iio-iio-buffer.hpp">iio_buffer.hpp</a></li><li>File <a href="file_include_adi_iio_iio_node.hpp.html#file-include-adi-iio-iio-node.hpp">iio_node.hpp</a></li><li class="lastChild">File <a href="file_include_adi_iio_iio_path.hpp.html#file-include-adi-iio-iio-path.hpp">iio_path.hpp</a></li></ul></li></ul></li><li class="lastChild">Directory <a href="dir_src.html#dir-src">src</a><ul><li>File <a href="file_src_adi_iio.cpp.html#file-src-adi-iio.cpp">adi_iio.cpp</a></li><li>File <a href="file_src_attr_publisher.cpp.html#file-src-attr-publisher.cpp">attr_publisher.cpp</a></li><li>File <a href="file_src_iio_attr_topic.cpp.html#file-src-iio-attr-topic.cpp">iio_attr_topic.cpp</a></li><li>File <a href="file_src_iio_buffer.cpp.html#file-src-iio-buffer.cpp">iio_buffer.cpp</a></li><li>File <a href="file_src_iio_node.cpp.html#file-src-iio-node.cpp">iio_node.cpp</a></li><li class="lastChild">File <a href="file_src_iio_path.cpp.html#file-src-iio-path.cpp">iio_path.cpp</a></li></ul></li>
     </ul>
   </li><!-- only tree view element -->
 </ul><!-- /treeView file-treeView --></section>
@@ -318,6 +333,11 @@ Content on this topic
 </div>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="classIIOPath.html">Class IIOPath</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="classInt32PubSub.html">Class Int32PubSub</a></li>
 </ul>
 </div>
@@ -329,6 +349,14 @@ Content on this topic
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="classUpdateCallback.html">Class UpdateCallback</a></li>
+</ul>
+</div>
+</section>
+<section id="enums">
+<h3>Enums<a class="headerlink" href="#enums" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="enum_iio__path_8hpp_1a36bc4adc60811fcc33489bbb803ddf58.html">Enum IIOPathType</a></li>
 </ul>
 </div>
 </section>
@@ -441,6 +469,16 @@ Content on this topic
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="file_include_adi_iio_iio_node.hpp.html">File iio_node.hpp</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="file_src_iio_path.cpp.html">File iio_path.cpp</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="file_include_adi_iio_iio_path.hpp.html">File iio_path.hpp</a></li>
 </ul>
 </div>
 </section>

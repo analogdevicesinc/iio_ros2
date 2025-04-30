@@ -69,6 +69,14 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
       </node>
       <node id="15">
         <label>adi_iio/srv/attr_disable_topic.hpp</label>
@@ -102,6 +110,18 @@
       </node>
       <node id="20">
         <label>adi_iio/srv/buffer_write.hpp</label>
+      </node>
+      <node id="25">
+        <label>adi_iio/srv/list_attributes.hpp</label>
+      </node>
+      <node id="24">
+        <label>adi_iio/srv/list_channels.hpp</label>
+      </node>
+      <node id="23">
+        <label>adi_iio/srv/list_devices.hpp</label>
+      </node>
+      <node id="26">
+        <label>adi_iio/srv/scan_context.hpp</label>
       </node>
       <node id="9">
         <label>chrono</label>

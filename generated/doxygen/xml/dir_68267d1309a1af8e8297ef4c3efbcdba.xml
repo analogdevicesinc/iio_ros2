@@ -7,6 +7,7 @@
     <innerfile refid="iio__attr__topic_8cpp">iio_attr_topic.cpp</innerfile>
     <innerfile refid="iio__buffer_8cpp">iio_buffer.cpp</innerfile>
     <innerfile refid="iio__node_8cpp">iio_node.cpp</innerfile>
+    <innerfile refid="iio__path_8cpp">iio_path.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

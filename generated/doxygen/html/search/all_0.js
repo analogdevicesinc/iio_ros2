@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['attrpubsub_0',['AttrPubSub',['../classAttrPubSub.html',1,'']]]
+  ['append_0',['append',['../classIIOPath.html#a5267692c774185c148b6047d32b64879',1,'IIOPath']]],
+  ['attrpubsub_1',['AttrPubSub',['../classAttrPubSub.html',1,'']]]
 ];
