@@ -75,12 +75,8 @@ target_include_directories(${NODE_NAME}
               $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
               $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(${NODE_NAME}
-  ${IIO_LIBRARIES}
-  "${adi_iio_srvs_typesupport_target}"
-  ${std_msgs_TARGETS}
-  rclcpp::rclcpp)
-ament_target_dependencies(${NODE_NAME} rclcpp std_msgs)
+target_link_libraries(${NODE_NAME} ${IIO_LIBRARIES} "${adi_iio_srvs_typesupport_target}")
+target_link_libraries(${NODE_NAME} PUBLIC rclcpp std_msgs)
 ament_export_dependencies(rosidl_default_runtime)
 
 # ==============================================================================
