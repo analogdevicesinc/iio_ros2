@@ -67,7 +67,7 @@ target_include_directories(${NODE_NAME}
               $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${NODE_NAME} ${IIO_LIBRARIES} "${adi_iio_srvs_typesupport_target}")
-ament_target_dependencies(${NODE_NAME} rclcpp std_msgs)
+target_link_libraries(${NODE_NAME} PUBLIC rclcpp std_msgs)
 ament_export_dependencies(rosidl_default_runtime)
 
 install(TARGETS
