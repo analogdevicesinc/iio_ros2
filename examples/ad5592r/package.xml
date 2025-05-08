@@ -3,9 +3,16 @@
 <package format="3">
   <name>ad5592r</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Demo example of adi_iio package interfacing with the AD5592R</description>
   <maintainer email="Adrian.Stanea@analog.com">astanea</maintainer>
   <license>Apache-2.0</license>
+
+  <depend>adi_iio</depend>
+  <depend>std_msgs</depend>
+  <depend>rclpy</depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
