@@ -51,7 +51,8 @@ void IIONode::initBuffers()
     std::string dev_name = iio_device_get_name(dev);
     for (unsigned int j = 0; j < iio_device_get_channels_count(dev); j++) {
       iio_channel * ch = iio_device_get_channel(dev, j);
-      if (!iio_channel_is_output(ch) && iio_channel_is_scan_element(ch)) {
+      if (iio_channel_is_scan_element(ch)) {
+        RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Inserting %s into bufferMap", dev_name.c_str());
         m_bufferMap.insert(
           {dev_name, std::make_shared<IIOBuffer>(
               std::dynamic_pointer_cast<IIONode>(shared_from_this()), dev_name)});
@@ -472,6 +473,7 @@ void IIONode::buffCreateSrv(
   if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
     message = "Buffer not found";
     setWarningResponse(response, message);
+    return;
   }
 
   buffer = m_bufferMap[path.getDeviceSegment()];
