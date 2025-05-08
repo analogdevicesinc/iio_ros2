@@ -41,6 +41,8 @@ setup(
     entry_points={
         'console_scripts': [
             'temperature_indicator = ad5592r.temperature_indicator:main',
+            'actuator = ad5592r.actuator:main',
+            'state_machine = ad5592r.state_machine:main',
         ],
     },
 )
