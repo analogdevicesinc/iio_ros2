@@ -36,12 +36,12 @@ IIOBuffer::~IIOBuffer()
 void IIOBuffer::destroyIIOBuffer()
 {
   if (m_buffer) {
+    std::lock_guard<std::mutex> lock(m_mutex);
     m_canceled = true;
     iio_buffer_cancel(m_buffer);
-    std::lock_guard<std::mutex> lock(m_mutex);
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Destroyed buffer %p", (void *)m_buffer);
     iio_buffer_destroy(m_buffer);
     m_buffer = nullptr;
-    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Destroyed buffer %p", (void *)m_buffer);
   }
 }
 
