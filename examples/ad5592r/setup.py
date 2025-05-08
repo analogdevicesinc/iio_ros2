@@ -35,7 +35,7 @@ setup(
     zip_safe=True,
     maintainer='astanea',
     maintainer_email='Adrian.Stanea@analog.com',
-    description='TODO: Package description',
+    description='Demo example of adi_iio package interfacing with the AD5592R',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
