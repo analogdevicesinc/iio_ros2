@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef ADI_IIO__IIO_PATH_HPP_
+#define ADI_IIO__IIO_PATH_HPP_
+
 #include <vector>
 #include <string>
 #include <sstream>
+#include <utility>
 
 enum IIOPathType
 {
@@ -48,7 +52,7 @@ public:
    * @param path The base path for the IIO object.
    * @param delimiter The character used to separate path segments (default is '/').
    */
-  IIOPath(std::string path, char delimiter = '/');
+  explicit IIOPath(std::string path, char delimiter = '/');
 
   /**
    * @brief Retrieves the original path used to create this object.
@@ -94,12 +98,15 @@ public:
    * the same name but different types (input/output).
    */
   std::pair<bool, std::string> getExtendedChannelSegment() const;
+  static std::pair<bool, std::string> getExtendedChannelSegment(std::string chn_segment);
+
 
   /**
    * @brief Whether the channel segment has the extended syntax format.
    *
    */
   bool hasExtendedChannelFormat() const;
+  static bool hasExtendedChannelFormat(std::string chn_segment);
 
   /**
    * @brief Extracts the channel attribute segment from the path.
@@ -164,3 +171,5 @@ private:
   char m_delimiter;
   std::vector<std::string> m_segments;
 };
+
+#endif  // ADI_IIO__IIO_PATH_HPP_

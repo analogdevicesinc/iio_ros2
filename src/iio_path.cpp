@@ -14,9 +14,9 @@
 
 #include "adi_iio/iio_path.hpp"
 
-#include <rclcpp/rclcpp.hpp>
-
 #include <string>
+
+#include <rclcpp/rclcpp.hpp>
 
 
 IIOPath::IIOPath(std::string path, char delimiter)
@@ -63,9 +63,24 @@ std::pair<bool, std::string> IIOPath::getExtendedChannelSegment() const
   return {output, chn_name};
 }
 
+std::pair<bool, std::string> IIOPath::getExtendedChannelSegment(std::string chn_segment)
+{
+  std::string prefix = chn_segment.substr(0, chn_segment.find('_'));
+  std::string chn_name = chn_segment.substr(chn_segment.find('_') + 1);
+
+  bool output = prefix == "output";
+  return {output, chn_name};
+}
+
 bool IIOPath::hasExtendedChannelFormat() const
 {
   auto chn_segment = getChannelSegment();
+  bool hasPrefix = chn_segment.find("input_") == 0 || chn_segment.find("output_") == 0;
+  return hasPrefix;
+}
+
+bool IIOPath::hasExtendedChannelFormat(std::string chn_segment)
+{
   bool hasPrefix = chn_segment.find("input_") == 0 || chn_segment.find("output_") == 0;
   return hasPrefix;
 }
