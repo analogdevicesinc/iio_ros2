@@ -40,7 +40,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ad5592r = ad5592r.ad5592r:main'
+            'temperature_indicator = ad5592r.temperature_indicator:main',
         ],
     },
 )
