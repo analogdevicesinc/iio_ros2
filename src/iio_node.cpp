@@ -432,7 +432,7 @@ void IIONode::buffWriteSrv(
   buffer->set_samples_count(request->buffer.layout.dim[0].size);
   buffer->set_channels(request->channels);
 
-  bool success = buffer->createIIOBuffer(message);
+  bool success = buffer->createIIOBuffer(message, true, request->cyclic);
   if (!success) {
     setErrorResponse(response, message);
     return;
@@ -481,13 +481,14 @@ void IIONode::buffCreateSrv(
   buffer->set_samples_count(request->samples_count);
   buffer->set_channels(request->channels);
 
-  bool success = buffer->createIIOBuffer(message);
+  bool success = buffer->createIIOBuffer(message, false, false);
   if (!success) {
     setErrorResponse(response, message);
     return;
   }
 
   setSuccessResponse(response, message);
+  response->layout = {buffer->data().layout};
 }
 
 void IIONode::buffDestroySrv(

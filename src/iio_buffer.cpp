@@ -45,7 +45,7 @@ void IIOBuffer::destroyIIOBuffer()
   }
 }
 
-bool IIOBuffer::createIIOBuffer(std::string & message)
+bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
@@ -69,9 +69,18 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
     return false;
   }
 
+  bool direction;
   // validate that all channels exist
   for (auto & channel : m_channels) {
-    iio_channel * ch = iio_device_find_channel(dev, channel.c_str(), false);
+    iio_channel * ch = nullptr;
+
+    if (IIOPath::hasExtendedChannelFormat(channel)) {
+      auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
+      ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+      direction = is_output;
+    } else {
+      ch = iio_device_find_channel(dev, channel.c_str(), output);
+    }
     if (ch == nullptr) {
       message = strerror(-errno);
       RCLCPP_WARN(
@@ -90,7 +99,15 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
 
   // enable channels
   for (auto & channel : m_channels) {
-    iio_channel * ch = iio_device_find_channel(dev, channel.c_str(), false);
+    iio_channel * ch = nullptr;
+
+    if (IIOPath::hasExtendedChannelFormat(channel)) {
+      auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
+      ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+      direction = is_output;
+    } else {
+      ch = iio_device_find_channel(dev, channel.c_str(), output);
+    }
     if (ch == nullptr) {
       message = strerror(-errno);
       RCLCPP_WARN(
@@ -104,7 +121,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
   }
 
   m_canceled = false;
-  m_buffer = iio_device_create_buffer(dev, m_samples_count, false);
+  m_buffer = iio_device_create_buffer(dev, m_samples_count, cyclic);
   if (m_buffer == nullptr) {
     message = strerror(-errno);
     RCLCPP_WARN(
@@ -125,12 +142,14 @@ bool IIOBuffer::createIIOBuffer(std::string & message)
   m_data.layout.dim[1].stride = m_channels.size();
 
 
-  RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Created buffer %p", (void *)m_buffer);
+  RCLCPP_DEBUG(
+    rclcpp::get_logger("adi_iio_node"), "Created buffer %p, direction: %s, cyclic: %s",
+    (void *)m_buffer, direction ? "output" : "input", cyclic ? "true" : "false");
   message = "Success";
   return true;
 }
 
-bool IIOBuffer::refill(std::string & message)
+bool IIOBuffer::refill(std::string & message, bool output)
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
@@ -153,14 +172,19 @@ bool IIOBuffer::refill(std::string & message)
 
   m_data.data.clear();
   for (int i = 0; i < m_samples_count; i++) {
-    for (auto & channel : m_channels) {
-      iio_channel * ch = iio_device_find_channel(dev, channel.c_str(), false);
+    for (const auto & channel : m_channels) {
+      iio_channel * ch = nullptr;
+      if (IIOPath::hasExtendedChannelFormat(channel)) {
+        auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
+        ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+      } else {
+        ch = iio_device_find_channel(dev, channel.c_str(), output);
+      }
 
       uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
       size_t step = iio_buffer_step(m_buffer); // Should be in bytes
       uint8_t * sample = base_ptr + (step * i);
 
-      //uint8_t* sample = (((uint8_t*)iio_buffer_first(m_buffer, ch)) + iio_buffer_step(m_buffer) * i);
       int32_t val = 0;
       iio_channel_convert(ch, &val, sample);
       const iio_data_format * fmt = iio_channel_get_data_format(ch);

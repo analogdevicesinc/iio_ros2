@@ -37,9 +37,9 @@ public:
   IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path);
   ~IIOBuffer();
 
-  bool createIIOBuffer(std::string & message);
+  bool createIIOBuffer(std::string & message, bool output = false, bool cyclic = false);
   void destroyIIOBuffer();
-  bool refill(std::string & message);
+  bool refill(std::string & message, bool output = false);
   bool push(std::string & message, std_msgs::msg::Int32MultiArray & data);
 
   void enableTopic(std::string topic_name);
