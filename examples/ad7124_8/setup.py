@@ -40,7 +40,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ad7124_8 = ad7124_8.ad7124_8:main'
+            'ad7124_8_buffer_scaled = ad7124_8.ad7124_8_buffer_scaled:main'
         ],
     },
 )
