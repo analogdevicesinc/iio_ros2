@@ -94,6 +94,7 @@ repos:
     rev: 6.3.0
     hooks:
       - id: pydocstyle
+        exclude: ^venv/
         args:
           ["--ignore=D100,D101,D102,D103,D104,D105,D106,D107,D203,D212,D404"]
 
