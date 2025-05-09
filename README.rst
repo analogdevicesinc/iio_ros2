@@ -655,7 +655,23 @@ Launch
 --------------------------------------------------------------------------------
 
 To launch the node, you can use the provided launch file ``adi_iio_bringup.launch.py``.
-This launch file uses the the ``uri`` parameter defined in the ``config/adi_iio.yaml`` file.
+You can start the node using the following command:
+
+.. code-block:: shell
+
+    ros2 launch adi_iio adi_iio_bringup.launch.py
+
+
+.. tip::
+
+  This launch file uses the the ``uri`` parameter defined in the
+  ``config/adi_iio.yaml`` file. Your can either modify the file or pass the
+  parameter directly in the command line when starting the node:
+
+  .. code-block:: shell
+
+    ros2 run adi_iio adi_iio_node --ros-args -p uri:="<your_uri>" --log-level debug
+
 
 The project also contains a small python script to visualize the waveform using
 matplotlib plots. The ``topic`` parameter is used to subscribe to the topic
@@ -663,8 +679,11 @@ where the waveform is published and plot the waveforms.
 
 .. code-block:: bash
 
-    ros2 launch adi_iio adi_iio_bringup.launch.py
-    python3 visualize_iio_waveform.py --topic /m2k_adc
+    python3 visualize_iio_waveform.py --topic /<your_topic_name>
+
+
+.. note:: You can refer to the :ref:`demo_ad7124_8_visualize_waveform` to see
+    the script in action.
 
 
 .. _Building the Project Documentation Locally:
