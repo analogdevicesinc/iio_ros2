@@ -25,7 +25,7 @@ def generate_launch_description():
             "run",
             "topic_tools transform",
             "ad7124_8/input_voltage0_voltage1/raw/read",    # Input topic
-            "ad7124_8/input_voltage0_voltage1/raw/volts",   # Output topic
+            "ad7124_8/input_voltage0_voltage1/volts",   # Output topic
             "std_msgs/Float64",
             "'std_msgs.msg.Float64(data=(float(m.data) * 0.000001164 / 1000))'",
             "--import std_msgs numpy",
@@ -39,7 +39,7 @@ def generate_launch_description():
             "run",
             "topic_tools transform",
             "ad7124_8/input_voltage2_voltage3/raw/read",    # Input topic
-            "ad7124_8/input_voltage2_voltage3/raw/volts",   # Output topic
+            "ad7124_8/input_voltage2_voltage3/volts",   # Output topic
             "std_msgs/Float64",
             "'std_msgs.msg.Float64(data=(float(m.data) * 0.000001164 / 1000))'",
             "--import std_msgs numpy",

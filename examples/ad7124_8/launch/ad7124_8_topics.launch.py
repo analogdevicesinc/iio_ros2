@@ -13,23 +13,22 @@
 # limitations under the License.
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.actions import ExecuteProcess
 from launch.substitutions import FindExecutable
 
 
 def generate_launch_description():
-    loop_rate_arg = DeclareLaunchArgument(
-        name="loop_rate",
-        default_value="1",
-        description="The loop rate for the topic publishing.",
-    )
+    loop_rate = 1
 
     idx0_topic = ExecuteProcess(
         cmd=[
             [FindExecutable(name='ros2'),
-             ' service call ',
+                ' service call ',
              ' /adi_iio_node/AttrEnableTopic adi_iio/srv/AttrEnableTopic  ',
-             "\"{ attr_path: 'ad7124-8/input_voltage0-voltage1/raw' }\" ;"],
+             f"\"{{ \
+                attr_path: 'ad7124-8/input_voltage0-voltage1/raw', \
+                loop_rate: {loop_rate} \
+            }}\" ;"],
         ],
         shell=True,
     )
@@ -37,16 +36,17 @@ def generate_launch_description():
     idx1_topic = ExecuteProcess(
         cmd=[
             [FindExecutable(name='ros2'),
-             ' service call ',
+                ' service call ',
              ' /adi_iio_node/AttrEnableTopic adi_iio/srv/AttrEnableTopic  ',
-             "\"{ attr_path: 'ad7124-8/input_voltage2-voltage3/raw' }\" ;"],
+             f"\"{{ \
+                attr_path: 'ad7124-8/input_voltage2-voltage3/raw', \
+                loop_rate: {loop_rate} \
+            }}\" ;"],
         ],
         shell=True,
     )
 
     return LaunchDescription([
-        loop_rate_arg,
-
         idx0_topic,
         idx1_topic,
     ])
