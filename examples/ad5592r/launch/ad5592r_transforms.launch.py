@@ -25,7 +25,7 @@ def generate_launch_description():
             "run",
             "topic_tools transform",
             "ad5592r/input_voltage2/raw/read",   # Input topic
-            "ad5592r/input_voltage2/raw/volts",  # Output topic
+            "ad5592r/input_voltage2/volts",  # Output topic
             "std_msgs/Float64",
             "'std_msgs.msg.Float64(data=(float(m.data) * 0.610351562 / 1000))'",
             "--import std_msgs numpy",
@@ -39,7 +39,7 @@ def generate_launch_description():
             "run",
             "topic_tools transform",
             "ad5592r/input_voltage3/raw/read",  # Input topic
-            "ad5592r/input_voltage3/raw/volts",  # Output topic
+            "ad5592r/input_voltage3/volts",  # Output topic
             "std_msgs/Float64",
             "'std_msgs.msg.Float64(data=(float(m.data) * 0.610351562 / 1000))'",
             "--import std_msgs numpy",
