@@ -49,24 +49,21 @@ Examples Overview:
 #. `AD5592R`_:
 
     This demo showcases the usage of the AD5592R device, which is an
-    8-channel, 12-bit, configurable ADC/DAC with on-chip Reference using an SPI Interface.
+    8-channel, 12-bit, configurable ADC/DAC with on-chip Reference using an SPI
+    Interface.
 
 #. `AD7124-8`_:
 
     This demo demonstrates the functionalities of the AD7124, a high-precision
     integrated ADC suitable for various industrial applications.
 
+#. `HWMON`_:
 
-.. TODO: ADXL example + hwmon (CPU core temperature, etc.)
-
-.. #. **Accelerometer**:
-    .. This demo illustrates how to interface with an accelerometer to capture
-    .. motion data.
-
-.. #. **hwmon**
-
+    This demo illustrates how to interface with the hwmon subsystem to read
+    temperature, current and voltage data from the system's sensors.
 
 
 .. _Service call reference: ./01_service_call_reference.html
 .. _AD5592R: ./02_example_ad5592r.html
 .. _AD7124-8: ./03_example_ad7124-8.html
+.. _HWMON: ./04_example_hwmon.html
