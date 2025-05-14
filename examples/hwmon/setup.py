@@ -40,7 +40,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'hwmon = hwmon.hwmon:main'
+            'dell_precision_5530 = hwmon.dell_precision_5530:main',
         ],
     },
 )
