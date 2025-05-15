@@ -1,7 +1,7 @@
-.. _Introduction:
+.. _Examples Introduction:
 
 ================================================================================
-Introduction
+Examples Introduction
 ================================================================================
 
 This Github Repository provides a set of demos to showcase the capabilities of the
