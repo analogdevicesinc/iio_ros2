@@ -31,6 +31,11 @@ detailed documentation into several sections:
 * For information on **prerequisites, repository setup, and building the package**,
   refer to the `Installation`_ section.
 
+* The :ref:`Examples Introduction` provides an overview of the available
+  examples. Start with the :ref:`Service Call Reference` to use the ROS2
+  services. You can also reference the standalone nodes and launch files for
+  specific hardware interaction.
+
 * For information on **parameters and services**, refer to the `Node Description`_ section.
 
 * For building this documentation, refer to `Building the Project Documentation Locally`_.
@@ -237,11 +242,15 @@ Services use the ``iio_path`` parameter to uniquely identify Industrial I/O
 (IIO) devices, channels, and attributes following the IIO context hierarchy.
 The ``/`` character is used to separate different levels of the hierarchy.
 
+.. _Context Path:
+
 Context Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - **Description:** an empty string is used to represent an IIO context.
 - **Format:** ``""`` (empty string.)
+
+.. _Context Attribute Path:
 
 Context Attribute Path (``attr_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -250,6 +259,8 @@ Context Attribute Path (``attr_path``)
 - **Format:** ``<context-attribute>``
 - **Example:** ``uri``, ``hw_vendor``, ``hw_serial``, etc.
 
+.. _Device Path:
+
 Device Path (``device_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -257,12 +268,16 @@ Device Path (``device_path``)
 - **Format:** ``<device-name>``
 - **Example:** ``ad9361-phy``, ``ad5592r``, etc.
 
+.. _Device Attribute Path:
+
 Device Attribute Path (``attr_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - **Description:** this path represents an attribute of a device.
 - **Format:** ``<device-name>/<device-attribute>``
 - **Example:** ``xadc/sampling_frequency``, etc.
+
+.. _Channel Path:
 
 Channel Path (``channel_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -278,6 +293,8 @@ Channel Path (``channel_path``)
   channels of the same device. When the prefix is not used (e.g:
   ``ad5592r/voltage0``) but the device has both input and output channels, the
   input channel has priority.
+
+.. _Channel Attribute Path:
 
 Channel Attribute Path (``attr_path``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
