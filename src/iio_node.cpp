@@ -27,7 +27,9 @@ IIONode::IIONode()
 {
   m_initialized = false;
   this->declare_parameter<std::string>("uri", "local:");
+  this->declare_parameter<int32_t>("timeout", 0);
   m_uri = this->get_parameter("uri").as_string();
+  m_timeout = this->get_parameter("timeout").as_int();
 
   m_ctx = iio_create_context_from_uri(m_uri.c_str());
 
@@ -42,6 +44,11 @@ IIONode::IIONode()
       rclcpp::get_logger("adi_iio_node"),
       "cannot create context from uri %s", m_uri.c_str());
   }
+
+  RCLCPP_INFO(
+    rclcpp::get_logger("adi_iio_node"),
+    "setting timeout to %d", m_timeout);
+  iio_context_set_timeout(m_ctx, m_timeout);
 }
 
 void IIONode::initBuffers()
