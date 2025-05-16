@@ -149,7 +149,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
   return true;
 }
 
-bool IIOBuffer::refill(std::string & message, bool output)
+bool IIOBuffer::refill(std::string & message)
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
@@ -177,8 +177,14 @@ bool IIOBuffer::refill(std::string & message, bool output)
       if (IIOPath::hasExtendedChannelFormat(channel)) {
         auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
         ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+        if (is_output) {
+          RCLCPP_ERROR(
+            rclcpp::get_logger("adi_iio_node"),
+            "Refill only works for input channels");
+          return false;
+        }
       } else {
-        ch = iio_device_find_channel(dev, channel.c_str(), output);
+        ch = iio_device_find_channel(dev, channel.c_str(), false);
       }
 
       uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
