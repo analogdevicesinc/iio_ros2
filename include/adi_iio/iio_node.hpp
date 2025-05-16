@@ -155,6 +155,7 @@ protected:
 private:
   bool m_initialized;
   std::string m_uri;
+  int32_t m_timeout;
   iio_context * m_ctx;
 
   std::map<std::string, std::shared_ptr<IIOAttrTopic>> m_attrTopicMap;
