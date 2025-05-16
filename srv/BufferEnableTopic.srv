@@ -1,5 +1,6 @@
 string device_path
 string topic_name
+int32 loop_rate 1
 ---
 bool success
 string message
