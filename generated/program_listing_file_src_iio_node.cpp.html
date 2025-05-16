@@ -7,12 +7,9 @@
 
     <title>Program Listing for File iio_node.cpp &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=0ea85bdb" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script src="../_static/documentation_options.js?v=8d563738"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script defer="" src="../_static/app.umd.js?v=25136f1d"></script>
+    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -50,8 +47,7 @@
   <div class="search-area">
     <form action="" method="get">
       <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
-      <button value="search" class="icon"></button>
-      <span id="search-progress"></span>
+      <button class="icon"></button>
     </form>
   </div>
   
@@ -211,10 +207,10 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__PACKAGE.html">PACKAGE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 </ul>
 </li>
 </ul>
@@ -299,12 +295,26 @@ Content on this topic
 
 <span class="kt">void</span><span class="w"> </span><span class="n">IIONode</span><span class="o">::</span><span class="n">initBuffers</span><span class="p">()</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">iio_context_get_devices_count</span><span class="p">(</span><span class="n">m_ctx</span><span class="p">);</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">iio_device</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_context_get_device</span><span class="p">(</span><span class="n">m_ctx</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">iio_device_get_channels_count</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">iio_channel</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_device_get_channel</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">);</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">iio_channel_is_output</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">iio_channel_is_scan_element</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Initializing buffers...&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">devices_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getDevices</span><span class="p">(</span><span class="n">ctx</span><span class="p">());</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">iio_device</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">devices_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_WARN</span><span class="p">(</span>
+<span class="w">        </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="s">&quot;device name is null, skipping buffer initialization&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Parsing channels of device: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dev_name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">channels_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getChannels</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">iio_channel</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">chn</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">channels_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iio_channel_is_scan_element</span><span class="p">(</span><span class="n">chn</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;rclcpp&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Inserting %s into bufferMap&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dev_name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
 <span class="w">        </span><span class="n">m_bufferMap</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span>
 <span class="w">          </span><span class="p">{</span><span class="n">dev_name</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">IIOBuffer</span><span class="o">&gt;</span><span class="p">(</span>
 <span class="w">              </span><span class="n">std</span><span class="o">::</span><span class="n">dynamic_pointer_cast</span><span class="o">&lt;</span><span class="n">IIONode</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shared_from_this</span><span class="p">()),</span><span class="w"> </span><span class="n">dev_name</span><span class="p">)});</span>
@@ -684,7 +694,7 @@ Content on this topic
 <span class="w">  </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">set_samples_count</span><span class="p">(</span><span class="n">request</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">dim</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">);</span>
 <span class="w">  </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">set_channels</span><span class="p">(</span><span class="n">request</span><span class="o">-&gt;</span><span class="n">channels</span><span class="p">);</span>
 
-<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">createIIOBuffer</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">createIIOBuffer</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="o">-&gt;</span><span class="n">cyclic</span><span class="p">);</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">setErrorResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
 <span class="w">    </span><span class="k">return</span><span class="p">;</span>
@@ -725,6 +735,7 @@ Content on this topic
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_bufferMap</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">getDeviceSegment</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">m_bufferMap</span><span class="p">.</span><span class="n">end</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Buffer not found&quot;</span><span class="p">;</span>
 <span class="w">    </span><span class="n">setWarningResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_bufferMap</span><span class="p">[</span><span class="n">path</span><span class="p">.</span><span class="n">getDeviceSegment</span><span class="p">()];</span>
@@ -732,13 +743,14 @@ Content on this topic
 <span class="w">  </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">set_samples_count</span><span class="p">(</span><span class="n">request</span><span class="o">-&gt;</span><span class="n">samples_count</span><span class="p">);</span>
 <span class="w">  </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">set_channels</span><span class="p">(</span><span class="n">request</span><span class="o">-&gt;</span><span class="n">channels</span><span class="p">);</span>
 
-<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">createIIOBuffer</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">createIIOBuffer</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">setErrorResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
 <span class="w">    </span><span class="k">return</span><span class="p">;</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="n">setSuccessResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+<span class="w">  </span><span class="n">response</span><span class="o">-&gt;</span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">buffer</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">().</span><span class="n">layout</span><span class="p">};</span>
 <span class="p">}</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="n">IIONode</span><span class="o">::</span><span class="n">buffDestroySrv</span><span class="p">(</span>
@@ -829,7 +841,7 @@ Content on this topic
 <span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">adi_iio</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">ListDevices</span><span class="o">::</span><span class="n">Request</span><span class="o">&gt;</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">adi_iio</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">ListDevices</span><span class="o">::</span><span class="n">Response</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">;</span><span class="w"> </span><span class="c1">// unused</span>
+<span class="w">  </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">request</span><span class="p">;</span><span class="w"> </span><span class="c1">// unused</span>
 <span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Service request /ListDevices&quot;</span><span class="p">);</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
 
@@ -838,7 +850,14 @@ Content on this topic
 
 <span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">devices_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getDevices</span><span class="p">(</span><span class="n">ctx</span><span class="p">());</span>
 <span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">iio_device</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">devices_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">));</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_WARN</span><span class="p">(</span>
+<span class="w">        </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="s">&quot;device name is null, skipping device&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="p">);</span>
 <span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dev_name</span><span class="p">);</span>
 <span class="w">    </span><span class="n">data</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dev_path</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
@@ -974,7 +993,7 @@ Content on this topic
 <span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">adi_iio</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">ScanContext</span><span class="o">::</span><span class="n">Request</span><span class="o">&gt;</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">adi_iio</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">ScanContext</span><span class="o">::</span><span class="n">Response</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">;</span><span class="w"> </span><span class="c1">// unused</span>
+<span class="w">  </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">request</span><span class="p">;</span><span class="w"> </span><span class="c1">// unused</span>
 <span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Service request /ScanContext&quot;</span><span class="p">);</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">msg</span><span class="p">{</span><span class="s">&quot;Found: &quot;</span><span class="p">};</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">devices</span><span class="p">;</span>
@@ -1005,7 +1024,14 @@ Content on this topic
 <span class="w">  </span><span class="c1">// Handle devices</span>
 <span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">devices_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getDevices</span><span class="p">(</span><span class="n">ctx</span><span class="p">());</span>
 <span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">iio_device</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">devices_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">));</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iio_device_get_name</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_WARN</span><span class="p">(</span>
+<span class="w">        </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="s">&quot;device name is null, skipping device&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">dev_name_cstr</span><span class="p">);</span>
 <span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">dev_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IIOPath</span><span class="p">(</span><span class="n">ctx_path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dev_name</span><span class="p">));</span>
 
 <span class="w">    </span><span class="n">devices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dev_path</span><span class="p">.</span><span class="n">basePath</span><span class="p">());</span>
@@ -1095,8 +1121,6 @@ Content on this topic
         </div>
       </div>
   </div>
-
-  <div id="vertical-border"></div>
 
   <label id="cancel-area-show-toc" for="input-show-toc"></label>
   <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>

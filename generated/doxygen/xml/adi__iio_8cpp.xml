@@ -22,13 +22,13 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
@@ -54,6 +54,8 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>src/adi_iio.cpp</label>
@@ -67,10 +69,10 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="14">
         <label>adi_iio/srv/attr_disable_topic.hpp</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>adi_iio/srv/attr_enable_topic.hpp</label>
       </node>
       <node id="3">
@@ -79,37 +81,37 @@
       <node id="4">
         <label>adi_iio/srv/attr_write_string.hpp</label>
       </node>
-      <node id="14">
+      <node id="15">
         <label>adi_iio/srv/buffer_create.hpp</label>
       </node>
-      <node id="15">
+      <node id="16">
         <label>adi_iio/srv/buffer_destroy.hpp</label>
       </node>
-      <node id="20">
+      <node id="21">
         <label>adi_iio/srv/buffer_disable_topic.hpp</label>
       </node>
-      <node id="19">
+      <node id="20">
         <label>adi_iio/srv/buffer_enable_topic.hpp</label>
       </node>
-      <node id="17">
+      <node id="18">
         <label>adi_iio/srv/buffer_read.hpp</label>
       </node>
-      <node id="16">
+      <node id="17">
         <label>adi_iio/srv/buffer_refill.hpp</label>
       </node>
-      <node id="18">
+      <node id="19">
         <label>adi_iio/srv/buffer_write.hpp</label>
       </node>
-      <node id="23">
+      <node id="24">
         <label>adi_iio/srv/list_attributes.hpp</label>
       </node>
-      <node id="22">
+      <node id="23">
         <label>adi_iio/srv/list_channels.hpp</label>
       </node>
-      <node id="21">
+      <node id="22">
         <label>adi_iio/srv/list_devices.hpp</label>
       </node>
-      <node id="24">
+      <node id="25">
         <label>adi_iio/srv/scan_context.hpp</label>
       </node>
       <node id="7">
@@ -132,6 +134,9 @@
       </node>
       <node id="11">
         <label>string</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
       </node>
     </incdepgraph>
     <sectiondef kind="func">

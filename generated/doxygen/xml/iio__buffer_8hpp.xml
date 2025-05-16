@@ -45,6 +45,8 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
@@ -231,7 +233,7 @@
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><ref refid="classIIOBuffer" kindref="compound">IIOBuffer</ref>(std::shared_ptr&lt;IIONode&gt;<sp/>nh,<sp/>std::string<sp/>device_path);</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><ref refid="classIIOBuffer" kindref="compound">~IIOBuffer</ref>();</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>createIIOBuffer(std::string<sp/>&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>createIIOBuffer(std::string<sp/>&amp;<sp/>message,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>output<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cyclic<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>destroyIIOBuffer();</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>refill(std::string<sp/>&amp;<sp/>message);</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>push(std::string<sp/>&amp;<sp/>message,<sp/>std_msgs::msg::Int32MultiArray<sp/>&amp;<sp/>data);</highlight></codeline>

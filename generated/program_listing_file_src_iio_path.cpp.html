@@ -7,12 +7,9 @@
 
     <title>Program Listing for File iio_path.cpp &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=0ea85bdb" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script src="../_static/documentation_options.js?v=8d563738"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script defer="" src="../_static/app.umd.js?v=25136f1d"></script>
+    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -50,8 +47,7 @@
   <div class="search-area">
     <form action="" method="get">
       <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
-      <button value="search" class="icon"></button>
-      <span id="search-progress"></span>
+      <button class="icon"></button>
     </form>
   </div>
   
@@ -211,10 +207,10 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__PACKAGE.html">PACKAGE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 </ul>
 </li>
 </ul>
@@ -267,9 +263,9 @@ Content on this topic
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;adi_iio/iio_path.hpp&quot;</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rclcpp/rclcpp.hpp&gt;</span>
-
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rclcpp/rclcpp.hpp&gt;</span>
 
 
 <span class="n">IIOPath</span><span class="o">::</span><span class="n">IIOPath</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">delimiter</span><span class="p">)</span>
@@ -316,9 +312,24 @@ Content on this topic
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">chn_name</span><span class="p">};</span>
 <span class="p">}</span>
 
+<span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">getExtendedChannelSegment</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;_&#39;</span><span class="p">));</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">chn_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;_&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prefix</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;output&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">chn_name</span><span class="p">};</span>
+<span class="p">}</span>
+
 <span class="kt">bool</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">hasExtendedChannelFormat</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">chn_segment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getChannelSegment</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">hasPrefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;input_&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;output_&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">hasPrefix</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">hasExtendedChannelFormat</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">)</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">hasPrefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;input_&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">chn_segment</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;output_&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">hasPrefix</span><span class="p">;</span>
 <span class="p">}</span>
@@ -395,8 +406,6 @@ Content on this topic
         </div>
       </div>
   </div>
-
-  <div id="vertical-border"></div>
 
   <label id="cancel-area-show-toc" for="input-show-toc"></label>
   <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>

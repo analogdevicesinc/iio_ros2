@@ -7,12 +7,9 @@
 
     <title>Class IIOPath &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=0ea85bdb" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script src="../_static/documentation_options.js?v=8d563738"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script defer="" src="../_static/app.umd.js?v=25136f1d"></script>
+    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -50,8 +47,7 @@
   <div class="search-area">
     <form action="" method="get">
       <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
-      <button value="search" class="icon"></button>
-      <span id="search-progress"></span>
+      <button class="icon"></button>
     </form>
   </div>
   
@@ -103,6 +99,8 @@
 <li><a class="reference internal" href="#_CPPv4N7IIOPath6appendERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">append()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N7IIOPath7isValidEK11IIOPathType"><code class="docutils literal notranslate"><span class="pre">isValid()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N7IIOPath5splitERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N7IIOPath25getExtendedChannelSegmentENSt6stringE"><code class="docutils literal notranslate"><span class="pre">getExtendedChannelSegment()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N7IIOPath24hasExtendedChannelFormatENSt6stringE"><code class="docutils literal notranslate"><span class="pre">hasExtendedChannelFormat()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N7IIOPath24toExtendedChannelSegmentEbNSt6stringE"><code class="docutils literal notranslate"><span class="pre">toExtendedChannelSegment()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N7IIOPath11toTopicNameENSt6stringE"><code class="docutils literal notranslate"><span class="pre">toTopicName()</span></code></a></li>
 </ul>
@@ -233,10 +231,10 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../__PACKAGE.html">PACKAGE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../__README.html">README</a></li>
 </ul>
 </li>
 </ul>
@@ -293,7 +291,7 @@ Content on this topic
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N7IIOPath7IIOPathENSt6stringEc">
-<span id="_CPPv3N7IIOPath7IIOPathENSt6stringEc"></span><span id="_CPPv2N7IIOPath7IIOPathENSt6stringEc"></span><span id="IIOPath::IIOPath__ss.c"></span><span class="target" id="classIIOPath_1ad83ab64c410b2df2fee394ea78f28cb3"></span><span class="sig-name descname"><span class="n"><span class="pre">IIOPath</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">path</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delimiter</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'/'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7IIOPath7IIOPathENSt6stringEc" title="Link to this definition"></a><br /></dt>
+<span id="_CPPv3N7IIOPath7IIOPathENSt6stringEc"></span><span id="_CPPv2N7IIOPath7IIOPathENSt6stringEc"></span><span id="IIOPath::IIOPath__ss.c"></span><span class="target" id="classIIOPath_1ad83ab64c410b2df2fee394ea78f28cb3"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IIOPath</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">path</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delimiter</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'/'</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7IIOPath7IIOPathENSt6stringEc" title="Link to this definition"></a><br /></dt>
 <dd><p>Constructs an <a class="reference internal" href="#classIIOPath"><span class="std std-ref">IIOPath</span></a> object. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -440,6 +438,16 @@ Content on this topic
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7IIOPath25getExtendedChannelSegmentENSt6stringE">
+<span id="_CPPv3N7IIOPath25getExtendedChannelSegmentENSt6stringE"></span><span id="_CPPv2N7IIOPath25getExtendedChannelSegmentENSt6stringE"></span><span id="IIOPath::getExtendedChannelSegment__ss"></span><span class="target" id="classIIOPath_1a415285674b5a90000c23ffa342469670"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getExtendedChannelSegment</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chn_segment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7IIOPath25getExtendedChannelSegmentENSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7IIOPath24hasExtendedChannelFormatENSt6stringE">
+<span id="_CPPv3N7IIOPath24hasExtendedChannelFormatENSt6stringE"></span><span id="_CPPv2N7IIOPath24hasExtendedChannelFormatENSt6stringE"></span><span id="IIOPath::hasExtendedChannelFormat__ss"></span><span class="target" id="classIIOPath_1ac9efeccfd805685966c79e03653c7f14"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hasExtendedChannelFormat</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chn_segment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7IIOPath24hasExtendedChannelFormatENSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N7IIOPath24toExtendedChannelSegmentEbNSt6stringE">
 <span id="_CPPv3N7IIOPath24toExtendedChannelSegmentEbNSt6stringE"></span><span id="_CPPv2N7IIOPath24toExtendedChannelSegmentEbNSt6stringE"></span><span id="IIOPath::toExtendedChannelSegment__b.ss"></span><span class="target" id="classIIOPath_1a995b880525f2c98fef7048f04f054d3f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toExtendedChannelSegment</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">output</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chn_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7IIOPath24toExtendedChannelSegmentEbNSt6stringE" title="Link to this definition"></a><br /></dt>
 <dd><p>Constructs the channel segment of the path. </p>
@@ -491,8 +499,6 @@ Content on this topic
         </div>
       </div>
   </div>
-
-  <div id="vertical-border"></div>
 
   <label id="cancel-area-show-toc" for="input-show-toc"></label>
   <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
