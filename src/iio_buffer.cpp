@@ -42,6 +42,7 @@ void IIOBuffer::destroyIIOBuffer()
     RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Destroyed buffer %p", (void *)m_buffer);
     iio_buffer_destroy(m_buffer);
     m_buffer = nullptr;
+    m_loopRate = nullptr;
   }
 }
 
@@ -231,10 +232,11 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
 }
 
 
-void IIOBuffer::enableTopic(std::string topic_name)
+void IIOBuffer::enableTopic(std::string topic_name, int loopRate)
 {
   m_topic_enabled = true;
   m_stopThread = false;
+  m_loopRate = std::make_shared<rclcpp::Rate>(loopRate);
 
   if (topic_name == "") {
     m_topic_name = IIOPath::toTopicName(m_device_path);
@@ -262,7 +264,9 @@ void IIOBuffer::publishingLoop()
       m_pub->publish(m_data);
     }
     // Sleep to maintain the loop rate
-    //std::this_thread::yield();
+    RCLCPP_DEBUG(
+      rclcpp::get_logger("adi_iio_node"), "Publishing loop %s", m_topic_name.c_str());
+    m_loopRate->sleep();
   }
 }
 

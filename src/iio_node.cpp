@@ -559,7 +559,7 @@ void IIONode::buffEnableTopicSrv(
   }
 
   if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
-    m_bufferMap[path.getDeviceSegment()]->enableTopic(request->topic_name);
+    m_bufferMap[path.getDeviceSegment()]->enableTopic(request->topic_name, request->loop_rate);
     msg = "Success";
     setSuccessResponse(response, msg);
   } else {

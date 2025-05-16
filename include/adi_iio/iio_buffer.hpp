@@ -42,7 +42,7 @@ public:
   bool refill(std::string & message);
   bool push(std::string & message, std_msgs::msg::Int32MultiArray & data);
 
-  void enableTopic(std::string topic_name);
+  void enableTopic(std::string topic_name, int loopRate);
   void disableTopic();
   void publishingLoop();
 
@@ -77,6 +77,7 @@ private:
   bool m_canceled;
   bool m_stopThread;
   std::mutex m_mutex;
+  std::shared_ptr<rclcpp::Rate> m_loopRate;
 };
 
 #endif  // ADI_IIO__IIO_BUFFER_HPP_
