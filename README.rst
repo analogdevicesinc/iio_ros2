@@ -405,8 +405,10 @@ Parameters
 
 The node accepts the following parameters:
 
-* ``uri``: The URI of the LibIIO context where the device is connected to (e.g.: ``ip:192.168.2.1``)
-
+* ``uri``: The URI of the LibIIO context where the device is connected to
+  (e.g.: ``ip:192.168.2.1``).
+* ``timeout``: A positive integer representing the time in milliseconds after
+  which a timeout occurs. A value of 0 means no timeout.
 
 .. _services:
 
