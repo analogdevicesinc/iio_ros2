@@ -351,17 +351,30 @@ along with its string interpretation.
 Buffers
 --------------------------------------------------------------------------------
 
-A buffer represents continuous data capture from a device. The following operations
-can be performed with IIO buffers:
+A buffer represents continuous data capture from a device. Operations that can
+be performed on buffers involve acquiring data from the device (``read``) and
+sending data to the device (``write``).
 
-- **Create buffer**: The device starts capturing data.
-- **Refill buffer**: Data is transported from the device to the client via an
-  ``Int32MultiArray`` in a service response.
-- **Enable buffer topic**: The node initiates a continuous capture and publishes
-  acquired data on the associated topic.
-- **Destroy buffer**: The device stops capturing data.
-- **Read buffer**: A convenience operation that bundles buffer creation and
-  refill into one service call.
+The following operations can be performed with IIO buffers:
+
+- **Create buffer**: Initializes a buffer for a specific device. For input
+  devices, it starts hardware data acquisition on the selected channels.
+- **Destroy buffer**: Stops buffer operations on a device and releases
+  associated resources.
+- **Refill buffer**: Data is transported from the hardware device to the client
+  via an ``Int32MultiArray`` in a service response.
+- **Read buffer**: A convenience operation that bundles destroy, input buffer
+  creation and refill into one service call. The operation ensures that the
+  buffer contains the latest samples captured from the device, rather than
+  potentially stale data from previous operations.
+- **Buffer Write**: A convenience operation that combines buffer destruction,
+  output buffer creation and data transmission in a single service call. It
+  pushes sample data from the node to the hardware device. In cyclic mode, the
+  samples repeat in a loop.
+- **Enable buffer topic**: The node initiates a continuous capture and
+  publishes acquired data on the associated topic.
+- **Disable buffer topic**: The node stops the continuous transfer of data to
+  the buffer topic.
 
 When creating a buffer, a channels array is required as a parameter for the
 service request. For example:
@@ -374,7 +387,7 @@ such that the dimensions represent the number of samples and the number of chann
 For instance, a request that acquires data from channels ``{"voltage0", "voltage1"}``
 would yield a buffer arranged as follows:
 
-.. code-block::
+.. code-block:: shell
 
     {voltage0_sample0, voltage1_sample0, voltage0_sample1, voltage1_sample1, voltage0_sample2, voltage1_sample2, ... }
 
