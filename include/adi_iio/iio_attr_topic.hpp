@@ -47,7 +47,7 @@ public:
 
   IIOAttrTopic(
     std::shared_ptr<IIONode> nh, std::string topicName, std::string attrPath,
-    topicType_t type, int loopRate);
+    topicType_t type, double loopRate);
   virtual ~IIOAttrTopic();
 
   void publishingLoop();

@@ -232,7 +232,7 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
 }
 
 
-void IIOBuffer::enableTopic(std::string topic_name, int loopRate)
+void IIOBuffer::enableTopic(std::string topic_name, double loopRate)
 {
   m_topic_enabled = true;
   m_stopThread = false;

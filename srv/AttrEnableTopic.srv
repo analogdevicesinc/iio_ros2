@@ -5,7 +5,7 @@ int8 BOOL = 3
 
 string attr_path
 string topic_name ""
-int32 loop_rate 1
+float64 loop_rate 1.0
 int8 type 0 # String: 0, Int: 1, Double: 2, Bool: 3
 ---
 bool success

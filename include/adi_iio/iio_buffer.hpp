@@ -42,7 +42,7 @@ public:
   bool refill(std::string & message);
   bool push(std::string & message, std_msgs::msg::Int32MultiArray & data);
 
-  void enableTopic(std::string topic_name, int loopRate);
+  void enableTopic(std::string topic_name, double loopRate);
   void disableTopic();
   void publishingLoop();
 
