@@ -87,7 +87,7 @@ class TemperatureIndicator(Node):
         request = AttrEnableTopic.Request()
         request.attr_path = "ad5592r/temp/" + attr
         request.topic_name = "ad5592r/temp/" + attr
-        request.loop_rate = int(self.timer_period)
+        request.loop_rate = 1 / float(self.timer_period)
         request.type = 0  # STRING
 
         future = self.enable_topic_client.call_async(request)

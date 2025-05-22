@@ -30,8 +30,8 @@ class HWMon(Node):
         super().__init__("hwmon")
         self.get_logger().info("Initializing HWMon...")
 
-        self.declare_parameter('loop_rate', 1)
-        self.loop_rate = int(self.get_parameter('loop_rate').value)
+        self.declare_parameter('loop_rate', 1.0)
+        self.loop_rate = float(self.get_parameter('loop_rate').value)
 
         self.srv_provider = "/adi_iio_node"
 
@@ -89,7 +89,7 @@ class HWMon(Node):
         self,
         attr_path: str,
         topic_name: str = "",
-        loop_rate: int = 1,
+        loop_rate: float = 1,
         type: int = 0
     ) -> AttrEnableTopic.Request:
 

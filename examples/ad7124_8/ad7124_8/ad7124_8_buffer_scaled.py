@@ -42,7 +42,7 @@ class Conversion(Node):
         self.declare_parameter('sampling_frequency', '1000')
         self.declare_parameter('scale', '0.000149011')
         self.declare_parameter('samples_count', 256)
-        self.declare_parameter('loop_rate', 1)
+        self.declare_parameter('loop_rate', 1.0)
         self.declare_parameter('topic_name', 'ad7124_8')
 
         self.device_path = self.get_parameter('device_path').value
@@ -55,7 +55,7 @@ class Conversion(Node):
         self.scale = str(self.get_parameter('scale').value)
         self.samples_count = int(self.get_parameter('samples_count').value)
 
-        self.loop_rate = int(self.get_parameter('loop_rate').value)
+        self.loop_rate = float(self.get_parameter('loop_rate').value)
 
         self.chn_scales = []
 
@@ -247,7 +247,7 @@ class Conversion(Node):
         self,
         device_path: str,
         topic_name: str,
-        loop_rate: int = 1,
+        loop_rate: float = 1,
     ) -> BufferEnableTopic.Request:
         request = BufferEnableTopic.Request()
         request.device_path = device_path

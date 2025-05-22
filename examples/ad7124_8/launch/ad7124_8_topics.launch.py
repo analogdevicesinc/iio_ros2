@@ -18,7 +18,7 @@ from launch.substitutions import FindExecutable
 
 
 def generate_launch_description():
-    loop_rate = 1
+    loop_rate = 1.0
 
     idx0_topic = ExecuteProcess(
         cmd=[
