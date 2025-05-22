@@ -20,7 +20,7 @@
 
 IIOAttrTopic::IIOAttrTopic(
   std::shared_ptr<IIONode> nh, std::string topicName, std::string attrPath,
-  topicType_t type, int loopRate)
+  topicType_t type, double loopRate)
 : m_loopRate(loopRate)
 {
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Created IIOAttrTopic");

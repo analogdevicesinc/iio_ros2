@@ -278,8 +278,8 @@ void IIONode::attrEnableTopicSrv(
 {
   RCLCPP_INFO(
     rclcpp::get_logger("adi_iio_node"),
-    "Service request /AttrEnableTopic %s with type %s with loop_rate %d Hz",
-    request->attr_path.c_str(), request->attr_path.c_str(), request->loop_rate);
+    "Service request /AttrEnableTopic %s with type %d with loop_rate %f Hz",
+    request->attr_path.c_str(), request->type, request->loop_rate);
 
   std::string message;
   response->success = rwAttrPath(request->attr_path, message);
