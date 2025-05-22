@@ -43,7 +43,7 @@ def generate_launch_description():
             'sampling_frequency': '1000',
             'scale': '0.000149011',
             'samples_count': 400,
-            'loop_rate': 1,
+            'loop_rate': 1.0,
             'topic_name': 'ad7124_8',
         }]
     )

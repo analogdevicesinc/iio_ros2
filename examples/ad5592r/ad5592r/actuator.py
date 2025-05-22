@@ -22,7 +22,7 @@ class Actuator(Node):
     def __init__(self):
         super().__init__('actuator')
 
-        self.declare_parameter('loop_rate', 1)
+        self.declare_parameter('loop_rate', 1.0)
         self.declare_parameter("srv_provider", "/adi_iio_node")
         self.declare_parameter("qos", 10)
 
@@ -72,7 +72,7 @@ class Actuator(Node):
             )
         )
 
-        self.loop_rate: int = int(self.get_parameter('loop_rate').value)
+        self.loop_rate: float = float(self.get_parameter('loop_rate').value)
         self.srv_provider: str = self.get_parameter('srv_provider').value
         self.qos: int = int(self.get_parameter('qos').value)
 

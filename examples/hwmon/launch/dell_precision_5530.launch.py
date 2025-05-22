@@ -18,7 +18,7 @@ from launch import LaunchDescription
 
 
 def generate_launch_description():
-    loop_rate: int = 1  # Hz
+    loop_rate: float = 1  # Hz
 
     adi_iio_node = Node(
         package='adi_iio',
