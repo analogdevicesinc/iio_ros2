@@ -7,9 +7,9 @@
 
     <title>Program Listing for File iio_node.hpp &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=c218d0f6" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
+    <script defer="" src="../_static/app.umd.js?v=8984ea49"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -404,6 +404,7 @@ Content on this topic
 <span class="k">private</span><span class="o">:</span>
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">m_initialized</span><span class="p">;</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_uri</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">m_timeout</span><span class="p">;</span>
 <span class="w">  </span><span class="n">iio_context</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m_ctx</span><span class="p">;</span>
 
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IIOAttrTopic</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_attrTopicMap</span><span class="p">;</span>

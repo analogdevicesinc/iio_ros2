@@ -7,9 +7,9 @@
 
     <title>Program Listing for File iio_buffer.hpp &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=c218d0f6" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
+    <script defer="" src="../_static/app.umd.js?v=8984ea49"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -291,7 +291,7 @@ Content on this topic
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="nf">refill</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Int32MultiArray</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
 
-<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">enableTopic</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">topic_name</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">enableTopic</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">topic_name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">loopRate</span><span class="p">);</span>
 <span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">disableTopic</span><span class="p">();</span>
 <span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">publishingLoop</span><span class="p">();</span>
 
@@ -326,6 +326,7 @@ Content on this topic
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">m_canceled</span><span class="p">;</span>
 <span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">m_stopThread</span><span class="p">;</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="w"> </span><span class="n">m_mutex</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_loopRate</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="cp">#endif  </span><span class="c1">// ADI_IIO__IIO_BUFFER_HPP_</span>

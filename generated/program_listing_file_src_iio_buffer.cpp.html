@@ -7,9 +7,9 @@
 
     <title>Program Listing for File iio_buffer.cpp &#8212; adi_iio 1.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=47649d88" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=c218d0f6" />
     <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script defer="" src="../_static/app.umd.js?v=9e881883"></script>
+    <script defer="" src="../_static/app.umd.js?v=8984ea49"></script>
     <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -291,6 +291,7 @@ Content on this topic
 <span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Destroyed buffer %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">m_buffer</span><span class="p">);</span>
 <span class="w">    </span><span class="n">iio_buffer_destroy</span><span class="p">(</span><span class="n">m_buffer</span><span class="p">);</span>
 <span class="w">    </span><span class="n">m_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">    </span><span class="n">m_loopRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
@@ -480,10 +481,11 @@ Content on this topic
 <span class="p">}</span>
 
 
-<span class="kt">void</span><span class="w"> </span><span class="n">IIOBuffer</span><span class="o">::</span><span class="n">enableTopic</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">topic_name</span><span class="p">)</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">IIOBuffer</span><span class="o">::</span><span class="n">enableTopic</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">topic_name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">loopRate</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="n">m_topic_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 <span class="w">  </span><span class="n">m_stopThread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">  </span><span class="n">m_loopRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="o">&gt;</span><span class="p">(</span><span class="n">loopRate</span><span class="p">);</span>
 
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">topic_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">m_topic_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IIOPath</span><span class="o">::</span><span class="n">toTopicName</span><span class="p">(</span><span class="n">m_device_path</span><span class="p">);</span>
@@ -511,7 +513,9 @@ Content on this topic
 <span class="w">      </span><span class="n">m_pub</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">m_data</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="c1">// Sleep to maintain the loop rate</span>
-<span class="w">    </span><span class="c1">//std::this_thread::yield();</span>
+<span class="w">    </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span>
+<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">get_logger</span><span class="p">(</span><span class="s">&quot;adi_iio_node&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Publishing loop %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">m_topic_name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">m_loopRate</span><span class="o">-&gt;</span><span class="n">sleep</span><span class="p">();</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
