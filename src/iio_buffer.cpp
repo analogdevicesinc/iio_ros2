@@ -144,7 +144,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
   m_data.layout.dim[1].stride = m_channels.size();
 
 
-  RCLCPP_DEBUG(
+  RCLCPP_INFO(
     rclcpp::get_logger("adi_iio_node"), "Created buffer %p, direction: %s, cyclic: %s",
     (void *)m_buffer, direction ? "output" : "input", cyclic ? "true" : "false");
   message = "Success";

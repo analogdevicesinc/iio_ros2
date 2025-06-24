@@ -38,7 +38,7 @@ StringPubSub::~StringPubSub()
 
 void StringPubSub::publish(std::string msg)
 {
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::String();
@@ -71,7 +71,7 @@ Int32PubSub::~Int32PubSub()
 
 void Int32PubSub::publish(std::string msg)
 {
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Int32();
@@ -108,7 +108,7 @@ BoolPubSub::~BoolPubSub()
 
 void BoolPubSub::publish(std::string msg)
 {
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Bool();
@@ -146,7 +146,7 @@ Float32PubSub::~Float32PubSub()
 
 void Float32PubSub::publish(std::string msg)
 {
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Float32();
