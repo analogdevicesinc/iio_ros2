@@ -223,7 +223,7 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
       void * sample = reinterpret_cast<int32_t *>(iio_buffer_first(m_buffer, ch)) +
         iio_buffer_step(m_buffer) * i;
       int32_t val = data.data[i * m_channels.size() + j];
-      iio_channel_convert(ch, sample, &val);
+      iio_channel_convert_inverse(ch, sample, &val);
     }
   }
 
