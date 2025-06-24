@@ -190,7 +190,7 @@ bool IIOBuffer::refill(std::string & message)
       }
 
       uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
-      size_t step = iio_buffer_step(m_buffer); // Should be in bytes
+      size_t step = iio_buffer_step(m_buffer);  // Should be in bytes
       uint8_t * sample = base_ptr + (step * i);
 
       int32_t val = 0;
@@ -235,6 +235,11 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
       } else {
         ch = iio_device_find_channel(dev, channel.c_str(), true);
       }
+
+      uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
+      size_t step = iio_buffer_step(m_buffer) * i;
+      uint8_t * sample = base_ptr + step;
+
       int32_t val = data.data[i * m_channels.size() + j];
       iio_channel_convert_inverse(ch, sample, &val);
     }
