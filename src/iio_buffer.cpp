@@ -211,6 +211,8 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
+  iio_channel * ch = nullptr;
+
   if (!m_buffer) {
     message = "Buffer not created";
     return false;
@@ -219,9 +221,20 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
   // get data from multiarray and add it to a memory "arena"
   for (int i = 0; i < m_samples_count; i++) {
     for (size_t j = 0; j < m_channels.size(); j++) {
-      iio_channel * ch = iio_device_find_channel(dev, m_channels[j].c_str(), true);
-      void * sample = reinterpret_cast<int32_t *>(iio_buffer_first(m_buffer, ch)) +
-        iio_buffer_step(m_buffer) * i;
+      auto channel = m_channels[j];
+
+      if (IIOPath::hasExtendedChannelFormat(channel)) {
+        auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
+        ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+        if (!is_output) {
+          RCLCPP_ERROR(
+            rclcpp::get_logger("adi_iio_node"),
+            "Push only works for input channels");
+          return false;
+        }
+      } else {
+        ch = iio_device_find_channel(dev, channel.c_str(), true);
+      }
       int32_t val = data.data[i * m_channels.size() + j];
       iio_channel_convert_inverse(ch, sample, &val);
     }
