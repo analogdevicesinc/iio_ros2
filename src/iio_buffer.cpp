@@ -21,6 +21,7 @@ IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
   this->m_device_path = device_path;
   m_canceled = false;
   this->m_buffer = nullptr;
+  this->m_topic_enabled = false;
 }
 
 IIOBuffer::~IIOBuffer()
