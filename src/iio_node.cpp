@@ -138,6 +138,10 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
 
     if (write) {
       ret1 = iio_device_attr_write(dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
+      if (ret1 <= 0) {
+        ret1 = iio_device_debug_attr_write(
+          dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
+      }
       if (ret1 > 0) {
         RCLCPP_DEBUG(
           rclcpp::get_logger("adi_iio_node"),
@@ -158,6 +162,12 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
 
     ret1 = iio_device_attr_read(
       dev, iio_path.getDeviceAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE);
+    if (ret1 <= 0) {
+      ret1 = iio_device_debug_attr_read(
+        dev, iio_path.getDeviceAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE
+      );
+    }
+
     if (ret1 > 0) {
       result = attr_val;
       ret = true;
