@@ -128,6 +128,9 @@ std::string IIOPath::toExtendedChannelSegment(bool output, std::string chn_name)
 std::string IIOPath::toTopicName(std::string path)
 {
   std::replace(path.begin(), path.end(), '-', '_');
+  if (!path.empty() && path.front() != '/') {
+    path = '/' + path;
+  }
   return path;
 }
 

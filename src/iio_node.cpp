@@ -285,7 +285,7 @@ void IIONode::attrEnableTopicSrv(
   response->success = rwAttrPath(request->attr_path, message);
   response->message = message;
 
-  std::string local_topic_name = request->topic_name;
+  std::string local_topic_name = IIOPath::toTopicName(request->topic_name);
   if (local_topic_name == "") {
     local_topic_name = IIOPath::toTopicName(request->attr_path);
   }
