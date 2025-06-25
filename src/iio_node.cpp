@@ -224,9 +224,14 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
         RCLCPP_WARN(
           rclcpp::get_logger(
             "adi_iio_node"),
-          "could not write attribute \"%s\" from channel \"%s\" device \"%s\" with value \"%s\"- errno %d - %s",
-          iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
-          iio_path.getDeviceSegment().c_str(), value.c_str(), ret1, result.c_str());
+          "could not write attribute \"%s\" from channel \"%s\" device \"%s\" "
+          "with value \"%s\"- errno %d - %s",
+          iio_path.getChannelAttrSegment().c_str(),
+          iio_path.getChannelSegment().c_str(),
+          iio_path.getDeviceSegment().c_str(),
+          value.c_str(),
+          ret1,
+          result.c_str());
         return ret;
       }
     }
@@ -329,7 +334,7 @@ void IIONode::attrDisableTopicSrv(
   std::string message;
 
   std::string local_topic_name = request->topic_name;
-  local_topic_name = IIOPath::toTopicName(request->topic_name); // for compatibility with enable
+  local_topic_name = IIOPath::toTopicName(request->topic_name);  // for compatibility with enable
 
   if (m_attrTopicMap.find(local_topic_name) != m_attrTopicMap.end()) {
     m_attrTopicMap.erase(local_topic_name);
@@ -609,7 +614,7 @@ void IIONode::listDevicesSrv(
   const std::shared_ptr<adi_iio::srv::ListDevices::Request> request,
   std::shared_ptr<adi_iio::srv::ListDevices::Response> response)
 {
-  (void)request; // unused
+  (void)request;  // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListDevices");
   std::string msg;
 
@@ -761,7 +766,7 @@ void IIONode::scanContextSrv(
   const std::shared_ptr<adi_iio::srv::ScanContext::Request> request,
   std::shared_ptr<adi_iio::srv::ScanContext::Response> response)
 {
-  (void)request; // unused
+  (void)request;  // unused
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ScanContext");
   std::string msg{"Found: "};
   std::vector<std::string> devices;
