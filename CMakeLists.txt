@@ -81,13 +81,9 @@ if(BUILD_TESTING)
   # Linters tests
   # ============================================================================
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
+  list(APPEND AMENT_LINT_AUTO_EXCLUDE
+    ament_cmake_flake8
+  )
   ament_lint_auto_find_test_dependencies()
   # ============================================================================
   # Integration tests
@@ -100,6 +96,27 @@ if(BUILD_TESTING)
     add_launch_test("${path}" RUNNER "${RUNNER}" ${ARGN})
   endfunction()
 
+  add_ros_isolated_launch_test(
+    test/smoke_test.test.py
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
+  )
+  add_ros_isolated_launch_test(
+    test/iio_path_utils.test.py
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+  )
+  add_ros_isolated_launch_test(
+    test/buffer_srv.test.py
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+  )
+  add_ros_isolated_launch_test(
+    test/attr_topic.test.py
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+  )
+  add_ros_isolated_launch_test(
+    test/attr_srv.test.py
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+  )
+  # ============================================================================
 endif()
 
 ament_package()
