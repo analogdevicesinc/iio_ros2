@@ -38,6 +38,11 @@ detailed documentation into several sections:
 
 * For information on **parameters and services**, refer to the `Node Description`_ section.
 
+* **System Tests:** The package includes comprehensive system tests located in the
+  ``test/`` directory. These tests are integrated with ``colcon test`` and require
+  specific hardware (Analog Devices IIO devices) to execute. Refer to the test
+  directory's README for detailed setup instructions and execution guidelines.
+
 * For building this documentation, refer to `Building the Project Documentation Locally`_.
 
 
