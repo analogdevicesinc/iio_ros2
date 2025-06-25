@@ -77,6 +77,9 @@ install(DIRECTORY
 
 
 if(BUILD_TESTING)
+  # ============================================================================
+  # Linters tests
+  # ============================================================================
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files
@@ -86,6 +89,17 @@ if(BUILD_TESTING)
   # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+  # ============================================================================
+  # Integration tests
+  # ============================================================================
+  find_package(ament_cmake_ros REQUIRED)
+  find_package(launch_testing_ament_cmake)
+
+  function(add_ros_isolated_launch_test path)
+    set(RUNNER "${ament_cmake_ros_DIR}/run_test_isolated.py")
+    add_launch_test("${path}" RUNNER "${RUNNER}" ${ARGN})
+  endfunction()
+
 endif()
 
 ament_package()
