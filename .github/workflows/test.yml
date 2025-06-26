@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: self-hosted-test
+    runs-on: self-hosted-ubuntu22
     container:
       image: astanea/adi_ros2:humble-amd64-desktop # Robotics SDK
 
