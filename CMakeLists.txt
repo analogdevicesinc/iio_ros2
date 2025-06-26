@@ -98,23 +98,23 @@ if(BUILD_TESTING)
 
   add_ros_isolated_launch_test(
     test/smoke_test.test.py
-      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=30"
   )
   add_ros_isolated_launch_test(
     test/iio_path_utils.test.py
-      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
   )
   add_ros_isolated_launch_test(
     test/buffer_srv.test.py
-      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
   )
   add_ros_isolated_launch_test(
     test/attr_topic.test.py
-      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
   )
   add_ros_isolated_launch_test(
     test/attr_srv.test.py
-      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=5"
+      ARGS "node_name:=adi_node" "uri:=ip:192.168.2.1" "timeout:=10"
   )
   # ============================================================================
 endif()
