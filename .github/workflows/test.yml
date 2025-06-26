@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Setup test workspace structure
         run: |
+          # Workaround for dorny/test-reporter@v1
+          git init
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+
           rm -rf ros2_ws
           mkdir -p ros2_ws/src
           cd ros2_ws
