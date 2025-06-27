@@ -1,0 +1,60 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: self-hosted-ubuntu22
+    container:
+      image: astanea/adi_ros2:humble-amd64-desktop # Robotics SDK
+
+    steps:
+      - name: Setup test workspace structure
+        run: |
+          # Workaround for dorny/test-reporter@v1
+          git init
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+
+          rm -rf ros2_ws
+          mkdir -p ros2_ws/src
+          cd ros2_ws
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: ros2_ws/src
+
+      - name: iio_info
+        run: |
+          iio_info -u ip:192.168.2.1
+
+      - name: Build the package
+        run: |
+          cd ros2_ws
+          apt update
+          rosdep update --rosdistro ${ROS_DISTRO}
+          rosdep install -y --from-paths src --skip-keys "libiio-dev" --ignore-src
+          . /opt/ros/${ROS_DISTRO}/setup.sh
+          colcon build \
+            --event-handlers console_cohesion+ \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+      - name: Run tests
+        run: |
+          cd ros2_ws
+          . install/setup.sh
+          export AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1
+          colcon test \
+            --event-handlers console_direct+
+
+      - name: Publish test report
+        uses: dorny/test-reporter@v1
+        if: ${{ !cancelled() }}
+        with:
+          name: ros2-test-results
+          path: "**/build/adi_iio/**/*.xunit.xml"
+          reporter: java-junit
+
+      - name: Clean up
+        run: |
+          rm -rf ros2_ws
