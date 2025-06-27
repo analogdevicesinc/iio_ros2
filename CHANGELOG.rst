@@ -2,8 +2,8 @@
 Changelog for package adi_iio
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2025-06-27)
+------------------
 * Automated Hardware Testing Infrastructure:
 
   * Setup of test workflows on self-hosted runners, with access to Pluto SDR device.
