@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=c218d0f6" />
     <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
-    <script defer="" src="_static/app.umd.js?v=8984ea49"></script>
+    <script defer="" src="_static/app.umd.js?v=5e042acc"></script>
     <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
     <script src="_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -19,6 +19,9 @@
   
   <meta name="repository" content="iio_ros2">
   <meta name="version" content="1.0">
+  
+    <meta name="page_source_suffix" content=".rst">
+  
   
 
 
@@ -272,10 +275,10 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
-<li class="toctree-l2"><a class="reference internal" href="__README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__CONTRIBUTING.html">CONTRIBUTING</a></li>
-<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="__README.html">README</a></li>
 </ul>
 </li>
 </ul>
@@ -346,10 +349,10 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="__standards.html">Standard Documents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="__README.html">README</a></li>
+<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__CONTRIBUTING.html">CONTRIBUTING</a></li>
-<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="__README.html">README</a></li>
 </ul>
 </li>
 </ul>
@@ -440,6 +443,10 @@ examples. Start with the <a class="reference internal" href="doc/Examples/01_ser
 services. You can also reference the standalone nodes and launch files for
 specific hardware interaction.</p></li>
 <li><p>For information on <strong>parameters and services</strong>, refer to the <a class="reference internal" href="#node-description">Node Description</a> section.</p></li>
+<li><p><strong>System Tests:</strong> The package includes comprehensive system tests located in the
+<code class="docutils literal notranslate"><span class="pre">test/</span></code> directory. These tests are integrated with <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">test</span></code> and require
+specific hardware (Analog Devices IIO devices) to execute. Refer to the test
+directory’s README for detailed setup instructions and execution guidelines.</p></li>
 <li><p>For building this documentation, refer to <a class="reference internal" href="#building-the-project-documentation-locally">Building the Project Documentation Locally</a>.</p></li>
 </ul>
 </section>
