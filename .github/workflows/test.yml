@@ -35,6 +35,10 @@ jobs:
           rosdep update --rosdistro ${ROS_DISTRO}
           rosdep install -y --from-paths src --skip-keys "libiio-dev" --ignore-src
           . /opt/ros/${ROS_DISTRO}/setup.sh
+
+          export IIO_ROS2_ENABLE_HW_TESTS=1
+          export TEST_URI="ip:192.168.2.1"
+
           colcon build \
             --event-handlers console_cohesion+ \
             --cmake-args -DCMAKE_BUILD_TYPE=Release
