@@ -2,6 +2,12 @@
 Changelog for package adi_iio
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Enhanced hardware testing workflow with environment variable controls.
+
+* Contributors: Adrian-Stanea
+
 1.0.0 (2025-06-27)
 ------------------
 * Automated Hardware Testing Infrastructure:
