@@ -144,11 +144,16 @@ class TestAdiIIONodeSmoke(unittest.TestCase):
         services = [
             f"/{test_args['node_name']}{service}" for service in services]
 
-        available_services = self.node.get_service_names_and_types()
-        available_service_names = [srv[0] for srv in available_services]
-
         for service in services:
-            found = service in available_service_names
+            found = False
+            start = time.time()
+            while time.time() - start < 20.0 and not found:
+                available_services = [
+                    srv[0] for srv in self.node.get_service_names_and_types()
+                ]
+                found = service in available_services
+                if not found:
+                    time.sleep(0.1)
             self.assertTrue(found), f"Service {service} not found!"
 
             self.node.get_logger().info(f"Service {service} is available.")
