@@ -79,8 +79,7 @@ target_link_libraries(${NODE_NAME}
   ${IIO_LIBRARIES}
   "${adi_iio_srvs_typesupport_target}"
   ${std_msgs_TARGETS}
-  rclcpp::rclcpp)
-ament_target_dependencies(${NODE_NAME} rclcpp std_msgs)
+  ${rclcpp_TARGETS})
 ament_export_dependencies(rosidl_default_runtime)
 
 # ==============================================================================
