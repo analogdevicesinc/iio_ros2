@@ -340,17 +340,36 @@ class TestAttrTopicServices(unittest.TestCase):
         self.node.get_logger().info(
             f"Starting scenario: {scenario.name} - {scenario.description}")
 
-        # Execute all enable operations
-        for enable_config in scenario.enable_configs:
-            self.node.get_logger().info(
-                f"Executing enable: {enable_config.description}")
-            self.execute_enable_topic_test(enable_config, test_args)
+        cleanup_queue: List[DisableTopicConfiguration] = []
+        try:
+            # Execute all enable operations
+            for enable_config in scenario.enable_configs:
+                self.node.get_logger().info(
+                    f"Executing enable: {enable_config.description}")
+                if self.execute_enable_topic_test(enable_config, test_args):
+                    cleanup_queue.append(
+                        DisableTopicConfiguration(
+                            topic_name=self._topic_identifier_for_cleanup(enable_config),
+                            topic_type=enable_config.topic_type,
+                            validate_topic_removal=False,
+                            description=f"Cleanup for {enable_config.description}"
+                        )
+                    )
 
-        # Execute all disable operations
-        for disable_config in scenario.disable_configs:
-            self.node.get_logger().info(
-                f"Executing disable: {disable_config.description}")
-            self.execute_disable_topic_test(disable_config, test_args)
+            # Execute all disable operations
+            for disable_config in scenario.disable_configs:
+                self.node.get_logger().info(
+                    f"Executing disable: {disable_config.description}")
+                self.execute_disable_topic_test(disable_config, test_args)
+                if disable_config.expected_success:
+                    cleanup_queue = [
+                        queued_cleanup for queued_cleanup in cleanup_queue
+                        if self._normalize_topic_name(queued_cleanup.topic_name) !=
+                        self._normalize_topic_name(disable_config.topic_name)
+                    ]
+        finally:
+            for cleanup_config in reversed(cleanup_queue):
+                self._best_effort_disable_topic(cleanup_config, test_args)
 
         self.node.get_logger().info(f"Completed scenario: {scenario.name}")
 
@@ -378,17 +397,31 @@ class TestAttrTopicServices(unittest.TestCase):
                 f"Service call failed for {config.description}: {response.message}"
             )
 
-            # Only do validation if the enable was expected to succeed
-            if config.validate_topic_creation:
-                self._validate_topic_creation(config)
+            cleanup_config = DisableTopicConfiguration(
+                topic_name=self._topic_identifier_for_cleanup(config),
+                topic_type=config.topic_type,
+                validate_topic_removal=False,
+                description=f"Cleanup for {config.description}"
+            )
 
-            if config.validate_data_flow:
-                self._validate_topic_data_and_rate(config)
+            try:
+                if config.validate_topic_creation:
+                    self._validate_topic_creation(config)
+
+                if config.validate_data_flow:
+                    self._validate_topic_data_and_rate(config)
+            except AssertionError:
+                self._best_effort_disable_topic(cleanup_config, test_args)
+                raise
+
+            return True
         else:
             self.assertFalse(
                 response.success,
                 f"Service call should have failed for {config.description}"
             )
+
+            return False
 
     def execute_disable_topic_test(self, config: DisableTopicConfiguration, test_args: Dict[str, Any]):
         """Execute a disable topic test with the given configuration."""
@@ -423,23 +456,28 @@ class TestAttrTopicServices(unittest.TestCase):
     def _validate_topic_creation(self, config: EnableTopicConfiguration):
         """Validate that expected topics are created with correct types."""
         for expected_topic in config.expected_topics:
-            topic_found = False
-            type_correct = False
+            deadline = time.monotonic() + SRV_TIMEOUT
+            observed_topic_types = None
 
-            for topic_name, topic_types in self.node.get_topic_names_and_types():
-                if topic_name == expected_topic:
-                    topic_found = True
-                    if config.expected_msg_type in topic_types:
-                        type_correct = True
+            while time.monotonic() < deadline:
+                for topic_name, topic_types in self.node.get_topic_names_and_types():
+                    if topic_name == expected_topic:
+                        observed_topic_types = topic_types
+                        if config.expected_msg_type in topic_types:
+                            break
+                if observed_topic_types is not None and config.expected_msg_type in observed_topic_types:
                     break
+                time.sleep(0.1)
 
-            self.assertTrue(
-                topic_found,
+            self.assertIsNotNone(
+                observed_topic_types,
                 f"Expected topic {expected_topic} not found for {config.description}"
             )
-            self.assertTrue(
-                type_correct,
-                f"Expected topic {expected_topic} has wrong type. Expected {config.expected_msg_type}"
+            self.assertIn(
+                config.expected_msg_type,
+                observed_topic_types,
+                f"Expected topic {expected_topic} has wrong type. "
+                f"Expected {config.expected_msg_type}, got {observed_topic_types}"
             )
 
     def _validate_topic_removed(self, config: DisableTopicConfiguration):
@@ -468,20 +506,23 @@ class TestAttrTopicServices(unittest.TestCase):
         read_topic = config.expected_topics[0]  # Assuming first is read topic
         expected_topic_list = [(read_topic, msg_class)]
 
-        time_start = time.time()
         with WaitForTopics(
             expected_topic_list,
             timeout=SRV_TIMEOUT,
             messages_received_buffer_length=config.buffer_length
         ) as wait_for_topics:
+            time.sleep(0.5)
+            baseline_count = len(wait_for_topics.received_messages(read_topic))
+            time_start = time.time()
             time.sleep(config.time_window)
             time_end = time.time()
             elapsed_time = time_end - time_start
 
             received_messages = wait_for_topics.received_messages(read_topic)
+            received_count = len(received_messages) - baseline_count
 
             # Validate message count and rate
-            estimated_loop_rate = len(received_messages) / elapsed_time
+            estimated_loop_rate = received_count / elapsed_time
             expected_rate = config.loop_rate
             tolerance = config.rate_tolerance * expected_rate
 
@@ -491,6 +532,36 @@ class TestAttrTopicServices(unittest.TestCase):
                 delta=tolerance,
                 msg=f"Rate validation failed for {config.description}. "
                     f"Expected: {expected_rate}Hz, Got: {estimated_loop_rate:.2f}Hz"
+            )
+
+    def _topic_identifier_for_cleanup(self, config: EnableTopicConfiguration) -> str:
+        """Return the service identifier used to disable a previously enabled topic."""
+        return config.topic_name if config.topic_name else config.attr_path
+
+    def _normalize_topic_name(self, topic_name: str) -> str:
+        """Normalize a topic identifier for matching enable/disable operations."""
+        normalized = topic_name.replace('-', '_')
+        if normalized.startswith('/'):
+            return normalized
+        return f"/{normalized}"
+
+    def _best_effort_disable_topic(self, config: DisableTopicConfiguration, test_args: Dict[str, Any]):
+        """Disable a topic without failing the scenario cleanup path."""
+        try:
+            client = self.create_attr_disable_topic_client(test_args["node_name"])
+            future = self.attr_disable_topic_request(
+                client=client,
+                topic_name=config.topic_name,
+                type=config.topic_type.value
+            )
+            response: AttrDisableTopic.Response = future.result()
+            if not response.success:
+                self.node.get_logger().warning(
+                    f"Cleanup disable failed for {config.topic_name}: {response.message}"
+                )
+        except AssertionError as error:
+            self.node.get_logger().warning(
+                f"Cleanup disable assertion failed for {config.topic_name}: {error}"
             )
 
     # Generate individual test methods for each scenario
