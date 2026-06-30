@@ -84,7 +84,9 @@ following environment variable: `TEST_NODE_NAME`, `TEST_URI`, `TEST_TIMEOUT`.
 5. **Run All Tests with colcon**
    ```bash
    colcon test \
-        --event-handlers console_direct+
+      --event-handlers console_cohesion+ \
+      --executor sequential \
+      --packages-select adi_iio
    ```
 
 6. **View Test Results**
