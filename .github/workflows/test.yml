@@ -1,6 +1,8 @@
 name: Run Tests
 
-on: [push, pull_request]
+# Run tests locally instead - self hosted runner is down
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read

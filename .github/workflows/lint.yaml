@@ -3,8 +3,11 @@ name: Lint ROS2 package
 on:
   workflow_dispatch:
   pull_request:
+    branches:
+      - "*jazzy*"
   push:
-    branches: [ "*"]
+    branches:
+      - "*jazzy*"
 
 env:
   PACKAGE_NAME: "adi_iio"
@@ -15,13 +18,12 @@ permissions:
 
 jobs:
   ament_lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         ros_distribution:
-          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
-          - humble
+          - jazzy
         linter:
           - cppcheck
           - uncrustify
@@ -51,13 +53,13 @@ jobs:
           package-name: ${{ env.PACKAGE_NAME }}
 
   pre_commit:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         ros_distribution:
-          # Humble Hawksbill (May 2022 - May 2027) - Ubuntu 22.04 (Jammy)
-          - humble
+          - jazzy
+
 
     steps:
       - name: Checkout code

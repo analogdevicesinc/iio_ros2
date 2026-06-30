@@ -3,9 +3,7 @@ on:
     workflow_dispatch:
     push:
       branches:
-        - humble
-        - jazzy
-        - rolling
+        - "*jazzy*"
 
 permissions:
   contents: read
@@ -41,7 +39,7 @@ jobs:
   deploy-doc:
     runs-on: ubuntu-latest
     needs: build-doc
-    if: github.ref == 'refs/heads/humble'
+    if: github.ref == 'refs/heads/jazzy'
 
     steps:
     - run: |
