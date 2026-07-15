@@ -2,10 +2,6 @@ name: Generate documentation
 on:
     workflow_dispatch:
     push:
-      branches:
-        - humble
-        - jazzy
-        - rolling
 
 permissions:
   contents: read
@@ -41,7 +37,9 @@ jobs:
   deploy-doc:
     runs-on: ubuntu-latest
     needs: build-doc
-    if: github.ref == 'refs/heads/humble'
+    if: github.ref == 'refs/heads/humble' || github.ref == 'refs/heads/jazzy' || github.ref == 'refs/heads/lyrical' || github.ref == 'refs/heads/rolling'
+    permissions:
+      contents: write
 
     steps:
     - run: |
