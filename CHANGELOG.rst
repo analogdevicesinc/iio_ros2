@@ -2,6 +2,13 @@
 Changelog for package adi_iio
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Tests: stabilize smoke and attr_topic tests with service/topic discovery waits, failure cleanup, and warmup-aware rate checks.
+* Build system: require CMake 3.14 and remove deprecated ament_target_dependencies usage.
+* Node services: use service-specific QoS in adi_iio services.
+* Contributors: Adrian-Stanea
+
 1.0.1 (2025-07-17)
 ------------------
 * Enhanced hardware testing workflow with environment variable controls.
