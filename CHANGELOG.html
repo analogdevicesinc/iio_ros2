@@ -4,11 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Enhanced hardware testing workflow with environment variable controls." name="description" />
+<meta content="Tests: stabilize smoke and attr_topic tests with service/topic discovery waits, failure cleanup, and warmup-aware rate checks." name="description" />
 
-    <title>Changelog for package adi_iio &#8212; adi_iio 1.0.1 documentation</title>
+    <title>Changelog for package adi_iio &#8212; adi_iio 1.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=d3f78147" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=cae2157c" />
     <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
     <script async="async" src="_static/app.umd.js?v=26d0298f"></script>
     <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
@@ -20,7 +20,7 @@
   
   
   <meta name="repository" content="iio_ros2">
-  <meta name="version" content="1.0">
+  <meta name="version" content="1.1">
   
     <meta name="page_source_suffix" content=".rst">
   
@@ -66,10 +66,10 @@
     </div>
     <div id="right">
       <span>
-        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
         <div class="vertical-divider"></div>
         
-        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Docs</label>
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
         
         <a id="logo" href="index.html">
           <div>adi_iio</div>
@@ -94,8 +94,9 @@
         <nav>
           <ul>
 <li><a class="reference internal" href="#">Changelog for package adi_iio</a><ul>
-<li><a class="reference internal" href="#id1">1.0.1 (2025-07-17)</a></li>
-<li><a class="reference internal" href="#id2">1.0.0 (2025-06-27)</a></li>
+<li><a class="reference internal" href="#id1">1.1.0 (2026-08-17)</a></li>
+<li><a class="reference internal" href="#id2">1.0.1 (2025-07-17)</a></li>
+<li><a class="reference internal" href="#id3">1.0.0 (2025-06-27)</a></li>
 </ul>
 </li>
 </ul>
@@ -222,11 +223,11 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="__CONTRIBUTING.html">CONTRIBUTING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__CHANGELOG.html">CHANGELOG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="__README.html">README</a></li>
-<li class="toctree-l2"><a class="reference internal" href="__PACKAGE.html">PACKAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -266,14 +267,23 @@ Content on this topic
   <section id="changelog-for-package-adi-iio">
 <h1>Changelog for package adi_iio<a class="headerlink" href="#changelog-for-package-adi-iio" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>1.0.1 (2025-07-17)<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>1.1.0 (2026-08-17)<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Tests: stabilize smoke and attr_topic tests with service/topic discovery waits, failure cleanup, and warmup-aware rate checks.</p></li>
+<li><p>Build system: require CMake 3.14 and remove deprecated ament_target_dependencies usage.</p></li>
+<li><p>Node services: use service-specific QoS in adi_iio services.</p></li>
+<li><p>Contributors: Adrian-Stanea</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>1.0.1 (2025-07-17)<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Enhanced hardware testing workflow with environment variable controls.</p></li>
 <li><p>Contributors: Adrian-Stanea</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>1.0.0 (2025-06-27)<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>1.0.0 (2025-06-27)<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Automated Hardware Testing Infrastructure:</p>
 <ul>

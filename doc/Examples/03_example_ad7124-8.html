@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="Raspberry Pi 4B as the remote host with Kuiper Linux Image installed." name="description" />
 
-    <title>AD7124-8 &#8212; adi_iio 1.0.1 documentation</title>
+    <title>AD7124-8 &#8212; adi_iio 1.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=d3f78147" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=cae2157c" />
     <link rel="stylesheet" type="text/css" href="../../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
     <script async="async" src="../../_static/app.umd.js?v=26d0298f"></script>
     <script src="../../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
@@ -22,7 +22,7 @@
   
   
   <meta name="repository" content="iio_ros2">
-  <meta name="version" content="1.0">
+  <meta name="version" content="1.1">
   
     <meta name="page_source_suffix" content=".rst">
   
@@ -68,10 +68,10 @@
     </div>
     <div id="right">
       <span>
-        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
         <div class="vertical-divider"></div>
         
-        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Docs</label>
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
         
         <a id="logo" href="../../index.html">
           <div>adi_iio</div>
@@ -248,11 +248,11 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__CHANGELOG.html">CHANGELOG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__README.html">README</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -320,10 +320,10 @@ running the examples.</p>
 <code class="docutils literal notranslate"><span class="pre">/adi_iio_node/AttrWriteString</span></code> service. For instance, to set the <code class="docutils literal notranslate"><span class="pre">scale</span></code>
 for <code class="docutils literal notranslate"><span class="pre">input_voltage0-voltage1</span></code> of the <code class="docutils literal notranslate"><span class="pre">ad7124-8</span></code> device, you would use the following
 command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    attr_path: &#39;ad7124-8/input_voltage0-voltage1/scale&#39;,</span>
-<span class="s2">    value: &#39;0.000149011&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    attr_path: 'ad7124-8/input_voltage0-voltage1/scale',</span>
+<span class="s2">    value: '0.000149011'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>In this command:</p>
@@ -391,10 +391,10 @@ ADC readings from its differential channels.</p>
 call the <code class="docutils literal notranslate"><span class="pre">/adi_iio_node/AttrEnableTopic</span></code> service. For instance, to start
 publishing the <code class="docutils literal notranslate"><span class="pre">raw</span></code> value of the <code class="docutils literal notranslate"><span class="pre">input_voltage0-voltage1</span></code> differential
 channel of the <code class="docutils literal notranslate"><span class="pre">ad7124-8</span></code> device, you would use the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    attr_path: &#39;ad7124-8/input_voltage0-voltage1/raw&#39;,</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    attr_path: 'ad7124-8/input_voltage0-voltage1/raw',</span>
 <span class="s2">    loop_rate: 1</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>This command instructs the <code class="docutils literal notranslate"><span class="pre">adi_iio_node</span></code> to create a publisher for the

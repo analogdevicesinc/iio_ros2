@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="The command below launches the adi_iio_node executable from the adi_iio package. The uri parameter is used to describe the context location of the IIO device." name="description" />
 
-    <title>adi_iio_node: service call reference &#8212; adi_iio 1.0.1 documentation</title>
+    <title>adi_iio_node: service call reference &#8212; adi_iio 1.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=d3f78147" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=cae2157c" />
     <link rel="stylesheet" type="text/css" href="../../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
     <script async="async" src="../../_static/app.umd.js?v=26d0298f"></script>
     <script src="../../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
@@ -22,7 +22,7 @@
   
   
   <meta name="repository" content="iio_ros2">
-  <meta name="version" content="1.0">
+  <meta name="version" content="1.1">
   
     <meta name="page_source_suffix" content=".rst">
   
@@ -68,10 +68,10 @@
     </div>
     <div id="right">
       <span>
-        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
         <div class="vertical-divider"></div>
         
-        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Docs</label>
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
         
         <a id="logo" href="../../index.html">
           <div>adi_iio</div>
@@ -242,11 +242,11 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__CHANGELOG.html">CHANGELOG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__README.html">README</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -407,7 +407,7 @@ please refer to the <a class="reference internal" href="../../index.html#scancon
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ScanContext_Request<span class="o">()</span>
 
 response:
-adi_iio.srv.ScanContext_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found: Context attributes: 16; Devices: 14; Channels: 98; Device attributes: 54; Channel attributes: 372; &#39;</span>,<span class="w"> </span><span class="nv">devices</span><span class="o">=[</span><span class="s1">&#39;xadc&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad5625&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-fabric&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-adc-trigger&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad9963&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad5627&#39;</span>,<span class="w"> </span><span class="s1">&#39;pll&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dds&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-b&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer-tx&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer-rx&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">&#39;xadc/input_voltage5&#39;</span>,<span class="w"> </span><span class="s1">&#39;xadc/input_voltage0&#39;</span>,<span class="w"> </span><span class="s1">&#39;xadc/input_voltage4&#39;</span>,<span class="w"> </span><span class="s1">&#39;xadc/input_temp0&#39;</span>,<span class="w"> </span>....<span class="o">)</span>
+adi_iio.srv.ScanContext_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found: Context attributes: 16; Devices: 14; Channels: 98; Device attributes: 54; Channel attributes: 372; '</span>,<span class="w"> </span><span class="nv">devices</span><span class="o">=[</span><span class="s1">'xadc'</span>,<span class="w"> </span><span class="s1">'ad5625'</span>,<span class="w"> </span><span class="s1">'m2k-fabric'</span>,<span class="w"> </span><span class="s1">'m2k-adc-trigger'</span>,<span class="w"> </span><span class="s1">'ad9963'</span>,<span class="w"> </span><span class="s1">'m2k-adc'</span>,<span class="w"> </span><span class="s1">'ad5627'</span>,<span class="w"> </span><span class="s1">'pll'</span>,<span class="w"> </span><span class="s1">'m2k-dds'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a'</span>,<span class="w"> </span><span class="s1">'m2k-dac-b'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer-tx'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer-rx'</span><span class="o">]</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">'xadc/input_voltage5'</span>,<span class="w"> </span><span class="s1">'xadc/input_voltage0'</span>,<span class="w"> </span><span class="s1">'xadc/input_voltage4'</span>,<span class="w"> </span><span class="s1">'xadc/input_temp0'</span>,<span class="w"> </span>....<span class="o">)</span>
 </pre></div>
 </div>
 <p>The response fields contain lists of <span class="xref std std-ref">IIO Path</span> values.</p>
@@ -424,7 +424,7 @@ please refer to the <a class="reference internal" href="../../index.html#listdev
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListDevices_Request<span class="o">()</span>
 
 response:
-adi_iio.srv.ListDevices_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found 14 devices&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">&#39;xadc&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad5625&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-fabric&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-adc-trigger&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad9963&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;ad5627&#39;</span>,<span class="w"> </span><span class="s1">&#39;pll&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dds&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-b&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer-tx&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-logic-analyzer-rx&#39;</span><span class="o">])</span>
+adi_iio.srv.ListDevices_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found 14 devices'</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">'xadc'</span>,<span class="w"> </span><span class="s1">'ad5625'</span>,<span class="w"> </span><span class="s1">'m2k-fabric'</span>,<span class="w"> </span><span class="s1">'m2k-adc-trigger'</span>,<span class="w"> </span><span class="s1">'ad9963'</span>,<span class="w"> </span><span class="s1">'m2k-adc'</span>,<span class="w"> </span><span class="s1">'ad5627'</span>,<span class="w"> </span><span class="s1">'pll'</span>,<span class="w"> </span><span class="s1">'m2k-dds'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a'</span>,<span class="w"> </span><span class="s1">'m2k-dac-b'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer-tx'</span>,<span class="w"> </span><span class="s1">'m2k-logic-analyzer-rx'</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> field from the response contains a list of <code class="docutils literal notranslate"><span class="pre">device_paths</span></code> as
@@ -437,16 +437,16 @@ please refer to the <a class="reference internal" href="../../index.html#listcha
 <p><strong>Usage:</strong></p>
 <p>The request interface for this service requires the user to specify the
 <code class="docutils literal notranslate"><span class="pre">iio_path</span></code> using a valid <a class="reference internal" href="../../index.html#device-path"><span class="std std-ref">Device Path (device_path)</span></a> value.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListChannels<span class="w"> </span>adi_iio/srv/ListChannels<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    iio_path: &#39;m2k-adc&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListChannels<span class="w"> </span>adi_iio/srv/ListChannels<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    iio_path: 'm2k-adc'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListChannels_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListChannels_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.ListChannels_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found 2 channels in device: m2k-adc&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">&#39;m2k-adc/input_voltage0&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-adc/input_voltage1&#39;</span><span class="o">])</span>
+adi_iio.srv.ListChannels_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found 2 channels in device: m2k-adc'</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">'m2k-adc/input_voltage0'</span>,<span class="w"> </span><span class="s1">'m2k-adc/input_voltage1'</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> field from the response contains a list of <code class="docutils literal notranslate"><span class="pre">channel_paths</span></code> as
@@ -461,46 +461,46 @@ please refer to the <a class="reference internal" href="../../index.html#listatt
 <code class="docutils literal notranslate"><span class="pre">iio_path</span></code> using a valid <a class="reference internal" href="../../index.html#context-path"><span class="std std-ref">Context Path</span></a>, <a class="reference internal" href="../../index.html#device-path"><span class="std std-ref">Device Path (device_path)</span></a>, or
 :ref:<code class="docutils literal notranslate"><span class="pre">Channel</span> <span class="pre">Path</span></code> value.</p>
 <p><strong>Context Path attributes:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    iio_path: &#39;&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    iio_path: ''</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">''</span><span class="o">)</span>
 
 response:
-adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found 16 attributes&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">&#39;hw_model&#39;</span>,<span class="w"> </span><span class="s1">&#39;hw_model_variant&#39;</span>,<span class="w"> </span><span class="s1">&#39;hw_serial&#39;</span>,<span class="w"> </span><span class="s1">&#39;fw_version&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,offset_pos_dac&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,gain_pos_dac&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,offset_pos_adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,gain_pos_adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,offset_neg_dac&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,gain_neg_dac&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,offset_neg_adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,gain_neg_adc&#39;</span>,<span class="w"> </span><span class="s1">&#39;cal,temp_lut&#39;</span>,<span class="w"> </span><span class="s1">&#39;local,kernel&#39;</span>,<span class="w"> </span><span class="s1">&#39;uri&#39;</span>,<span class="w"> </span><span class="s1">&#39;ip,ip-addr&#39;</span><span class="o">])</span>
+adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found 16 attributes'</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">'hw_model'</span>,<span class="w"> </span><span class="s1">'hw_model_variant'</span>,<span class="w"> </span><span class="s1">'hw_serial'</span>,<span class="w"> </span><span class="s1">'fw_version'</span>,<span class="w"> </span><span class="s1">'cal,offset_pos_dac'</span>,<span class="w"> </span><span class="s1">'cal,gain_pos_dac'</span>,<span class="w"> </span><span class="s1">'cal,offset_pos_adc'</span>,<span class="w"> </span><span class="s1">'cal,gain_pos_adc'</span>,<span class="w"> </span><span class="s1">'cal,offset_neg_dac'</span>,<span class="w"> </span><span class="s1">'cal,gain_neg_dac'</span>,<span class="w"> </span><span class="s1">'cal,offset_neg_adc'</span>,<span class="w"> </span><span class="s1">'cal,gain_neg_adc'</span>,<span class="w"> </span><span class="s1">'cal,temp_lut'</span>,<span class="w"> </span><span class="s1">'local,kernel'</span>,<span class="w"> </span><span class="s1">'uri'</span>,<span class="w"> </span><span class="s1">'ip,ip-addr'</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> field from the response contains a list of <code class="docutils literal notranslate"><span class="pre">attr_path</span></code> to
 context attributes as described in the <a class="reference internal" href="../../index.html#context-attribute-path"><span class="std std-ref">Context Attribute Path (attr_path)</span></a> section.</p>
 <p><strong>Device Path attributes:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    iio_path: &#39;m2k-dac-a&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    iio_path: 'm2k-dac-a'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">&#39;m2k-dac-a&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">'m2k-dac-a'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found 11 attributes in device: m2k-dac-a&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">&#39;m2k-dac-a/auto_rearm_trigger&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/calibscale&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/dma_sync&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/dma_sync_start&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/oversampling_ratio&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/sampling_frequency&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/sampling_frequency_available&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/trigger_condition&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/trigger_condition_available&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/trigger_src&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/trigger_src_available&#39;</span><span class="o">])</span>
+adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found 11 attributes in device: m2k-dac-a'</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">'m2k-dac-a/auto_rearm_trigger'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/calibscale'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/dma_sync'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/dma_sync_start'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/oversampling_ratio'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/sampling_frequency'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/sampling_frequency_available'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/trigger_condition'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/trigger_condition_available'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/trigger_src'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/trigger_src_available'</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> field from the response contains a list of <code class="docutils literal notranslate"><span class="pre">attr_path</span></code> to
 device attributes as described in the <a class="reference internal" href="../../index.html#device-attribute-path"><span class="std std-ref">Device Attribute Path (attr_path)</span></a> section.</p>
 <p><strong>Channel Path attributes:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    iio_path: &#39;m2k-dac-a/output_voltage0&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/ListAttributes<span class="w"> </span>adi_iio/srv/ListAttributes<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    iio_path: 'm2k-dac-a/output_voltage0'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">&#39;m2k-dac-a/output_voltage0&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.ListAttributes_Request<span class="o">(</span><span class="nv">iio_path</span><span class="o">=</span><span class="s1">'m2k-dac-a/output_voltage0'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Found 5 attributes in channel: output_voltage0&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">&#39;m2k-dac-a/output_voltage0/raw&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/output_voltage0/raw_enable&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/output_voltage0/raw_enable_available&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/output_voltage0/trigger_status&#39;</span>,<span class="w"> </span><span class="s1">&#39;m2k-dac-a/output_voltage0/trigger_status_available&#39;</span><span class="o">])</span>
+adi_iio.srv.ListAttributes_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Found 5 attributes in channel: output_voltage0'</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="s1">'m2k-dac-a/output_voltage0/raw'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/output_voltage0/raw_enable'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/output_voltage0/raw_enable_available'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/output_voltage0/trigger_status'</span>,<span class="w"> </span><span class="s1">'m2k-dac-a/output_voltage0/trigger_status_available'</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> field from the response contains a list of <code class="docutils literal notranslate"><span class="pre">attr_path</span></code> to
@@ -511,16 +511,16 @@ channel attributes as described in the <a class="reference internal" href="../..
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#attrenabletopic"><span class="std std-ref">AttrEnableTopic</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    attr_path: xadc/input_temp0/raw</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrEnableTopic_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">&#39;xadc/input_temp0/raw&#39;</span>,<span class="w"> </span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span>,<span class="w"> </span><span class="nv">loop_rate</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrEnableTopic_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">'xadc/input_temp0/raw'</span>,<span class="w"> </span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">''</span>,<span class="w"> </span><span class="nv">loop_rate</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>
 
 response:
-adi_iio.srv.AttrEnableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.AttrEnableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -533,17 +533,17 @@ command <code class="docutils literal notranslate"><span class="pre">ros2</span>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>Control the data type of the topic:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    attr_path: xadc/input_temp0/raw,</span>
 <span class="s2">    type: 1</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p><strong>Control the loop rate of the topic:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    attr_path: xadc/input_temp0/raw,</span>
 <span class="s2">    loop_rate: 10</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 </div>
@@ -553,16 +553,16 @@ command <code class="docutils literal notranslate"><span class="pre">ros2</span>
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#attrdisabletopic"><span class="std std-ref">AttrDisableTopic</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrDisableTopic<span class="w"> </span>adi_iio/srv/AttrDisableTopic<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrDisableTopic<span class="w"> </span>adi_iio/srv/AttrDisableTopic<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    topic_name: xadc/input_temp0/raw</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrDisableTopic_Request<span class="o">(</span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">&#39;xadc/input_temp0/raw&#39;</span>,<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrDisableTopic_Request<span class="o">(</span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">'xadc/input_temp0/raw'</span>,<span class="w"> </span><span class="nv">type</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>
 
 response:
-adi_iio.srv.AttrDisableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.AttrDisableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -571,16 +571,16 @@ adi_iio.srv.AttrDisableTopic_Response<span class="o">(</span><span class="nv">su
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#attrreadstring"><span class="std std-ref">AttrReadString</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrReadString<span class="w"> </span>adi_iio/srv/AttrReadString<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrReadString<span class="w"> </span>adi_iio/srv/AttrReadString<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    attr_path:  xadc/input_temp0/raw</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrReadString_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">&#39;xadc/input_temp0/raw&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrReadString_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">'xadc/input_temp0/raw'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.AttrReadString_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;2690&#39;</span><span class="o">)</span>
+adi_iio.srv.AttrReadString_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'2690'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -589,17 +589,17 @@ adi_iio.srv.AttrReadString_Response<span class="o">(</span><span class="nv">succ
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#attrwritestring"><span class="std std-ref">AttrWriteString</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    attr_path: m2k-dac-a/voltage0/raw,</span>
 <span class="s2">    value: 123</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrWriteString_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">&#39;m2k-dac-a/voltage0/raw&#39;</span>,<span class="w"> </span><span class="nv">value</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.AttrWriteString_Request<span class="o">(</span><span class="nv">attr_path</span><span class="o">=</span><span class="s1">'m2k-dac-a/voltage0/raw'</span>,<span class="w"> </span><span class="nv">value</span><span class="o">=</span><span class="s1">'123'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.AttrWriteString_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="o">)</span>
+adi_iio.srv.AttrWriteString_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'123'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -609,25 +609,25 @@ adi_iio.srv.AttrWriteString_Response<span class="o">(</span><span class="nv">suc
 please refer to the <a class="reference internal" href="../../index.html#buffercreate"><span class="std std-ref">BufferCreate</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Device has 2 inpus channels</span>
-ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferCreate<span class="w"> </span>adi_iio/srv/BufferCreate<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;,</span>
-<span class="s2">    channels: [&#39;voltage0&#39;, &#39;voltage1&#39;],</span>
+ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferCreate<span class="w"> </span>adi_iio/srv/BufferCreate<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc',</span>
+<span class="s2">    channels: ['voltage0', 'voltage1'],</span>
 <span class="s2">    samples_count: 8,</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 
 <span class="c1"># Alternatively, you can explicitly specify the channel direction</span>
-ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferCreate<span class="w"> </span>adi_iio/srv/BufferCreate<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;,</span>
-<span class="s2">    channels: [&#39;input_voltage0&#39;, &#39;input_voltage1&#39;],</span>
+ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferCreate<span class="w"> </span>adi_iio/srv/BufferCreate<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc',</span>
+<span class="s2">    channels: ['input_voltage0', 'input_voltage1'],</span>
 <span class="s2">    samples_count: 8,</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferCreate_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">&#39;voltage0&#39;</span>,<span class="w"> </span><span class="s1">&#39;voltage1&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">samples_count</span><span class="o">=</span><span class="m">8</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferCreate_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">'voltage0'</span>,<span class="w"> </span><span class="s1">'voltage1'</span><span class="o">]</span>,<span class="w"> </span><span class="nv">samples_count</span><span class="o">=</span><span class="m">8</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferCreate_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span>,<span class="w"> </span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;samples&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;channels&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">))</span>
+adi_iio.srv.BufferCreate_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span>,<span class="w"> </span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'samples'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'channels'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">))</span>
 </pre></div>
 </div>
 </section>
@@ -636,16 +636,16 @@ adi_iio.srv.BufferCreate_Response<span class="o">(</span><span class="nv">succes
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferdestroy"><span class="std std-ref">BufferDestroy</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferDestroy<span class="w"> </span>adi_iio/srv/BufferDestroy<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferDestroy<span class="w"> </span>adi_iio/srv/BufferDestroy<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferDestroy_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferDestroy_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferDestroy_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.BufferDestroy_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -654,16 +654,16 @@ adi_iio.srv.BufferDestroy_Response<span class="o">(</span><span class="nv">succe
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferdisabletopic"><span class="std std-ref">BufferDisableTopic</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferDisableTopic<span class="w"> </span>adi_iio/srv/BufferDisableTopic<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;,</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferDisableTopic<span class="w"> </span>adi_iio/srv/BufferDisableTopic<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc',</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferDisableTopic_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferDisableTopic_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferDisableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.BufferDisableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>
@@ -672,17 +672,17 @@ adi_iio.srv.BufferDisableTopic_Response<span class="o">(</span><span class="nv">
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferenabletopic"><span class="std std-ref">BufferEnableTopic</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferEnableTopic<span class="w"> </span>adi_iio/srv/BufferEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;,</span>
-<span class="s2">    topic_name: &#39;m2k-adc&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferEnableTopic<span class="w"> </span>adi_iio/srv/BufferEnableTopic<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc',</span>
+<span class="s2">    topic_name: 'm2k-adc'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferEnableTopic_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span>,<span class="w"> </span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferEnableTopic_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span>,<span class="w"> </span><span class="nv">topic_name</span><span class="o">=</span><span class="s1">'m2k-adc'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferEnableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.BufferEnableTopic_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -696,18 +696,18 @@ For this, you need to create a buffer using the <code class="docutils literal no
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferread"><span class="std std-ref">BufferRead</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferRead<span class="w"> </span>adi_iio/srv/BufferRead<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;,</span>
-<span class="s2">    channels: [&#39;voltage0&#39;, &#39;voltage1&#39;],</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferRead<span class="w"> </span>adi_iio/srv/BufferRead<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc',</span>
+<span class="s2">    channels: ['voltage0', 'voltage1'],</span>
 <span class="s2">    samples_count: 8</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferRead_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">&#39;voltage0&#39;</span>,<span class="w"> </span><span class="s1">&#39;voltage1&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">samples_count</span><span class="o">=</span><span class="m">8</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferRead_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">'voltage0'</span>,<span class="w"> </span><span class="s1">'voltage1'</span><span class="o">]</span>,<span class="w"> </span><span class="nv">samples_count</span><span class="o">=</span><span class="m">8</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferRead_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;samples&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;channels&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-66<span class="o">]))</span>
+adi_iio.srv.BufferRead_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'samples'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'channels'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-66<span class="o">]))</span>
 </pre></div>
 </div>
 </section>
@@ -716,16 +716,16 @@ adi_iio.srv.BufferRead_Response<span class="o">(</span><span class="nv">success<
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferrefill"><span class="std std-ref">BufferRefill</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferRefill<span class="w"> </span>adi_iio/srv/BufferRefill<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    device_path: &#39;m2k-adc&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferRefill<span class="w"> </span>adi_iio/srv/BufferRefill<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    device_path: 'm2k-adc'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferRefill_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-adc&#39;</span><span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferRefill_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-adc'</span><span class="o">)</span>
 
 response:
-adi_iio.srv.BufferRefill_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;samples&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;channels&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-63<span class="o">]))</span>
+adi_iio.srv.BufferRefill_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'samples'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">16</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'channels'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">2</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">61</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-66,<span class="w"> </span><span class="m">62</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">60</span>,<span class="w"> </span>-65,<span class="w"> </span><span class="m">61</span>,<span class="w"> </span>-63<span class="o">]))</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -739,20 +739,20 @@ For this, you need to create a buffer using the <code class="docutils literal no
 <p>For complete details about the request and response format of this service,
 please refer to the <a class="reference internal" href="../../index.html#bufferwrite"><span class="std std-ref">BufferWrite</span></a> service documentation.</p>
 <p><strong>Usage:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferWrite<span class="w"> </span>adi_iio/srv/BufferWrite<span class="w"> </span><span class="s2">&quot;{</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/BufferWrite<span class="w"> </span>adi_iio/srv/BufferWrite<span class="w"> </span><span class="s2">"{</span>
 <span class="s2">    device_path: m2k-dac-a,</span>
-<span class="s2">    channels: [&#39;voltage0&#39;],</span>
+<span class="s2">    channels: ['voltage0'],</span>
 <span class="s2">    cyclic: 0,</span>
 <span class="s2">    buffer: {</span>
 <span class="s2">        layout: {</span>
 <span class="s2">            dim: [</span>
 <span class="s2">                {</span>
-<span class="s2">                label: &quot;</span>samples<span class="s2">&quot;,</span>
+<span class="s2">                label: "</span>samples<span class="s2">",</span>
 <span class="s2">                size: 4,</span>
 <span class="s2">                stride: 4</span>
 <span class="s2">                },</span>
 <span class="s2">                {</span>
-<span class="s2">                    label: &quot;</span>channels<span class="s2">&quot;,</span>
+<span class="s2">                    label: "</span>channels<span class="s2">",</span>
 <span class="s2">                    size: 1,</span>
 <span class="s2">                    stride: 1</span>
 <span class="s2">                }</span>
@@ -761,14 +761,14 @@ please refer to the <a class="reference internal" href="../../index.html#bufferw
 <span class="s2">        },</span>
 <span class="s2">        data: [ 12345, 12345, 12345, 12345 ]</span>
 <span class="s2">    }</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>The output should look like this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferWrite_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">&#39;m2k-dac-a&#39;</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">&#39;voltage0&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;samples&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">4</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">4</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">&#39;channels&#39;</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">1</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span><span class="o">])</span>,<span class="w"> </span><span class="nv">cyclic</span><span class="o">=</span>False<span class="o">)</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>requester:<span class="w"> </span>making<span class="w"> </span>request:<span class="w"> </span>adi_iio.srv.BufferWrite_Request<span class="o">(</span><span class="nv">device_path</span><span class="o">=</span><span class="s1">'m2k-dac-a'</span>,<span class="w"> </span><span class="nv">channels</span><span class="o">=[</span><span class="s1">'voltage0'</span><span class="o">]</span>,<span class="w"> </span><span class="nv">buffer</span><span class="o">=</span>std_msgs.msg.Int32MultiArray<span class="o">(</span><span class="nv">layout</span><span class="o">=</span>std_msgs.msg.MultiArrayLayout<span class="o">(</span><span class="nv">dim</span><span class="o">=[</span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'samples'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">4</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">4</span><span class="o">)</span>,<span class="w"> </span>std_msgs.msg.MultiArrayDimension<span class="o">(</span><span class="nv">label</span><span class="o">=</span><span class="s1">'channels'</span>,<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span><span class="nv">stride</span><span class="o">=</span><span class="m">1</span><span class="o">)]</span>,<span class="w"> </span><span class="nv">data_offset</span><span class="o">=</span><span class="m">0</span><span class="o">)</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=[</span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span>,<span class="w"> </span><span class="m">12345</span><span class="o">])</span>,<span class="w"> </span><span class="nv">cyclic</span><span class="o">=</span>False<span class="o">)</span>
 
 response:
-adi_iio.srv.BufferWrite_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">&#39;Success&#39;</span><span class="o">)</span>
+adi_iio.srv.BufferWrite_Response<span class="o">(</span><span class="nv">success</span><span class="o">=</span>True,<span class="w"> </span><span class="nv">message</span><span class="o">=</span><span class="s1">'Success'</span><span class="o">)</span>
 </pre></div>
 </div>
 </section>

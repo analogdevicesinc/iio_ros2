@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="Raspberry Pi 4B as the remote host with Kuiper Linux Image installed." name="description" />
 
-    <title>AD5592R &#8212; adi_iio 1.0.1 documentation</title>
+    <title>AD5592R &#8212; adi_iio 1.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=d3f78147" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=cae2157c" />
     <link rel="stylesheet" type="text/css" href="../../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
     <script async="async" src="../../_static/app.umd.js?v=26d0298f"></script>
     <script src="../../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
@@ -22,7 +22,7 @@
   
   
   <meta name="repository" content="iio_ros2">
-  <meta name="version" content="1.0">
+  <meta name="version" content="1.1">
   
     <meta name="page_source_suffix" content=".rst">
   
@@ -68,10 +68,10 @@
     </div>
     <div id="right">
       <span>
-        <a id="logo-org" href="https://analog.com" aria-label="Analog Devices Inc. landing page"></a>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
         <div class="vertical-divider"></div>
         
-        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Docs</label>
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
         
         <a id="logo" href="../../index.html">
           <div>adi_iio</div>
@@ -243,11 +243,11 @@ Content on this topic
 </ul>
 </li>
 <li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-4" id="toctree-collapse-4"/><div class="collapse"><a class="reference internal" href="../../__standards.html">Standard Documents</a><label for="toctree-collapse-4"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__LICENSE.html">LICENSE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__CHANGELOG.html">CHANGELOG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__CONTRIBUTING.html">CONTRIBUTING</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../__README.html">README</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../__PACKAGE.html">PACKAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -315,10 +315,10 @@ running the examples.</p>
 <code class="docutils literal notranslate"><span class="pre">/adi_iio_node/AttrWriteString</span></code> service. For instance, to set the <code class="docutils literal notranslate"><span class="pre">scale</span></code>
 for <code class="docutils literal notranslate"><span class="pre">output_voltage0</span></code> of the <code class="docutils literal notranslate"><span class="pre">ad5592r</span></code> device, you would use the following
 command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    attr_path: &#39;ad5592r/output_voltage0/scale&#39;,</span>
-<span class="s2">    value: &#39;0.6103515629&#39;</span>
-<span class="s2">}&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrWriteString<span class="w"> </span>adi_iio/srv/AttrWriteString<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    attr_path: 'ad5592r/output_voltage0/scale',</span>
+<span class="s2">    value: '0.6103515629'</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <dl class="simple">
@@ -381,10 +381,10 @@ react to changes in these attribute values.</p>
 <p>To enable publishing for a specific attribute, you can call the
 <code class="docutils literal notranslate"><span class="pre">/adi_iio_node/AttrEnableTopic</span></code> service. For example, to start publishing
 the <code class="docutils literal notranslate"><span class="pre">raw</span></code> value of <code class="docutils literal notranslate"><span class="pre">output_voltage0</span></code> for the <code class="docutils literal notranslate"><span class="pre">ad5592r</span></code> device, you would use:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">&quot;{</span>
-<span class="s2">    attr_path: &#39;ad5592r/output_voltage0/raw&#39;,</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/adi_iio_node/AttrEnableTopic<span class="w"> </span>adi_iio/srv/AttrEnableTopic<span class="w"> </span><span class="s2">"{</span>
+<span class="s2">    attr_path: 'ad5592r/output_voltage0/raw',</span>
 <span class="s2">    loop_rate: 1</span>
-<span class="s2">}&quot;</span>
+<span class="s2">}"</span>
 </pre></div>
 </div>
 <p>This command instructs the <code class="docutils literal notranslate"><span class="pre">adi_iio_node</span></code> to create a publisher for the
@@ -606,7 +606,7 @@ to dedicated topics.</p></li>
 <span class="c1"># stamp:</span>
 <span class="c1">#    sec: 1747036204</span>
 <span class="c1">#    nanosec: 922183048</span>
-<span class="c1"># frame_id: &#39;&#39;</span>
+<span class="c1"># frame_id: ''</span>
 <span class="c1"># temperature: 26.089715531578957</span>
 <span class="c1"># variance: 0.12639853924376374</span>
 </pre></div>
@@ -784,10 +784,10 @@ differ from the defaults (<code class="docutils literal notranslate"><span class
 
 <span class="c1"># Example with custom channels:</span>
 ros2<span class="w"> </span>run<span class="w"> </span>ad5592r<span class="w"> </span>actuator<span class="w"> </span>--ros-args<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-p<span class="w"> </span>anode_raw:<span class="o">=</span><span class="s2">&quot;ad5592r/output_voltage0/raw&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-p<span class="w"> </span>anode_scale:<span class="o">=</span><span class="s2">&quot;ad5592r/output_voltage0/scale&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-p<span class="w"> </span>cathode_raw:<span class="o">=</span><span class="s2">&quot;ad5592r/output_voltage2/raw&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-p<span class="w"> </span>cathode_scale:<span class="o">=</span><span class="s2">&quot;ad5592r/output_voltage2/scale&quot;</span>
+<span class="w">    </span>-p<span class="w"> </span>anode_raw:<span class="o">=</span><span class="s2">"ad5592r/output_voltage0/raw"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span>anode_scale:<span class="o">=</span><span class="s2">"ad5592r/output_voltage0/scale"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span>cathode_raw:<span class="o">=</span><span class="s2">"ad5592r/output_voltage2/raw"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span>cathode_scale:<span class="o">=</span><span class="s2">"ad5592r/output_voltage2/scale"</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -795,8 +795,8 @@ ros2<span class="w"> </span>run<span class="w"> </span>ad5592r<span class="w"> <
 <p>With the <code class="docutils literal notranslate"><span class="pre">actuator</span></code> node running, you can publish data to one of
 the topics which will be converted to a raw value and sent to the
 channel. For example:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>--once<span class="w"> </span>/cathode<span class="w"> </span>std_msgs/msg/Float64<span class="w"> </span><span class="s2">&quot;data: 2.5&quot;</span>
-ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>--once<span class="w"> </span>/anode<span class="w"> </span>std_msgs/msg/Float64<span class="w"> </span><span class="s2">&quot;data: 0&quot;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>--once<span class="w"> </span>/cathode<span class="w"> </span>std_msgs/msg/Float64<span class="w"> </span><span class="s2">"data: 2.5"</span>
+ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>--once<span class="w"> </span>/anode<span class="w"> </span>std_msgs/msg/Float64<span class="w"> </span><span class="s2">"data: 0"</span>
 </pre></div>
 </div>
 </div>
