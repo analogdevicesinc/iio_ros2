@@ -380,6 +380,155 @@ would yield a buffer arranged as follows:
     {voltage0_sample0, voltage1_sample0, voltage0_sample1, voltage1_sample1, voltage0_sample2, voltage1_sample2, ... }
 
 
+.. _usage_workflows:
+
+Usage Workflows
+================================================================================
+
+This section illustrates the typical sequences of operations a user performs
+with the ``adi_iio`` node. The node wraps a single libiio context and re-exposes
+it through ROS2 services and topics, so the same workflows apply regardless of
+where the node runs.
+
+
+Deployment Topology
+--------------------------------------------------------------------------------
+
+The node can run **on the target** that hosts the IIO devices (``uri: local:``)
+or **on a remote machine** that reaches the target over the network or USB
+(``uri: ip:...`` / ``uri: usb:...``). In both cases the node owns the IIO
+context and reflects every device, channel and attribute onto the ROS2 graph, so
+clients drive the hardware through the same ROS2 interfaces and do not need to
+know where the hardware physically lives.
+
+.. figure:: doc/images/deployment_local.svg
+   :alt: Deployment A - adi_iio node co-located on the target (libiio local backend)
+   :align: center
+   :width: 100%
+
+   **Deployment A** - the node runs on the target and reaches on-board devices
+   through the libiio local backend (in-process, no network); ROS 2 clients
+   connect over the ROS 2 graph.
+
+.. figure:: doc/images/deployment_remote.svg
+   :alt: Deployment B - adi_iio node on a remote host over the libiio network backend
+   :align: center
+   :width: 100%
+
+   **Deployment B** - the node runs on a remote host and talks to ``iiod`` on the
+   target over the libiio **network backend** (dotted link, TCP/IP or USB);
+   ``iiod`` in turn uses its own local backend to the devices.
+
+In both diagrams the dashed boxes are separate machines, and colors denote
+roles: ROS 2 clients (blue), ``adi_iio`` node (green), ``iiod`` (orange), and
+IIO devices (gray).
+
+
+Discovering the Context
+--------------------------------------------------------------------------------
+
+Most sessions start by discovering what the context exposes. :ref:`ScanContext`
+returns devices, channels and attributes in one call, while :ref:`ListDevices`,
+:ref:`ListChannels` and :ref:`ListAttributes` scope the query. The returned
+:ref:`iio_path` strings are the inputs to every other service.
+
+.. figure:: doc/images/seq_discovery.svg
+   :alt: Context discovery sequence
+   :align: center
+   :width: 100%
+
+   Discovery returns IIO paths used as parameters for all other services.
+
+
+Reading and Writing Attributes
+--------------------------------------------------------------------------------
+
+:ref:`AttrReadString` reads any context, device or channel attribute as a string;
+the value is returned in the response ``message``. :ref:`AttrWriteString` writes
+a value (falling back to the debug attribute if no regular attribute matches).
+
+.. figure:: doc/images/seq_attr_read.svg
+   :alt: Attribute read sequence
+   :align: center
+   :width: 100%
+
+   Reading an attribute with :ref:`AttrReadString`.
+
+.. figure:: doc/images/seq_attr_write.svg
+   :alt: Attribute write sequence
+   :align: center
+   :width: 100%
+
+   Writing an attribute with :ref:`AttrWriteString`.
+
+
+Streaming an Attribute over a Topic
+--------------------------------------------------------------------------------
+
+:ref:`AttrEnableTopic` turns an attribute into a pair of topics: a ``/read``
+publisher that samples the attribute at ``loop_rate`` and a ``/write``
+subscriber that applies incoming values (see :ref:`topic_name_resolution`).
+:ref:`AttrDisableTopic` tears them down.
+
+.. figure:: doc/images/seq_attr_topic.svg
+   :alt: Attribute topic enable, publish/subscribe, and disable sequence
+   :align: center
+   :width: 100%
+
+   Continuous read/write access to an attribute via topics.
+
+
+Working with Buffers
+--------------------------------------------------------------------------------
+
+Buffers move sample data to and from a device. The node supports explicit,
+step-by-step control as well as convenience calls that bundle several steps, in
+both the input (RX) and output (TX) directions.
+
+**Explicit input capture.** :ref:`BufferCreate` allocates the buffer and enables
+the requested channels, :ref:`BufferRefill` fetches a fresh block of samples on
+each call, and :ref:`BufferDestroy` releases it.
+
+.. figure:: doc/images/seq_buffer_rx.svg
+   :alt: Explicit buffer create, refill, destroy sequence
+   :align: center
+   :width: 100%
+
+   Explicit input capture: create, refill (repeatable), destroy.
+
+**One-shot input read.** :ref:`BufferRead` bundles destroy + create + refill into
+a single call, guaranteeing the returned samples are fresh rather than stale.
+
+.. figure:: doc/images/seq_buffer_read.svg
+   :alt: BufferRead convenience sequence
+   :align: center
+   :width: 100%
+
+   :ref:`BufferRead` returns the latest samples in one call.
+
+**Output write.** :ref:`BufferWrite` bundles destroy + output-buffer create + push.
+With ``cyclic = true`` the pushed samples repeat in a loop on the device;
+otherwise they are sent once.
+
+.. figure:: doc/images/seq_buffer_write.svg
+   :alt: BufferWrite sequence with cyclic and non-cyclic cases
+   :align: center
+   :width: 100%
+
+   :ref:`BufferWrite` pushes samples to the device (cyclic or one-shot).
+
+**Streaming over a topic.** After a buffer exists, :ref:`BufferEnableTopic`
+starts a background thread that refills and publishes samples at ``loop_rate``;
+:ref:`BufferDisableTopic` stops it.
+
+.. figure:: doc/images/seq_buffer_topic.svg
+   :alt: Buffer topic enable, publish, and disable sequence
+   :align: center
+   :width: 100%
+
+   Continuous buffer capture published on a topic.
+
+
 .. _Node Description:
 
 ``adi_iio`` - Node Description
@@ -414,7 +563,9 @@ AttrDisableTopic
 
 **Request:**
 
-* ``attr_path`` (string): The path to the attribute to be disabled.
+* ``topic_name`` (string): The name of the attribute topic to be disabled.
+* ``type`` (int8): The attribute value type (``STRING`` = 0, ``INT`` = 1,
+  ``DOUBLE`` = 2, ``BOOL`` = 3). Defaults to ``0`` (``STRING``).
 
 **Response:**
 
@@ -431,6 +582,11 @@ AttrEnableTopic
 **Request:**
 
 * ``attr_path`` (string): The path to the attribute for which a topic will be enabled.
+* ``topic_name`` (string): The name of the topic to create. Defaults to ``""``
+  (see :ref:`topic_name_resolution`).
+* ``loop_rate`` (float64): The publish/refresh rate in Hz. Defaults to ``1.0``.
+* ``type`` (int8): The attribute value type (``STRING`` = 0, ``INT`` = 1,
+  ``DOUBLE`` = 2, ``BOOL`` = 3). Defaults to ``0`` (``STRING``).
 
 **Response:**
 
@@ -450,9 +606,9 @@ AttrReadString
 
 **Response:**
 
-* ``value`` (string): The value of the attribute.
 * ``success`` (bool): Indicates whether the operation was successful.
-* ``message`` (string): A message providing additional information.
+* ``message`` (string): On success, the value read from the attribute; on
+  failure, the error information.
 
 .. _AttrWriteString:
 
@@ -488,6 +644,8 @@ BufferCreate
 
 * ``success`` (bool): Indicates whether the operation was successful.
 * ``message`` (string): A message providing additional information.
+* ``layout`` (std_msgs/MultiArrayLayout): The layout of the created buffer
+  (sample/channel dimensions).
 
 .. _BufferDestroy:
 
@@ -530,6 +688,8 @@ BufferEnableTopic
 
 * ``device_path`` (string): The path to the device.
 * ``topic_name`` (string): The name of the topic to be enabled.
+* ``loop_rate`` (float64): The publish rate in Hz for the continuous capture.
+  Defaults to ``1.0``.
 
 **Response:**
 
