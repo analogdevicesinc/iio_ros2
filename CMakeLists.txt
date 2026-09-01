@@ -18,15 +18,27 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-find_path(IIO_INCLUDE_DIRS
-  NAMES iio.h
-  REQUIRED
-)
+find_package(PkgConfig REQUIRED)
+pkg_search_module(IIO REQUIRED IMPORTED_TARGET libiio iio)
 
-find_library(IIO_LIBRARIES
-  NAMES iio libiio
-  REQUIRED
-)
+set(LIBIIO_API_VERSION "AUTO" CACHE STRING "libiio API to target: AUTO, v0 or v1")
+set_property(CACHE LIBIIO_API_VERSION PROPERTY STRINGS AUTO v0 v1)
+
+if(IIO_VERSION VERSION_LESS 1.0)
+  set(LIBIIO_DETECTED_API v0)
+else()
+  set(LIBIIO_DETECTED_API v1)
+endif()
+
+if(LIBIIO_API_VERSION STREQUAL "AUTO")
+  set(LIBIIO_RESOLVED_API ${LIBIIO_DETECTED_API})
+elseif(NOT LIBIIO_API_VERSION STREQUAL LIBIIO_DETECTED_API)
+  message(FATAL_ERROR "LIBIIO_API_VERSION=${LIBIIO_API_VERSION} but found libiio ${IIO_VERSION}")
+else()
+  set(LIBIIO_RESOLVED_API ${LIBIIO_API_VERSION})
+endif()
+
+message(STATUS "Using libiio ${IIO_VERSION} (${LIBIIO_RESOLVED_API} API)")
 
 # ==============================================================================
 # Generate interfaces
@@ -70,13 +82,16 @@ add_executable(${NODE_NAME}
     src/iio_path.cpp
 )
 
+if(LIBIIO_RESOLVED_API STREQUAL "v1")
+  target_compile_definitions(${NODE_NAME} PRIVATE LIBIIO_V1)
+endif()
+
 target_include_directories(${NODE_NAME}
-              PUBLIC ${IIO_INCLUDE_DIRS}
-              $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+              PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
               $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${NODE_NAME}
-  ${IIO_LIBRARIES}
+  PkgConfig::IIO
   "${adi_iio_srvs_typesupport_target}"
   ${std_msgs_TARGETS}
   ${rclcpp_TARGETS})
