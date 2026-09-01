@@ -21,6 +21,14 @@ IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
   this->m_device_path = device_path;
   m_canceled = false;
   this->m_buffer = nullptr;
+#if defined(LIBIIO_V1)
+  this->m_mask = nullptr;
+  this->m_stream = nullptr;
+  this->m_block = nullptr;
+  this->m_cyclic = false;
+  this->m_started = false;
+  this->m_sample_size = 0;
+#endif
   this->m_topic_enabled = false;
 }
 
@@ -34,8 +42,34 @@ IIOBuffer::~IIOBuffer()
   }
 }
 
+bool IIOBuffer::created()
+{
+#if defined(LIBIIO_V1)
+  return m_block != nullptr;
+#else
+  return m_buffer != nullptr;
+#endif
+}
+
 void IIOBuffer::destroyIIOBuffer()
 {
+#if defined(LIBIIO_V1)
+  if (m_block) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_canceled = true;
+    iio_buffer_stream_cancel(m_stream);
+    RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Destroyed buffer %p", (void *)m_buffer);
+    iio_block_destroy(m_block);
+    m_block = nullptr;
+    iio_buffer_close(m_stream);
+    m_stream = nullptr;
+    iio_channels_mask_destroy(m_mask);
+    m_mask = nullptr;
+    m_started = false;
+    m_buffer = nullptr;
+    m_loopRate = nullptr;
+  }
+#else
   if (m_buffer) {
     std::lock_guard<std::mutex> lock(m_mutex);
     m_canceled = true;
@@ -45,6 +79,7 @@ void IIOBuffer::destroyIIOBuffer()
     m_buffer = nullptr;
     m_loopRate = nullptr;
   }
+#endif
 }
 
 bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
@@ -93,9 +128,25 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
     }
   }
 
+#if defined(LIBIIO_V1)
+  m_mask = iio_create_channels_mask(iio_device_get_channels_count(dev));
+  if (!m_mask) {
+    message = "Could not create channels mask";
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not create channels mask for device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    return false;
+  }
+#endif
+
   // disable all channels
   for (unsigned int i = 0; i < iio_device_get_channels_count(dev); i++) {
+#if defined(LIBIIO_V1)
+    iio_channel_disable(iio_device_get_channel(dev, i), m_mask);
+#else
     iio_channel_disable(iio_device_get_channel(dev, i));
+#endif
     RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Disabling channel %d", i);
   }
 
@@ -118,11 +169,72 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
         channel.c_str(), m_device_path.c_str(), errno, message.c_str());
       return false;
     }
+#if defined(LIBIIO_V1)
+    iio_channel_enable(ch, m_mask);
+#else
     iio_channel_enable(ch);
+#endif
     RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Enabling channel %s", channel.c_str());
   }
 
   m_canceled = false;
+#if defined(LIBIIO_V1)
+  m_cyclic = cyclic;
+  m_sample_size = iio_device_get_sample_size(dev, m_mask);
+  if (m_sample_size < 0) {
+    message = strerror(static_cast<int>(-m_sample_size));
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not get sample size for device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    iio_channels_mask_destroy(m_mask);
+    m_mask = nullptr;
+    return false;
+  }
+
+  m_buffer = iio_device_get_buffer(dev, 0);
+  if (!m_buffer) {
+    message = strerror(-errno);
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not get buffer in device \"%s\" - errno %d - %s",
+      m_device_path.c_str(), errno, message.c_str());
+    iio_channels_mask_destroy(m_mask);
+    m_mask = nullptr;
+    return false;
+  }
+
+  m_stream = iio_buffer_open(m_buffer, m_mask);
+  if (iio_err(m_stream)) {
+    message = strerror(-iio_err(m_stream));
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not open buffer stream in device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    m_stream = nullptr;
+    m_buffer = nullptr;
+    iio_channels_mask_destroy(m_mask);
+    m_mask = nullptr;
+    return false;
+  }
+
+  m_block = iio_buffer_stream_create_block(
+    m_stream, static_cast<size_t>(m_sample_size) * m_samples_count);
+  if (iio_err(m_block)) {
+    message = strerror(-iio_err(m_block));
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not create block in device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    m_block = nullptr;
+    iio_buffer_close(m_stream);
+    m_stream = nullptr;
+    m_buffer = nullptr;
+    iio_channels_mask_destroy(m_mask);
+    m_mask = nullptr;
+    return false;
+  }
+#else
   m_buffer = iio_device_create_buffer(dev, m_samples_count, cyclic);
   if (m_buffer == nullptr) {
     message = strerror(-errno);
@@ -132,6 +244,7 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
       m_device_path.c_str(), errno, message.c_str());
     return false;
   }
+#endif
 
   m_data.layout.dim.clear();
   m_data.layout.dim.push_back(std_msgs::msg::MultiArrayDimension());
@@ -155,11 +268,31 @@ bool IIOBuffer::refill(std::string & message)
 {
   std::lock_guard<std::mutex> lock(m_mutex);
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
-  if (!m_buffer || m_canceled) {
+  if (!created() || m_canceled) {
     message = "Buffer not created";
     return false;
   }
 
+#if defined(LIBIIO_V1)
+  int ret = iio_block_enqueue(m_block, 0, false);
+  if (ret >= 0 && !m_started) {
+    ret = iio_buffer_stream_start(m_stream);
+    m_started = ret >= 0;
+  }
+  if (ret >= 0) {
+    ret = iio_block_dequeue(m_block, false);
+  }
+  RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Refilled buffer, ret %d", ret);
+
+  if (ret < 0) {
+    message = strerror(-ret);
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not refill buffer in device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    return false;
+  }
+#else
   ssize_t size = iio_buffer_refill(m_buffer);
   RCLCPP_DEBUG(rclcpp::get_logger("adi_iio_node"), "Refilled buffer with %ld bytes from HW", size);
 
@@ -171,6 +304,7 @@ bool IIOBuffer::refill(std::string & message)
       m_device_path.c_str(), errno, message.c_str());
     return false;
   }
+#endif
 
   m_data.data.clear();
   for (int i = 0; i < m_samples_count; i++) {
@@ -189,8 +323,13 @@ bool IIOBuffer::refill(std::string & message)
         ch = iio_device_find_channel(dev, channel.c_str(), false);
       }
 
+#if defined(LIBIIO_V1)
+      uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_block_first(m_block, ch));
+      size_t step = static_cast<size_t>(m_sample_size);
+#else
       uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
       size_t step = iio_buffer_step(m_buffer);  // Should be in bytes
+#endif
       uint8_t * sample = base_ptr + (step * i);
 
       int32_t val = 0;
@@ -213,7 +352,7 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
   iio_device * dev = iio_context_find_device(m_nh->ctx(), m_device_path.c_str());
   iio_channel * ch = nullptr;
 
-  if (!m_buffer) {
+  if (!created()) {
     message = "Buffer not created";
     return false;
   }
@@ -236,8 +375,13 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
         ch = iio_device_find_channel(dev, channel.c_str(), true);
       }
 
+#if defined(LIBIIO_V1)
+      uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_block_first(m_block, ch));
+      size_t step = static_cast<size_t>(m_sample_size) * i;
+#else
       uint8_t * base_ptr = reinterpret_cast<uint8_t *>(iio_buffer_first(m_buffer, ch));
       size_t step = iio_buffer_step(m_buffer) * i;
+#endif
       uint8_t * sample = base_ptr + step;
 
       int32_t val = data.data[i * m_channels.size() + j];
@@ -245,7 +389,27 @@ bool IIOBuffer::push(std::string & message, std_msgs::msg::Int32MultiArray & dat
     }
   }
 
+#if defined(LIBIIO_V1)
+  int ret = iio_block_enqueue(
+    m_block, static_cast<size_t>(m_sample_size) * m_samples_count, m_cyclic);
+  if (ret >= 0 && !m_started) {
+    ret = iio_buffer_stream_start(m_stream);
+    m_started = ret >= 0;
+  }
+  if (ret >= 0) {
+    ret = iio_block_dequeue(m_block, false);
+  }
+  if (ret < 0) {
+    message = strerror(-ret);
+    RCLCPP_WARN(
+      rclcpp::get_logger(
+        "adi_iio_node"), "could not push buffer in device \"%s\" - %s",
+      m_device_path.c_str(), message.c_str());
+    return false;
+  }
+#else
   iio_buffer_push(m_buffer);
+#endif
   message = "Success";
   return true;
 }

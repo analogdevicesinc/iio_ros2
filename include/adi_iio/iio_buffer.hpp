@@ -15,7 +15,11 @@
 #ifndef ADI_IIO__IIO_BUFFER_HPP_
 #define ADI_IIO__IIO_BUFFER_HPP_
 
+#if defined(LIBIIO_V1)
+#include <iio/iio.h>
+#else
 #include <iio.h>
+#endif
 
 #include <memory>
 #include <string>
@@ -50,6 +54,7 @@ public:
   std::string device_path() {return m_device_path;}
   std::vector<std::string> channels() {return m_channels;}
   iio_buffer * buffer() {return m_buffer;}
+  bool created();
   bool topic_enabled() {return m_topic_enabled;}
   std_msgs::msg::Int32MultiArray & data()
   {
@@ -66,7 +71,15 @@ private:
   std::string m_device_path;
   std::vector<std::string> m_channels;
   int32_t m_samples_count;
-  iio_buffer * m_buffer;
+  iio_buffer *m_buffer;
+#if defined(LIBIIO_V1)
+  iio_channels_mask *m_mask;
+  iio_buffer_stream *m_stream;
+  iio_block *m_block;
+  bool m_cyclic;
+  bool m_started;
+  ssize_t m_sample_size;
+#endif
 
   std_msgs::msg::Int32MultiArray m_data;
 

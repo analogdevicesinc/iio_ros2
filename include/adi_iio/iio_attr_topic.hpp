@@ -15,7 +15,11 @@
 #ifndef ADI_IIO__IIO_ATTR_TOPIC_HPP_
 #define ADI_IIO__IIO_ATTR_TOPIC_HPP_
 
+#if defined(LIBIIO_V1)
+#include <iio/iio.h>
+#else
 #include <iio.h>
+#endif
 
 #include <memory>
 #include <string>
