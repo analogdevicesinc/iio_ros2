@@ -16,11 +16,151 @@
 #include "adi_iio/iio_path.hpp"
 #include "adi_iio/iio_attr_topic.hpp"
 #include "adi_iio/iio_buffer.hpp"
+#include <cerrno>
 #include <memory>
+#include <string>
 
 using namespace std::chrono_literals;
 
 #define MAX_ATTR_SIZE 4095
+
+namespace
+{
+
+bool read_context_attr(iio_context * ctx, const std::string & name, std::string & out)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_context_find_attr(ctx, name.c_str());
+  if (!attr) {
+    return false;
+  }
+  const char * static_val = iio_attr_get_static_value(attr);
+  if (static_val) {
+    out = static_val;
+    return true;
+  }
+  char buf[MAX_ATTR_SIZE];
+  ssize_t ret = iio_attr_read_raw(attr, buf, sizeof(buf));
+  if (ret < 0) {
+    return false;
+  }
+  out = buf;
+  return true;
+#else
+  const char * val = iio_context_get_attr_value(ctx, name.c_str());
+  if (!val) {
+    return false;
+  }
+  out = val;
+  return true;
+#endif
+}
+
+bool ctx_attr_name(iio_context * ctx, unsigned int index, std::string & name)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_context_get_attr(ctx, index);
+  if (!attr) {
+    return false;
+  }
+  name = iio_attr_get_name(attr);
+  return true;
+#else
+  const char * key, * value;
+  int ret = iio_context_get_attr(ctx, index, &key, &value);
+  if (ret != 0) {
+    return false;
+  }
+  name = key;
+  return true;
+#endif
+}
+
+ssize_t write_device_attr(iio_device * dev, const std::string & name, const std::string & val)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_device_find_attr(dev, name.c_str());
+  if (!attr) {
+    attr = iio_device_find_debug_attr(dev, name.c_str());
+  }
+  if (!attr) {
+    return -ENOENT;
+  }
+  return iio_attr_write_string(attr, val.c_str());
+#else
+  ssize_t ret = iio_device_attr_write(dev, name.c_str(), val.c_str());
+  if (ret <= 0) {
+    ret = iio_device_debug_attr_write(dev, name.c_str(), val.c_str());
+  }
+  return ret;
+#endif
+}
+
+ssize_t read_device_attr(iio_device * dev, const std::string & name, char * buf, size_t len)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_device_find_attr(dev, name.c_str());
+  if (!attr) {
+    attr = iio_device_find_debug_attr(dev, name.c_str());
+  }
+  if (!attr) {
+    return -ENOENT;
+  }
+  return iio_attr_read_raw(attr, buf, len);
+#else
+  ssize_t ret = iio_device_attr_read(dev, name.c_str(), buf, len);
+  if (ret <= 0) {
+    ret = iio_device_debug_attr_read(dev, name.c_str(), buf, len);
+  }
+  return ret;
+#endif
+}
+
+std::string device_attr_name(iio_device * dev, unsigned int index)
+{
+#if defined(LIBIIO_V1)
+  return iio_attr_get_name(iio_device_get_attr(dev, index));
+#else
+  return iio_device_get_attr(dev, index);
+#endif
+}
+
+ssize_t write_channel_attr(iio_channel * chn, const std::string & name, const std::string & val)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_channel_find_attr(chn, name.c_str());
+  if (!attr) {
+    return -ENOENT;
+  }
+  return iio_attr_write_string(attr, val.c_str());
+#else
+  return iio_channel_attr_write(chn, name.c_str(), val.c_str());
+#endif
+}
+
+ssize_t read_channel_attr(iio_channel * chn, const std::string & name, char * buf, size_t len)
+{
+#if defined(LIBIIO_V1)
+  const iio_attr * attr = iio_channel_find_attr(chn, name.c_str());
+  if (!attr) {
+    return -ENOENT;
+  }
+  return iio_attr_read_raw(attr, buf, len);
+#else
+  return iio_channel_attr_read(chn, name.c_str(), buf, len);
+#endif
+}
+
+std::string channel_attr_name(iio_channel * chn, unsigned int index)
+{
+#if defined(LIBIIO_V1)
+  return iio_attr_get_name(iio_channel_get_attr(chn, index));
+#else
+  return iio_channel_get_attr(chn, index);
+#endif
+}
+
+}  // namespace
 
 IIONode::IIONode()
 : Node("adi_iio_node")
@@ -31,24 +171,32 @@ IIONode::IIONode()
   m_uri = this->get_parameter("uri").as_string();
   m_timeout = this->get_parameter("timeout").as_int();
 
+#if defined(LIBIIO_V1)
+  m_ctx = iio_create_context(nullptr, m_uri.c_str());
+  m_initialized = iio_err(m_ctx) == 0;
+#else
   m_ctx = iio_create_context_from_uri(m_uri.c_str());
+  m_initialized = m_ctx != nullptr;
+#endif
 
-  if (m_ctx != nullptr) {
+  if (m_initialized) {
     RCLCPP_INFO(
       rclcpp::get_logger("adi_iio_node"),
       "creating context %p from uri %s",
       (void *)m_ctx, m_uri.c_str());
-    m_initialized = true;
+
+    RCLCPP_INFO(
+      rclcpp::get_logger("adi_iio_node"),
+      "setting timeout to %d", m_timeout);
+    iio_context_set_timeout(m_ctx, m_timeout);
   } else {
+#if defined(LIBIIO_V1)
+    m_ctx = nullptr;
+#endif
     RCLCPP_ERROR(
       rclcpp::get_logger("adi_iio_node"),
       "cannot create context from uri %s", m_uri.c_str());
   }
-
-  RCLCPP_INFO(
-    rclcpp::get_logger("adi_iio_node"),
-    "setting timeout to %d", m_timeout);
-  iio_context_set_timeout(m_ctx, m_timeout);
 }
 
 void IIONode::initBuffers()
@@ -99,22 +247,18 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
   iio_device * dev = nullptr;
   iio_channel * ch = nullptr;
 
-  char * val;
   char attr_val[MAX_ATTR_SIZE];
-  int ret1;
+  ssize_t ret1;
 
   if (iio_path.isValid(CONTEXT_ATTR)) {
-    val =
-      const_cast<char *>(iio_context_get_attr_value(
-        m_ctx,
-        iio_path.getContextAttrSegment().c_str()));
-    if (val) {
+    std::string ctx_val;
+    if (read_context_attr(m_ctx, iio_path.getContextAttrSegment(), ctx_val)) {
       ret = true;
-      result = val;
+      result = ctx_val;
       RCLCPP_DEBUG(
         rclcpp::get_logger("adi_iio_node"),
         "read context attribute \"%s\" with value \"%s\"",
-        iio_path.getContextAttrSegment().c_str(), val);
+        iio_path.getContextAttrSegment().c_str(), ctx_val.c_str());
     } else {
       ret = false;
       result = "";
@@ -137,11 +281,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
     }
 
     if (write) {
-      ret1 = iio_device_attr_write(dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
-      if (ret1 <= 0) {
-        ret1 = iio_device_debug_attr_write(
-          dev, iio_path.getDeviceAttrSegment().c_str(), value.c_str());
-      }
+      ret1 = write_device_attr(dev, iio_path.getDeviceAttrSegment(), value);
       if (ret1 > 0) {
         RCLCPP_DEBUG(
           rclcpp::get_logger("adi_iio_node"),
@@ -155,18 +295,12 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
           rclcpp::get_logger("adi_iio_node"),
           "could not write attribute \"%s\" in device \"%s\" with value \"%s\" - errno %d - %s",
           iio_path.getDeviceAttrSegment().c_str(), iio_path.getDeviceSegment().c_str(),
-          value.c_str(), ret1, result.c_str());
+          value.c_str(), static_cast<int>(ret1), result.c_str());
         return ret;
       }
     }
 
-    ret1 = iio_device_attr_read(
-      dev, iio_path.getDeviceAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE);
-    if (ret1 <= 0) {
-      ret1 = iio_device_debug_attr_read(
-        dev, iio_path.getDeviceAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE
-      );
-    }
+    ret1 = read_device_attr(dev, iio_path.getDeviceAttrSegment(), attr_val, MAX_ATTR_SIZE);
 
     if (ret1 > 0) {
       result = attr_val;
@@ -182,7 +316,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
         rclcpp::get_logger("adi_iio_node"),
         "could not read attribute \"%s\" in device \"%s\" - errno %d - %s",
         iio_path.getDeviceAttrSegment().c_str(),
-        iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
+        iio_path.getDeviceSegment().c_str(), static_cast<int>(ret1), result.c_str());
     }
   } else if (iio_path.isValid(CHANNEL_ATTR)) {
     dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
@@ -211,7 +345,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
     }
 
     if (write) {
-      ret1 = iio_channel_attr_write(ch, iio_path.getChannelAttrSegment().c_str(), value.c_str());
+      ret1 = write_channel_attr(ch, iio_path.getChannelAttrSegment(), value);
       if (ret1 > 0) {
         RCLCPP_DEBUG(
           rclcpp::get_logger("adi_iio_node"),
@@ -230,14 +364,13 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
           iio_path.getChannelSegment().c_str(),
           iio_path.getDeviceSegment().c_str(),
           value.c_str(),
-          ret1,
+          static_cast<int>(ret1),
           result.c_str());
         return ret;
       }
     }
 
-    ret1 = iio_channel_attr_read(
-      ch, iio_path.getChannelAttrSegment().c_str(), attr_val, MAX_ATTR_SIZE);
+    ret1 = read_channel_attr(ch, iio_path.getChannelAttrSegment(), attr_val, MAX_ATTR_SIZE);
     if (ret1 > 0) {
       result = attr_val;
       ret = true;
@@ -253,7 +386,7 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
         rclcpp::get_logger("adi_iio_node"),
         "could not read attribute \"%s\" from channel \"%s\" device \"%s\" - errno %d - %s",
         iio_path.getChannelAttrSegment().c_str(), iio_path.getChannelSegment().c_str(),
-        iio_path.getDeviceSegment().c_str(), ret1, result.c_str());
+        iio_path.getDeviceSegment().c_str(), static_cast<int>(ret1), result.c_str());
     }
   } else {
     result = "Service requires a valid attr_path";
@@ -544,7 +677,7 @@ void IIONode::buffDestroySrv(
   }
 
   if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
-    if (m_bufferMap[path.getDeviceSegment()]->buffer()) {
+    if (m_bufferMap[path.getDeviceSegment()]->created()) {
       m_bufferMap[path.getDeviceSegment()]->destroyIIOBuffer();
       msg = "Success";
       setSuccessResponse(response, msg);
@@ -687,22 +820,16 @@ void IIONode::listAttributesSrv(
 
   IIOPath path(request->iio_path);
   if (path.isValid(IIOPathType::CONTEXT)) {
-    int ret{};
-    std::string err_str;
-
     unsigned int nb_ctx_attrs = iio_context_get_attrs_count(ctx());
     for (unsigned int i = 0; i < nb_ctx_attrs; i++) {
-      const char * key, * value;
-
-      ret = iio_context_get_attr(ctx(), i, &key, &value);
-      if (ret == 0) {
-        data.push_back(path.append(std::string(key)));
+      std::string key;
+      if (ctx_attr_name(ctx(), i, key)) {
+        data.push_back(path.append(key));
       } else {
-        err_str = strerror(-ret);
         RCLCPP_WARN(
           rclcpp::get_logger(
             "adi_iio_node"),
-          "Unable to read IIO context attribute: %s", err_str.c_str());
+          "Unable to read IIO context attribute at index %u", i);
       }
     }
     msg = "Found " + std::to_string(data.size()) + " attributes";
@@ -717,7 +844,7 @@ void IIONode::listAttributesSrv(
 
     unsigned int nb_attrs = iio_device_get_attrs_count(dev);
     for (unsigned int i = 0; i < nb_attrs; i++) {
-      std::string attr_key = iio_device_get_attr(dev, i);
+      std::string attr_key = device_attr_name(dev, i);
       data.push_back(path.append(attr_key));
     }
     msg = "Found " + std::to_string(data.size()) + " attributes in device: " + dev_name;
@@ -747,7 +874,7 @@ void IIONode::listAttributesSrv(
     }
     unsigned int nb_attrs = iio_channel_get_attrs_count(chn);
     for (unsigned int i = 0; i < nb_attrs; i++) {
-      std::string attr_key = iio_channel_get_attr(chn, i);
+      std::string attr_key = channel_attr_name(chn, i);
       data.push_back(path.append(attr_key));
     }
     msg = "Found " + std::to_string(data.size()) + " attributes in channel: " +
@@ -777,20 +904,16 @@ void IIONode::scanContextSrv(
 
   // Handle context attributes
   IIOPath ctx_path("");
-  int ret{};
-  std::string err_str;
   unsigned int nb_ctx_attrs = iio_context_get_attrs_count(ctx());
   for (unsigned int i = 0; i < nb_ctx_attrs; i++) {
-    const char * key, * value;
-    ret = iio_context_get_attr(ctx(), i, &key, &value);
-    if (ret == 0) {
-      context_attrs.push_back(ctx_path.append(std::string(key)));
+    std::string key;
+    if (ctx_attr_name(ctx(), i, key)) {
+      context_attrs.push_back(ctx_path.append(key));
     } else {
-      err_str = strerror(-ret);
       RCLCPP_WARN(
         rclcpp::get_logger(
           "adi_iio_node"),
-        "Unable to read IIO context attribute: %s", err_str.c_str());
+        "Unable to read IIO context attribute at index %u", i);
     }
   }
 
@@ -812,7 +935,7 @@ void IIONode::scanContextSrv(
     // Handle device attributes
     unsigned int nb_attrs = iio_device_get_attrs_count(dev);
     for (unsigned int i = 0; i < nb_attrs; i++) {
-      std::string attr_key = iio_device_get_attr(dev, i);
+      std::string attr_key = device_attr_name(dev, i);
       device_attrs.push_back(dev_path.append(attr_key));
     }
 
@@ -829,7 +952,7 @@ void IIONode::scanContextSrv(
       // Handle channel attributes
       unsigned int nb_attrs = iio_channel_get_attrs_count(chn);
       for (unsigned int i = 0; i < nb_attrs; i++) {
-        std::string attr_key = iio_channel_get_attr(chn, i);
+        std::string attr_key = channel_attr_name(chn, i);
         channel_attrs.push_back(chn_path.append(attr_key));
       }
     }

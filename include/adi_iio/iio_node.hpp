@@ -15,7 +15,11 @@
 #ifndef ADI_IIO__IIO_NODE_HPP_
 #define ADI_IIO__IIO_NODE_HPP_
 
+#if defined(LIBIIO_V1)
+#include <iio/iio.h>
+#else
 #include <iio.h>
+#endif
 
 #include <chrono>
 #include <functional>
