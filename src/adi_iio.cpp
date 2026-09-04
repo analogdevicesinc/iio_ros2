@@ -167,6 +167,57 @@ int main(int argc, char ** argv)
     service_qos,
     cb_group_scan_context);
 
+  #if defined(LIBIIO_V1)
+  auto cb_group_event_enable_topic = node->create_callback_group(
+    rclcpp::CallbackGroupType::MutuallyExclusive);
+  rclcpp::Service<adi_iio::srv::EventEnableTopic>::SharedPtr eventEnableTopicSrv =
+    node->create_service<adi_iio::srv::EventEnableTopic>(
+    std::string(node->get_name()) + "/EventEnableTopic",
+    std::bind(&IIONode::eventEnableTopicSrv, node, std::placeholders::_1, std::placeholders::_2),
+    service_qos,
+    cb_group_event_enable_topic);
+
+  auto cb_group_event_disable_topic = node->create_callback_group(
+    rclcpp::CallbackGroupType::MutuallyExclusive);
+  rclcpp::Service<adi_iio::srv::EventDisableTopic>::SharedPtr eventDisableTopicSrv =
+    node->create_service<adi_iio::srv::EventDisableTopic>(
+    std::string(node->get_name()) + "/EventDisableTopic",
+    std::bind(
+      &IIONode::eventDisableTopicSrv, node, std::placeholders::_1, std::placeholders::_2),
+    service_qos,
+    cb_group_event_disable_topic);
+
+  auto cb_group_list_event_attributes = node->create_callback_group(
+    rclcpp::CallbackGroupType::MutuallyExclusive);
+  rclcpp::Service<adi_iio::srv::ListEventAttributes>::SharedPtr listEventAttributesSrv =
+    node->create_service<adi_iio::srv::ListEventAttributes>(
+    std::string(node->get_name()) + "/ListEventAttributes",
+    std::bind(
+      &IIONode::listEventAttributesSrv, node, std::placeholders::_1, std::placeholders::_2),
+    service_qos,
+    cb_group_list_event_attributes);
+
+  auto cb_group_event_attr_read_string = node->create_callback_group(
+    rclcpp::CallbackGroupType::MutuallyExclusive);
+  rclcpp::Service<adi_iio::srv::EventAttrReadString>::SharedPtr eventAttrReadStringSrv =
+    node->create_service<adi_iio::srv::EventAttrReadString>(
+    std::string(node->get_name()) + "/EventAttrReadString",
+    std::bind(
+      &IIONode::eventAttrReadStringSrv, node, std::placeholders::_1, std::placeholders::_2),
+    service_qos,
+    cb_group_event_attr_read_string);
+
+  auto cb_group_event_attr_write_string = node->create_callback_group(
+    rclcpp::CallbackGroupType::MutuallyExclusive);
+  rclcpp::Service<adi_iio::srv::EventAttrWriteString>::SharedPtr eventAttrWriteStringSrv =
+    node->create_service<adi_iio::srv::EventAttrWriteString>(
+    std::string(node->get_name()) + "/EventAttrWriteString",
+    std::bind(
+      &IIONode::eventAttrWriteStringSrv, node, std::placeholders::_1, std::placeholders::_2),
+    service_qos,
+    cb_group_event_attr_write_string);
+#endif
+
   RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "IIO Node");
 
   executor.add_node(node);

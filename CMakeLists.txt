@@ -43,6 +43,10 @@ message(STATUS "Using libiio ${IIO_VERSION} (${LIBIIO_RESOLVED_API} API)")
 # ==============================================================================
 # Generate interfaces
 # ==============================================================================
+set(msg_files
+  "msg/IIOEvent.msg"
+)
+
 set(srv_files
   "srv/AttrEnableTopic.srv"
   "srv/AttrDisableTopic.srv"
@@ -59,9 +63,15 @@ set(srv_files
   "srv/ListChannels.srv"
   "srv/ListAttributes.srv"
   "srv/ScanContext.srv"
+  "srv/EventEnableTopic.srv"
+  "srv/EventDisableTopic.srv"
+  "srv/ListEventAttributes.srv"
+  "srv/EventAttrReadString.srv"
+  "srv/EventAttrWriteString.srv"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
   ${srv_files}
   DEPENDENCIES std_msgs
 )
@@ -84,6 +94,7 @@ add_executable(${NODE_NAME}
 
 if(LIBIIO_RESOLVED_API STREQUAL "v1")
   target_compile_definitions(${NODE_NAME} PRIVATE LIBIIO_V1)
+  target_sources(${NODE_NAME} PRIVATE src/iio_event_topic.cpp)
 endif()
 
 target_include_directories(${NODE_NAME}

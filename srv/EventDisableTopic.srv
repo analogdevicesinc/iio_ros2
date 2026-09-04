@@ -1,0 +1,4 @@
+string device_path
+---
+bool success
+string message

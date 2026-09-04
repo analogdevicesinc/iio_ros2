@@ -45,9 +45,17 @@
 #include "adi_iio/srv/list_channels.hpp"
 #include "adi_iio/srv/list_attributes.hpp"
 #include "adi_iio/srv/scan_context.hpp"
+#include "adi_iio/srv/event_enable_topic.hpp"
+#include "adi_iio/srv/event_disable_topic.hpp"
+#include "adi_iio/srv/list_event_attributes.hpp"
+#include "adi_iio/srv/event_attr_read_string.hpp"
+#include "adi_iio/srv/event_attr_write_string.hpp"
 
 class IIOAttrTopic;
 class IIOBuffer;
+#if defined(LIBIIO_V1)
+class IIOEventTopic;
+#endif
 
 class IIONode : public rclcpp::Node
 {
@@ -60,6 +68,11 @@ public:
   bool rwAttrPath(
     std::string path, std::string & result, bool write = false,
     std::string value = "");
+
+#if defined(LIBIIO_V1)
+  bool rwEventAttrPath(
+    std::string path, std::string & result, bool write = false, std::string value = "");
+#endif
 
   // service handlers
   void attrReadSrv(
@@ -123,6 +136,26 @@ public:
     std::shared_ptr<adi_iio::srv::ScanContext::Response> response
   );
 
+  void eventEnableTopicSrv(
+    const std::shared_ptr<adi_iio::srv::EventEnableTopic::Request> request,
+    std::shared_ptr<adi_iio::srv::EventEnableTopic::Response> response);
+
+  void eventDisableTopicSrv(
+    const std::shared_ptr<adi_iio::srv::EventDisableTopic::Request> request,
+    std::shared_ptr<adi_iio::srv::EventDisableTopic::Response> response);
+
+  void listEventAttributesSrv(
+    const std::shared_ptr<adi_iio::srv::ListEventAttributes::Request> request,
+    std::shared_ptr<adi_iio::srv::ListEventAttributes::Response> response);
+
+  void eventAttrReadStringSrv(
+    const std::shared_ptr<adi_iio::srv::EventAttrReadString::Request> request,
+    std::shared_ptr<adi_iio::srv::EventAttrReadString::Response> response);
+
+  void eventAttrWriteStringSrv(
+    const std::shared_ptr<adi_iio::srv::EventAttrWriteString::Request> request,
+    std::shared_ptr<adi_iio::srv::EventAttrWriteString::Response> response);
+
   // getters
   std::string uri();
   bool initialized();
@@ -164,6 +197,9 @@ private:
 
   std::map<std::string, std::shared_ptr<IIOAttrTopic>> m_attrTopicMap;
   std::map<std::string, std::shared_ptr<IIOBuffer>> m_bufferMap;
+#if defined(LIBIIO_V1)
+  std::map<std::string, std::shared_ptr<IIOEventTopic>> m_eventMap;
+#endif
 };
 
 #endif  // ADI_IIO__IIO_NODE_HPP_
