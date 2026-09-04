@@ -529,6 +529,60 @@ starts a background thread that refills and publishes samples at ``loop_rate``;
    Continuous buffer capture published on a topic.
 
 
+Handling Hardware Events
+--------------------------------------------------------------------------------
+
+.. note::
+
+   The event services and the ``IIOEvent`` topic below require libiio **v1**.
+   On libiio v0 they are absent from ``ros2 service list``.
+
+``ListEventAttributes`` scans the whole context and returns every device and
+channel event attribute as an ``iio_path`` string (no path parameter, unlike
+``ListAttributes``).
+
+.. figure:: doc/images/seq_list_event_attributes.svg
+   :alt: List event attributes sequence
+   :align: center
+   :width: 100%
+
+   ``ListEventAttributes`` enumerates event attributes across the whole context.
+
+``EventAttrReadString`` and ``EventAttrWriteString`` read and write a single
+event attribute (e.g. a threshold ``*_value`` or an enable ``*_en`` flag) by
+its ``iio_path``.
+
+.. figure:: doc/images/seq_event_attr_read.svg
+   :alt: Event attribute read sequence
+   :align: center
+   :width: 100%
+
+   Reading an event attribute with ``EventAttrReadString``.
+
+.. figure:: doc/images/seq_event_attr_write.svg
+   :alt: Event attribute write sequence
+   :align: center
+   :width: 100%
+
+   Writing an event attribute with ``EventAttrWriteString``. Unlike
+   ``AttrWriteString``, a successful write does not read the attribute back -
+   ``message`` is empty on success.
+
+Once an event is armed (threshold/value written, then its ``*_en`` attribute
+set to ``1``), ``EventEnableTopic`` opens a libiio event stream for the device
+and publishes each hardware event as it occurs on an ``IIOEvent`` topic - this
+is push-driven, not sampled at a ``loop_rate`` like the attribute and buffer
+topics. ``EventDisableTopic`` tears the stream down.
+
+.. figure:: doc/images/seq_event_topic.svg
+   :alt: Event topic enable, publish, and disable sequence
+   :align: center
+   :width: 100%
+
+   Arming an event, then streaming it via ``EventEnableTopic`` /
+   ``EventDisableTopic``.
+
+
 .. _Node Description:
 
 ``adi_iio`` - Node Description

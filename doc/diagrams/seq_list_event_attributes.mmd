@@ -1,0 +1,10 @@
+sequenceDiagram
+    autonumber
+    participant C as ROS 2 Client
+    participant N as adi_iio node
+    participant H as libiio ctx / IIO HW
+    C->>N: ListEventAttributes()
+    N->>H: enumerate every device + channel in the context
+    H-->>N: event attribute names
+    N-->>C: success + device_attrs[] + channel_attrs[] (iio_path strings)
+    Note over C,N: unlike ListAttributes, this scans the whole context - no path parameter

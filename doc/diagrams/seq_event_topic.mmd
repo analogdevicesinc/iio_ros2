@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    participant C as ROS 2 Client
+    participant N as adi_iio node
+    participant T as IIOEvent topic
+    participant H as libiio ctx / IIO HW
+    Note over C,N: precondition: event armed via EventAttrWriteString (threshold/value, then *_en=1)
+    C->>N: EventEnableTopic(device_path, topic_name)
+    N->>H: create event stream for device
+    N->>T: create publisher, start read thread
+    N-->>C: success
+    loop on every HW event (push-driven, no polling rate)
+        H-->>N: iio_event (blocking read)
+        N->>N: decode type / direction / channel
+        N->>T: publish IIOEvent
+        T-->>C: IIOEvent
+    end
+    C->>N: EventDisableTopic(device_path)
+    N->>H: destroy event stream (unblocks read thread)
+    N->>T: join thread, destroy publisher
+    N-->>C: success

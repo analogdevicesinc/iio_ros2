@@ -1,0 +1,10 @@
+sequenceDiagram
+    autonumber
+    participant C as ROS 2 Client
+    participant N as adi_iio node
+    participant H as libiio ctx / IIO HW
+    C->>N: EventAttrWriteString(iio_path, value)
+    N->>H: write event attribute (device / channel)
+    H-->>N: bytes written / errno
+    N-->>C: success=true + message="" (no read-back on success)
+    Note over N,C: on failure, success=false and message carries the errno string

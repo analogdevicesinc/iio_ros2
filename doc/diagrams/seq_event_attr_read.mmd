@@ -1,0 +1,11 @@
+sequenceDiagram
+    autonumber
+    participant C as ROS 2 Client
+    participant N as adi_iio node
+    participant H as libiio ctx / IIO HW
+    C->>N: EventAttrReadString(iio_path)
+    N->>N: parse iio_path (device / channel event attribute)
+    N->>H: read event attribute
+    H-->>N: value / errno
+    N-->>C: success=true + value (in message)
+    Note over N,C: on failure, success=false and message carries the errno string
