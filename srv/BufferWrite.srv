@@ -1,4 +1,5 @@
 string device_path
+int32 buffer_index 0
 string[] channels
 std_msgs/Int32MultiArray buffer
 bool cyclic

@@ -14,11 +14,15 @@
 
 #include "adi_iio/iio_buffer.hpp"
 #include "adi_iio/iio_path.hpp"
+#include <algorithm>
+#include <string>
+#include <vector>
 
-IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path)
+IIOBuffer::IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path, int32_t buffer_index)
 {
   this->m_nh = nh;
   this->m_device_path = device_path;
+  this->m_buffer_index = buffer_index;
   m_canceled = false;
   this->m_buffer = nullptr;
 #if defined(LIBIIO_V1)
@@ -192,16 +196,48 @@ bool IIOBuffer::createIIOBuffer(std::string & message, bool output, bool cyclic)
     return false;
   }
 
-  m_buffer = iio_device_get_buffer(dev, 0);
+  m_buffer = iio_device_get_buffer(dev, m_buffer_index);
   if (!m_buffer) {
     message = strerror(-errno);
     RCLCPP_WARN(
       rclcpp::get_logger(
-        "adi_iio_node"), "could not get buffer in device \"%s\" - errno %d - %s",
-      m_device_path.c_str(), errno, message.c_str());
+        "adi_iio_node"), "could not get buffer %d in device \"%s\" - errno %d - %s",
+      m_buffer_index, m_device_path.c_str(), errno, message.c_str());
     iio_channels_mask_destroy(m_mask);
     m_mask = nullptr;
     return false;
+  }
+
+  // validate that every requested channel is addressable through this buffer index -
+  {
+    std::vector<std::string> buffer_channel_ids;
+    for (unsigned int i = 0; i < iio_buffer_get_scan_elements_count(m_buffer); i++) {
+      const iio_channel * scan_ch = iio_buffer_get_scan_element(m_buffer, i);
+      buffer_channel_ids.push_back(iio_channel_get_id(scan_ch));
+    }
+
+    for (auto & channel : m_channels) {
+      iio_channel * ch = nullptr;
+      if (IIOPath::hasExtendedChannelFormat(channel)) {
+        auto [is_output, chn_name] = IIOPath::getExtendedChannelSegment(channel);
+        ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+      } else {
+        ch = iio_device_find_channel(dev, channel.c_str(), output);
+      }
+
+      std::string ch_id = iio_channel_get_id(ch);
+      bool found = std::find(
+        buffer_channel_ids.begin(), buffer_channel_ids.end(), ch_id) != buffer_channel_ids.end();
+      if (!found) {
+        message = "channel \"" + channel + "\" is not available on buffer index " +
+          std::to_string(m_buffer_index) + " of device \"" + m_device_path + "\"";
+        RCLCPP_WARN(rclcpp::get_logger("adi_iio_node"), "%s", message.c_str());
+        m_buffer = nullptr;
+        iio_channels_mask_destroy(m_mask);
+        m_mask = nullptr;
+        return false;
+      }
+    }
   }
 
   m_stream = iio_buffer_open(m_buffer, m_mask);
@@ -423,6 +459,9 @@ void IIOBuffer::enableTopic(std::string topic_name, double loopRate)
 
   if (topic_name == "") {
     m_topic_name = IIOPath::toTopicName(m_device_path);
+    if (m_buffer_index != 0) {
+      m_topic_name += "/buf" + std::to_string(m_buffer_index);
+    }
   } else {
     m_topic_name = IIOPath::toTopicName(topic_name);
   }
