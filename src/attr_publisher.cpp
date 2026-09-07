@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <exception>
+
 #include "adi_iio/iio_attr_topic.hpp"
 #include "adi_iio/attr_publisher.hpp"
 
@@ -75,8 +77,14 @@ void Int32PubSub::publish(std::string msg)
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Int32();
-  int32_t data = stoi(msg);
-  message.data = data;
+  try {
+    message.data = std::stoi(msg);
+  } catch (const std::exception & e) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("adi_iio_node"), "could not convert \"%s\" to int32: %s",
+      msg.c_str(), e.what());
+    return;
+  }
 
   m_pub->publish(message);
 }
@@ -112,8 +120,14 @@ void BoolPubSub::publish(std::string msg)
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Bool();
-  bool data = stoi(msg);
-  message.data = data;
+  try {
+    message.data = std::stoi(msg) != 0;
+  } catch (const std::exception & e) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("adi_iio_node"), "could not convert \"%s\" to bool: %s",
+      msg.c_str(), e.what());
+    return;
+  }
 
   m_pub->publish(message);
 }
@@ -150,8 +164,14 @@ void Float32PubSub::publish(std::string msg)
     rclcpp::get_logger("adi_iio_node"), "Publishing msg %s on topic %s",
     msg.c_str(), m_topic.c_str());
   auto message = std_msgs::msg::Float32();
-  bool data = stoi(msg);
-  message.data = data;
+  try {
+    message.data = std::stof(msg);
+  } catch (const std::exception & e) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("adi_iio_node"), "could not convert \"%s\" to float32: %s",
+      msg.c_str(), e.what());
+    return;
+  }
 
   m_pub->publish(message);
 }

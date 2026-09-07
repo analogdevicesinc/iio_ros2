@@ -69,9 +69,11 @@ void IIOAttrTopic::publishingLoop()
     m_mutex.lock();
 
     std::string msg;
-    m_nh->rwAttrPath(m_attrPath, msg);
-    last_val = msg;
-    m_pub->publish(msg);
+    // Skip publishing on read failure, msg then holds an error string, not a value
+    if (m_nh->rwAttrPath(m_attrPath, msg)) {
+      last_val = msg;
+      m_pub->publish(msg);
+    }
     m_mutex.unlock();
     // Sleep to maintain the loop rate
     m_loopRate.sleep();
