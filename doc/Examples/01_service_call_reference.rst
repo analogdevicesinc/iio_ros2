@@ -66,9 +66,14 @@ Overview:
                 /adi_iio_node/BufferRead: adi_iio/srv/BufferRead
                 /adi_iio_node/BufferRefill: adi_iio/srv/BufferRefill
                 /adi_iio_node/BufferWrite: adi_iio/srv/BufferWrite
+                /adi_iio_node/EventAttrReadString: adi_iio/srv/EventAttrReadString
+                /adi_iio_node/EventAttrWriteString: adi_iio/srv/EventAttrWriteString
+                /adi_iio_node/EventDisableTopic: adi_iio/srv/EventDisableTopic
+                /adi_iio_node/EventEnableTopic: adi_iio/srv/EventEnableTopic
                 /adi_iio_node/ListAttributes: adi_iio/srv/ListAttributes
                 /adi_iio_node/ListChannels: adi_iio/srv/ListChannels
                 /adi_iio_node/ListDevices: adi_iio/srv/ListDevices
+                /adi_iio_node/ListEventAttributes: adi_iio/srv/ListEventAttributes
                 /adi_iio_node/ScanContext: adi_iio/srv/ScanContext
                 /adi_iio_node/describe_parameters: rcl_interfaces/srv/DescribeParameters
                 /adi_iio_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
@@ -616,3 +621,206 @@ The output should look like this:
 
     response:
     adi_iio.srv.BufferWrite_Response(success=True, message='Success')
+
+
+.. note::
+
+    The ``Event*`` services and the ``IIOEvent`` topic below require libiio **v1**
+    (see ``LIBIIO_API_VERSION`` in ``CLAUDE.md``). On libiio v0 they are absent from
+    ``ros2 service list``.
+
+
+ListEventAttributes
+--------------------------------------------------------------------------------
+
+For complete details about the request and response format of this service,
+please refer to the :ref:`ListEventAttributes` service documentation.
+
+**Usage:**
+
+.. code-block:: shell
+
+    ros2 service call /adi_iio_node/ListEventAttributes adi_iio/srv/ListEventAttributes
+
+The output should look like this:
+
+.. code-block:: shell
+
+    requester: making request: adi_iio.srv.ListEventAttributes_Request()
+
+    response:
+    adi_iio.srv.ListEventAttributes_Response(success=True, message='Found 1 device and 4 channel event attributes', device_attrs=['ad7124-8/thresh_dcheck_en'], channel_attrs=['ad7124-8/input_voltage0/thresh_rising_en', 'ad7124-8/input_voltage0/thresh_rising_value', 'ad7124-8/input_voltage1/thresh_rising_en', 'ad7124-8/input_voltage1/thresh_rising_value'])
+
+The ``device_attrs``/``channel_attrs`` fields list event ``attr_path`` values for
+every device/channel in the context, in the same extended-channel form
+(``input_<name>``/``output_<name>``) used by :ref:`EventAttrReadString` and
+:ref:`EventAttrWriteString`.
+
+
+EventAttrReadString
+--------------------------------------------------------------------------------
+
+For complete details about the request and response format of this service,
+please refer to the :ref:`EventAttrReadString` service documentation.
+
+**Usage:**
+
+.. code-block:: shell
+
+    ros2 service call /adi_iio_node/EventAttrReadString adi_iio/srv/EventAttrReadString "{
+        attr_path: ad7124-8/input_voltage0/thresh_rising_value
+    }"
+
+The output should look like this:
+
+.. code-block:: shell
+
+    requester: making request: adi_iio.srv.EventAttrReadString_Request(attr_path='ad7124-8/input_voltage0/thresh_rising_value')
+
+    response:
+    adi_iio.srv.EventAttrReadString_Response(success=True, message='500000')
+
+
+EventAttrWriteString
+--------------------------------------------------------------------------------
+
+For complete details about the request and response format of this service,
+please refer to the :ref:`EventAttrWriteString` service documentation.
+
+**Usage:**
+
+.. code-block:: shell
+
+    ros2 service call /adi_iio_node/EventAttrWriteString adi_iio/srv/EventAttrWriteString "{
+        attr_path: ad7124-8/input_voltage0/thresh_rising_value,
+        value: 500000
+    }"
+
+The output should look like this:
+
+.. code-block:: shell
+
+    requester: making request: adi_iio.srv.EventAttrWriteString_Request(attr_path='ad7124-8/input_voltage0/thresh_rising_value', value='500000')
+
+    response:
+    adi_iio.srv.EventAttrWriteString_Response(success=True, message='')
+
+.. note::
+
+    Unlike ``AttrWriteString``, a successful ``EventAttrWriteString`` does not
+    read the attribute back — ``message`` is empty on success. Use
+    ``EventAttrReadString`` to confirm the value that was written.
+
+
+EventEnableTopic
+--------------------------------------------------------------------------------
+
+For complete details about the request and response format of this service,
+please refer to the :ref:`EventEnableTopic` service documentation.
+
+**Usage:**
+
+.. code-block:: shell
+
+    ros2 service call /adi_iio_node/EventEnableTopic adi_iio/srv/EventEnableTopic "{
+        device_path: 'ad7124-8'
+    }"
+
+The output should look like this:
+
+.. code-block:: shell
+
+    requester: making request: adi_iio.srv.EventEnableTopic_Request(device_path='ad7124-8', topic_name='')
+
+    response:
+    adi_iio.srv.EventEnableTopic_Response(success=True, message='Success')
+
+.. note::
+
+    When ``topic_name`` is empty, the topic name is derived from ``device_path``
+    with ``-`` replaced by ``_`` (same convention as the buffer/attribute topics).
+    Running ``ros2 topic list`` should show the new topic: ``/ad7124_8``. Monitor
+    it with ``ros2 topic echo /ad7124_8``.
+
+
+EventDisableTopic
+--------------------------------------------------------------------------------
+
+For complete details about the request and response format of this service,
+please refer to the :ref:`EventDisableTopic` service documentation.
+
+**Usage:**
+
+.. code-block:: shell
+
+    ros2 service call /adi_iio_node/EventDisableTopic adi_iio/srv/EventDisableTopic "{
+        device_path: 'ad7124-8'
+    }"
+
+The output should look like this:
+
+.. code-block:: shell
+
+    requester: making request: adi_iio.srv.EventDisableTopic_Request(device_path='ad7124-8')
+
+    response:
+    adi_iio.srv.EventDisableTopic_Response(success=True, message='Success')
+
+
+IIOEvent topic
+--------------------------------------------------------------------------------
+
+For complete details about the message fields, please refer to the
+:ref:`IIOEvent` message documentation.
+
+**End-to-end example:** arm a threshold event on a channel, then enable the
+device's event topic and watch it fire.
+
+.. code-block:: shell
+
+    # arm the threshold and enable the event
+    ros2 service call /adi_iio_node/EventAttrWriteString adi_iio/srv/EventAttrWriteString "{
+        attr_path: ad7124-8/input_voltage0/thresh_rising_value,
+        value: 500000
+    }"
+    ros2 service call /adi_iio_node/EventAttrWriteString adi_iio/srv/EventAttrWriteString "{
+        attr_path: ad7124-8/input_voltage0/thresh_rising_en,
+        value: 1
+    }"
+
+    # start streaming events for the device
+    ros2 service call /adi_iio_node/EventEnableTopic adi_iio/srv/EventEnableTopic "{
+        device_path: 'ad7124-8'
+    }"
+
+    # watch events as they fire
+    ros2 topic echo /ad7124_8
+
+The output should look like this:
+
+.. code-block:: shell
+
+    header:
+      stamp:
+        sec: 1234567890
+        nanosec: 123456789
+      frame_id: ad7124-8
+    id: 42
+    hw_timestamp: 1234567890123456789
+    type: 0
+    type_name: thresh
+    direction: 1
+    direction_name: rising
+    channel: voltage0
+    diff_channel: ''
+    ---
+
+.. note::
+
+    Disable the stream with ``EventDisableTopic`` when done:
+
+    .. code-block:: shell
+
+        ros2 service call /adi_iio_node/EventDisableTopic adi_iio/srv/EventDisableTopic "{
+            device_path: 'ad7124-8'
+        }"

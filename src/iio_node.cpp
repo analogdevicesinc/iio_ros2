@@ -16,9 +16,11 @@
 #include "adi_iio/iio_path.hpp"
 #include "adi_iio/iio_attr_topic.hpp"
 #include "adi_iio/iio_buffer.hpp"
+#include "adi_iio/iio_event_topic.hpp"
 #include <cerrno>
 #include <memory>
 #include <string>
+#include <vector>
 
 using namespace std::chrono_literals;
 
@@ -395,6 +397,91 @@ bool IIONode::rwAttrPath(std::string path, std::string & result, bool write, std
 
   return ret;
 }
+
+#if defined(LIBIIO_V1)
+bool IIONode::rwEventAttrPath(
+  std::string path_str, std::string & result, bool write, std::string value)
+{
+  IIOPath iio_path(path_str);
+
+  if (iio_path.isValid(DEVICE_ATTR)) {
+    iio_device * dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
+    if (!dev) {
+      result = "Device not found";
+      return false;
+    }
+    const iio_attr * attr = iio_device_find_event_attr(
+      dev, iio_path.getDeviceAttrSegment().c_str());
+    if (!attr) {
+      result = "Event attribute not found";
+      return false;
+    }
+    if (write) {
+      ssize_t ret = iio_attr_write_string(attr, value.c_str());
+      if (ret < 0) {
+        result = strerror(-ret);
+        return false;
+      }
+    } else {
+      char attr_val[MAX_ATTR_SIZE];
+      ssize_t ret = iio_attr_read_raw(attr, attr_val, MAX_ATTR_SIZE);
+      if (ret < 0) {
+        result = strerror(-ret);
+        return false;
+      }
+      result = attr_val;
+    }
+    return true;
+  }
+
+  if (iio_path.isValid(CHANNEL_ATTR)) {
+    iio_device * dev = iio_context_find_device(m_ctx, iio_path.getDeviceSegment().c_str());
+    if (!dev) {
+      result = "Device not found";
+      return false;
+    }
+    iio_channel * ch = nullptr;
+    if (iio_path.hasExtendedChannelFormat()) {
+      auto [is_output, chn_name] = iio_path.getExtendedChannelSegment();
+      ch = iio_device_find_channel(dev, chn_name.c_str(), is_output);
+    } else {
+      ch = iio_device_find_channel(dev, iio_path.getChannelSegment().c_str(), false);
+      if (!ch) {
+        ch = iio_device_find_channel(dev, iio_path.getChannelSegment().c_str(), true);
+      }
+    }
+    if (!ch) {
+      result = "Channel not found";
+      return false;
+    }
+    const iio_attr * attr = iio_channel_find_event_attr(
+      ch, iio_path.getChannelAttrSegment().c_str());
+    if (!attr) {
+      result = "Event attribute not found";
+      return false;
+    }
+    if (write) {
+      ssize_t ret = iio_attr_write_string(attr, value.c_str());
+      if (ret < 0) {
+        result = strerror(-ret);
+        return false;
+      }
+    } else {
+      char attr_val[MAX_ATTR_SIZE];
+      ssize_t ret = iio_attr_read_raw(attr, attr_val, MAX_ATTR_SIZE);
+      if (ret < 0) {
+        result = strerror(-ret);
+        return false;
+      }
+      result = attr_val;
+    }
+    return true;
+  }
+
+  result = "Service requires a valid attr_path";
+  return false;
+}
+#endif  // LIBIIO_V1
 
 void IIONode::attrReadSrv(
   const std::shared_ptr<adi_iio::srv::AttrReadString::Request> request,   // CHANGE
@@ -969,6 +1056,160 @@ void IIONode::scanContextSrv(
   response->context_attrs = {context_attrs};
   response->device_attrs = {device_attrs};
   response->channel_attrs = {channel_attrs};
+}
+
+void IIONode::eventEnableTopicSrv(
+  const std::shared_ptr<adi_iio::srv::EventEnableTopic::Request> request,
+  std::shared_ptr<adi_iio::srv::EventEnableTopic::Response> response)
+{
+  RCLCPP_INFO(
+    rclcpp::get_logger("adi_iio_node"),
+    "Service request /EventEnableTopic %s", request->device_path.c_str());
+
+  std::string msg;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = request->device_path + " is not a valid device path";
+    setErrorResponse(response, msg);
+    return;
+  }
+
+#if defined(LIBIIO_V1)
+  // One event stream per device: drop any existing entry first.
+  if (m_eventMap.find(path.getDeviceSegment()) != m_eventMap.end()) {
+    m_eventMap.erase(path.getDeviceSegment());
+  }
+
+  auto event_topic = std::make_shared<IIOEventTopic>(
+    std::dynamic_pointer_cast<IIONode>(shared_from_this()), path.getDeviceSegment());
+
+  if (event_topic->enableTopic(msg, request->topic_name)) {
+    m_eventMap.insert({path.getDeviceSegment(), event_topic});
+    setSuccessResponse(response, msg);
+  } else {
+    setErrorResponse(response, msg);
+  }
+#else
+  setErrorResponse(response, "events require libiio v1");
+#endif
+}
+
+void IIONode::eventDisableTopicSrv(
+  const std::shared_ptr<adi_iio::srv::EventDisableTopic::Request> request,
+  std::shared_ptr<adi_iio::srv::EventDisableTopic::Response> response)
+{
+  RCLCPP_INFO(
+    rclcpp::get_logger("adi_iio_node"),
+    "Service request /EventDisableTopic %s", request->device_path.c_str());
+
+  std::string msg;
+
+  IIOPath path(request->device_path);
+  if (!path.isValid(IIOPathType::DEVICE)) {
+    msg = request->device_path + " is not a valid device path";
+    setErrorResponse(response, msg);
+    return;
+  }
+
+#if defined(LIBIIO_V1)
+  auto it = m_eventMap.find(path.getDeviceSegment());
+  if (it != m_eventMap.end()) {
+    m_eventMap.erase(it);
+    msg = "Success";
+    setSuccessResponse(response, msg);
+  } else {
+    msg = "Event topic not found";
+    setWarningResponse(response, msg);
+  }
+#else
+  setErrorResponse(response, "events require libiio v1");
+#endif
+}
+
+void IIONode::listEventAttributesSrv(
+  const std::shared_ptr<adi_iio::srv::ListEventAttributes::Request> request,
+  std::shared_ptr<adi_iio::srv::ListEventAttributes::Response> response)
+{
+  (void)request;  // unused
+  RCLCPP_INFO(rclcpp::get_logger("adi_iio_node"), "Service request /ListEventAttributes");
+
+#if defined(LIBIIO_V1)
+  std::vector<std::string> device_attrs;
+  std::vector<std::string> channel_attrs;
+
+  IIOPath ctx_path("");
+  for (iio_device * dev : getDevices(ctx())) {
+    const char * dev_name_cstr = iio_device_get_name(dev);
+    if (dev_name_cstr == nullptr) {
+      RCLCPP_WARN(
+        rclcpp::get_logger("adi_iio_node"),
+        "device name is null, skipping device");
+      continue;
+    }
+    auto dev_path = IIOPath(ctx_path.append(std::string(dev_name_cstr)));
+
+    unsigned int nb_attrs = iio_device_get_event_attrs_count(dev);
+    for (unsigned int i = 0; i < nb_attrs; i++) {
+      device_attrs.push_back(
+        dev_path.append(iio_attr_get_name(iio_device_get_event_attr(dev, i))));
+    }
+
+    for (iio_channel * chn : getChannels(dev)) {
+      auto chn_segment = IIOPath::toExtendedChannelSegment(
+        iio_channel_is_output(chn), std::string(iio_channel_get_id(chn)));
+      auto chn_path = IIOPath(dev_path.append(chn_segment));
+
+      unsigned int nb_chn_attrs = iio_channel_get_event_attrs_count(chn);
+      for (unsigned int i = 0; i < nb_chn_attrs; i++) {
+        channel_attrs.push_back(
+          chn_path.append(iio_attr_get_name(iio_channel_get_event_attr(chn, i))));
+      }
+    }
+  }
+
+  setSuccessResponse(
+    response, "Found " + std::to_string(device_attrs.size()) + " device and " +
+    std::to_string(channel_attrs.size()) + " channel event attributes");
+  response->device_attrs = {device_attrs};
+  response->channel_attrs = {channel_attrs};
+#else
+  setErrorResponse(response, "events require libiio v1");
+#endif
+}
+
+void IIONode::eventAttrReadStringSrv(
+  const std::shared_ptr<adi_iio::srv::EventAttrReadString::Request> request,
+  std::shared_ptr<adi_iio::srv::EventAttrReadString::Response> response)
+{
+  RCLCPP_INFO(
+    rclcpp::get_logger("adi_iio_node"), "Service request /EventAttrReadString %s",
+    request->attr_path.c_str());
+
+#if defined(LIBIIO_V1)
+  std::string result;
+  response->success = rwEventAttrPath(request->attr_path, result);
+  response->message = result;
+#else
+  setErrorResponse(response, "events require libiio v1");
+#endif
+}
+
+void IIONode::eventAttrWriteStringSrv(
+  const std::shared_ptr<adi_iio::srv::EventAttrWriteString::Request> request,
+  std::shared_ptr<adi_iio::srv::EventAttrWriteString::Response> response)
+{
+  RCLCPP_INFO(
+    rclcpp::get_logger("adi_iio_node"), "Service request /EventAttrWriteString %s value %s",
+    request->attr_path.c_str(), request->value.c_str());
+
+#if defined(LIBIIO_V1)
+  std::string result;
+  response->success = rwEventAttrPath(request->attr_path, result, true, request->value);
+  response->message = result;
+#else
+  setErrorResponse(response, "events require libiio v1");
+#endif
 }
 
 std::vector<iio_device *> IIONode::getDevices(iio_context * ctx)

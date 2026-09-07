@@ -668,6 +668,111 @@ can be either a context, device, or channel path.
 * ``message`` (string): A message providing additional information.
 * ``data`` (string[]): A list containing the IIO attribute paths.
 
+.. note::
+
+    The following event services and the ``IIOEvent`` topic require the node to
+    be built against **libiio v1** (see ``LIBIIO_API_VERSION`` in the package's
+    build documentation). When built against libiio v0, these services are not
+    registered and will not appear in ``ros2 service list``.
+
+.. _EventEnableTopic:
+
+EventEnableTopic
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Enables the IIO event stream for a device and publishes
+decoded events on a topic. One event stream is maintained per device;
+re-enabling a device that already has an active stream replaces it.
+
+**Request:**
+
+* ``device_path`` (string): The path to the device whose events will be streamed.
+* ``topic_name`` (string): The name of the topic to publish events on. When
+  empty (the default), the topic name is derived from ``device_path`` (see
+  :ref:`topic_name_resolution`).
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+
+.. _EventDisableTopic:
+
+EventDisableTopic
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Disables the event stream for a device, stopping the
+publisher started by ``EventEnableTopic``.
+
+**Request:**
+
+* ``device_path`` (string): The path to the device whose event stream will be disabled.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information. If no
+  event stream is active for the device, ``success`` is ``false`` and
+  ``message`` is ``"Event topic not found"``.
+
+.. _ListEventAttributes:
+
+ListEventAttributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Lists the event attribute paths for every device and channel
+in the current context.
+
+**Request:**
+
+* None. The operation scans the entire context.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): A message providing additional information.
+* ``device_attrs`` (string[]): A list of event ``attr_path`` values for device-level
+  event attributes.
+* ``channel_attrs`` (string[]): A list of event ``attr_path`` values for channel-level
+  event attributes, using the extended channel format (see :ref:`Channel Path`).
+
+.. _EventAttrReadString:
+
+EventAttrReadString
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Reads an IIO event attribute as a string.
+
+**Request:**
+
+* ``attr_path`` (string): The path to the event attribute to be read.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): The value of the attribute on success, or an error
+  description on failure.
+
+.. _EventAttrWriteString:
+
+EventAttrWriteString
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Description:** Writes an IIO event attribute as a string.
+
+**Request:**
+
+* ``attr_path`` (string): The path to the event attribute to be written.
+* ``value`` (string): The value to be written to the attribute.
+
+**Response:**
+
+* ``success`` (bool): Indicates whether the operation was successful.
+* ``message`` (string): An error description on failure. Unlike
+  ``AttrWriteString``, the attribute is not read back after a successful
+  write, so ``message`` is empty (``""``) when ``success`` is ``true``. Use
+  ``EventAttrReadString`` to confirm the written value.
+
 
 .. _launch:
 
