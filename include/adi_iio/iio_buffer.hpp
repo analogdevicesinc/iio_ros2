@@ -38,7 +38,7 @@
 class IIOBuffer
 {
 public:
-  IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path);
+  IIOBuffer(std::shared_ptr<IIONode> nh, std::string device_path, int32_t buffer_index = 0);
   ~IIOBuffer();
 
   bool createIIOBuffer(std::string & message, bool output = false, bool cyclic = false);
@@ -69,6 +69,7 @@ public:
 private:
   std::shared_ptr<IIONode> m_nh;
   std::string m_device_path;
+  int32_t m_buffer_index;
   std::vector<std::string> m_channels;
   int32_t m_samples_count;
   iio_buffer *m_buffer;

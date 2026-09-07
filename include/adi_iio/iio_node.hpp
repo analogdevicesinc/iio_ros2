@@ -26,6 +26,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <rclcpp/rclcpp.hpp>
@@ -163,7 +164,7 @@ private:
   iio_context * m_ctx;
 
   std::map<std::string, std::shared_ptr<IIOAttrTopic>> m_attrTopicMap;
-  std::map<std::string, std::shared_ptr<IIOBuffer>> m_bufferMap;
+  std::map<std::pair<std::string, int32_t>, std::shared_ptr<IIOBuffer>> m_bufferMap;
 };
 
 #endif  // ADI_IIO__IIO_NODE_HPP_

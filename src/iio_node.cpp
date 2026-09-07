@@ -217,16 +217,36 @@ void IIONode::initBuffers()
     std::string dev_name = std::string(dev_name_cstr);
     RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Parsing channels of device: %s", dev_name.c_str());
 
+    bool has_scan_element = false;
+
     auto channels_ptr = getChannels(dev);
     for (iio_channel * chn : channels_ptr) {
       if (iio_channel_is_scan_element(chn)) {
-        RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Inserting %s into bufferMap", dev_name.c_str());
-        m_bufferMap.insert(
-          {dev_name, std::make_shared<IIOBuffer>(
-              std::dynamic_pointer_cast<IIONode>(shared_from_this()), dev_name)});
+        has_scan_element = true;
         break;
       }
     }
+    if (!has_scan_element) {
+      continue;
+    }
+
+#if defined(LIBIIO_V1)
+    unsigned int buffers_count = iio_device_get_buffers_count(dev);
+    for (unsigned int idx = 0; idx < buffers_count; idx++) {
+      RCLCPP_DEBUG(
+        rclcpp::get_logger("rclcpp"), "Inserting %s buffer %u into bufferMap",
+        dev_name.c_str(), idx);
+      m_bufferMap.insert(
+        {{dev_name, static_cast<int32_t>(idx)}, std::make_shared<IIOBuffer>(
+            std::dynamic_pointer_cast<IIONode>(shared_from_this()), dev_name,
+            static_cast<int32_t>(idx))});
+    }
+#else
+    RCLCPP_DEBUG(rclcpp::get_logger("rclcpp"), "Inserting %s into bufferMap", dev_name.c_str());
+    m_bufferMap.insert(
+      {{dev_name, 0}, std::make_shared<IIOBuffer>(
+          std::dynamic_pointer_cast<IIONode>(shared_from_this()), dev_name, 0)});
+#endif
   }
 }
 
@@ -497,14 +517,16 @@ void IIONode::buffRefillSrv(
     return;
   }
 
-  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
-    message = "Buffer not found";
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) == m_bufferMap.end()) {
+    message = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setErrorResponse(response, message);
     return;
   }
 
-  if (!m_bufferMap[path.getDeviceSegment()]->topic_enabled()) {
-    success = m_bufferMap[path.getDeviceSegment()]->refill(message);
+  if (!m_bufferMap[buffer_key]->topic_enabled()) {
+    success = m_bufferMap[buffer_key]->refill(message);
   }
 
   if (!success) {
@@ -513,7 +535,7 @@ void IIONode::buffRefillSrv(
   }
 
   setSuccessResponse(response, message);
-  response->buffer = m_bufferMap[path.getDeviceSegment()]->data();
+  response->buffer = m_bufferMap[buffer_key]->data();
 }
 
 void IIONode::buffReadSrv(
@@ -539,13 +561,15 @@ void IIONode::buffReadSrv(
   }
 
   std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
-    message = "Device or buffer not found.";
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) == m_bufferMap.end()) {
+    message = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setErrorResponse(response, message);
     return;
   }
 
-  buffer = m_bufferMap[path.getDeviceSegment()];
+  buffer = m_bufferMap[buffer_key];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->samples_count);
   buffer->set_channels(request->channels);
@@ -589,13 +613,15 @@ void IIONode::buffWriteSrv(
   }
 
   std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
-    message = "Device or buffer not found.";
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) == m_bufferMap.end()) {
+    message = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setErrorResponse(response, message);
     return;
   }
 
-  buffer = m_bufferMap[path.getDeviceSegment()];
+  buffer = m_bufferMap[buffer_key];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->buffer.layout.dim[0].size);
   buffer->set_channels(request->channels);
@@ -638,13 +664,15 @@ void IIONode::buffCreateSrv(
   }
 
   std::shared_ptr<IIOBuffer> buffer;
-  if (m_bufferMap.find(path.getDeviceSegment()) == m_bufferMap.end()) {
-    message = "Buffer not found";
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) == m_bufferMap.end()) {
+    message = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setWarningResponse(response, message);
     return;
   }
 
-  buffer = m_bufferMap[path.getDeviceSegment()];
+  buffer = m_bufferMap[buffer_key];
   buffer->destroyIIOBuffer();
   buffer->set_samples_count(request->samples_count);
   buffer->set_channels(request->channels);
@@ -676,16 +704,18 @@ void IIONode::buffDestroySrv(
     return;
   }
 
-  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
-    if (m_bufferMap[path.getDeviceSegment()]->created()) {
-      m_bufferMap[path.getDeviceSegment()]->destroyIIOBuffer();
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) != m_bufferMap.end()) {
+    if (m_bufferMap[buffer_key]->created()) {
+      m_bufferMap[buffer_key]->destroyIIOBuffer();
       msg = "Success";
       setSuccessResponse(response, msg);
       return;
     }
   }
 
-  msg = "Buffer not found";
+  msg = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+    path.getDeviceSegment();
   setWarningResponse(response, msg);
 }
 
@@ -706,12 +736,14 @@ void IIONode::buffEnableTopicSrv(
     return;
   }
 
-  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
-    m_bufferMap[path.getDeviceSegment()]->enableTopic(request->topic_name, request->loop_rate);
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) != m_bufferMap.end()) {
+    m_bufferMap[buffer_key]->enableTopic(request->topic_name, request->loop_rate);
     msg = "Success";
     setSuccessResponse(response, msg);
   } else {
-    msg = "Buffer not found";
+    msg = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setWarningResponse(response, msg);
   }
 }
@@ -733,12 +765,14 @@ void IIONode::buffDisableTopicSrv(
     return;
   }
 
-  if (m_bufferMap.find(path.getDeviceSegment()) != m_bufferMap.end()) {
-    m_bufferMap[path.getDeviceSegment()]->disableTopic();
+  auto buffer_key = std::make_pair(path.getDeviceSegment(), request->buffer_index);
+  if (m_bufferMap.find(buffer_key) != m_bufferMap.end()) {
+    m_bufferMap[buffer_key]->disableTopic();
     msg = "Success";
     setSuccessResponse(response, msg);
   } else {
-    msg = "Buffer not found";
+    msg = "Buffer " + std::to_string(request->buffer_index) + " not found for device " +
+      path.getDeviceSegment();
     setWarningResponse(response, msg);
   }
 }
