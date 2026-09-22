@@ -9,8 +9,8 @@ This node subscribes to position commands (in degrees) and writes corresponding
 DAC values to the AD5592r via the adi_iio service/topic interface. It simulates
 commanding a servo motor position in a robotic arm application.
 
-The DAC channel outputs a voltage proportional to the commanded position
-(0-180 degrees mapped to 0-2.5V).
+The DAC channel (CH4) outputs a drive level: 0-180 degrees mapped to 0-2.5V,
+with the midpoint (90 degrees, 1.25 V) meaning motor stopped.
 """
 
 import rclpy
@@ -25,20 +25,20 @@ class ServoCommander(Node):
     def __init__(self):
         super().__init__('servo_commander')
 
-        self.declare_parameter('loop_rate', 10.0)
+        self.declare_parameter('loop_rate', 20.0)
         self.declare_parameter('srv_provider', '/adi_iio_node')
         self.declare_parameter('qos', 10)
 
         self.declare_parameter(
             'dac_raw',
-            'ad5592r/output_voltage0/raw',
+            'ad5592r/output_voltage4/raw',
             descriptor=ParameterDescriptor(
                 description='Path to raw attribute of AD5592R DAC channel for servo control.'
             )
         )
         self.declare_parameter(
             'dac_scale',
-            'ad5592r/output_voltage0/scale',
+            'ad5592r/output_voltage4/scale',
             descriptor=ParameterDescriptor(
                 description='Path to scale attribute of AD5592R DAC channel.'
             )
@@ -170,11 +170,13 @@ class ServoCommander(Node):
         )
 
     def destroy_node(self):
-        self.get_logger().info('Shutting down, setting DAC to zero...')
+        self.get_logger().info('Shutting down, setting DAC to midpoint (motor stopped)...')
 
-        zero_msg = String()
-        zero_msg.data = '0'
-        self.dac_write_pub.publish(zero_msg)
+        if self.scale is not None:
+            stop_msg = String()
+            stop_msg.data = str(int(self.angle_to_voltage_mv(
+                (self.min_angle + self.max_angle) / 2.0) / self.scale))
+            self.dac_write_pub.publish(stop_msg)
 
         msg = AttrDisableTopic.Request()
         msg.topic_name = self.get_parameter('dac_raw').value

@@ -10,8 +10,8 @@ to simulate position and current feedback from a servo motor. In a real
 robotic arm application, these would come from encoders and current sensors.
 
 Channels used:
-  - ADC channel 1: Position feedback (simulating encoder)
-  - ADC channel 2: Current feedback (simulating current sense)
+  - ADC channel 5: Position feedback (simulating encoder)
+  - Current feedback is optional; leave current_adc_raw empty to disable it
 """
 
 import rclpy
@@ -28,34 +28,35 @@ class ServoFeedback(Node):
     def __init__(self):
         super().__init__('servo_feedback')
 
-        self.declare_parameter('timer_period', 0.1)
+        self.declare_parameter('timer_period', 0.05)
         self.declare_parameter('srv_provider', '/adi_iio_node')
         self.declare_parameter('qos', 10)
 
         self.declare_parameter(
             'position_adc_raw',
-            'ad5592r/input_voltage1/raw',
+            'ad5592r/input_voltage5/raw',
             descriptor=ParameterDescriptor(
                 description='Path to raw attribute of ADC channel for position feedback.'
             )
         )
         self.declare_parameter(
             'position_adc_scale',
-            'ad5592r/input_voltage1/scale',
+            'ad5592r/input_voltage5/scale',
             descriptor=ParameterDescriptor(
                 description='Path to scale attribute of position ADC channel.'
             )
         )
         self.declare_parameter(
             'current_adc_raw',
-            'ad5592r/input_voltage2/raw',
+            '',
             descriptor=ParameterDescriptor(
-                description='Path to raw attribute of ADC channel for current feedback.'
+                description='Path to raw attribute of ADC channel for current feedback '
+                            '(empty = no current sensing).'
             )
         )
         self.declare_parameter(
             'current_adc_scale',
-            'ad5592r/input_voltage2/scale',
+            '',
             descriptor=ParameterDescriptor(
                 description='Path to scale attribute of current ADC channel.'
             )
@@ -94,6 +95,7 @@ class ServoFeedback(Node):
         self.position_raw = None
         self.current_raw = None
         self.last_cmd = 0.0
+        self.has_current = bool(self.get_parameter('current_adc_raw').value)
 
         self.setup_service_clients()
 
@@ -103,12 +105,13 @@ class ServoFeedback(Node):
             self.position_raw_callback,
             self.qos,
         )
-        self.current_raw_sub = self.create_subscription(
-            String,
-            f"{self.get_parameter('current_adc_raw').value}/read",
-            self.current_raw_callback,
-            self.qos,
-        )
+        if self.has_current:
+            self.current_raw_sub = self.create_subscription(
+                String,
+                f"{self.get_parameter('current_adc_raw').value}/read",
+                self.current_raw_callback,
+                self.qos,
+            )
 
         self.cmd_sub = self.create_subscription(
             Float64,
@@ -151,11 +154,12 @@ class ServoFeedback(Node):
         future.scale_type = 'position'
         future.add_done_callback(self.scale_response_callback)
 
-        request = AttrReadString.Request()
-        request.attr_path = self.get_parameter('current_adc_scale').value
-        future = self.attr_read_string_client.call_async(request)
-        future.scale_type = 'current'
-        future.add_done_callback(self.scale_response_callback)
+        if self.has_current:
+            request = AttrReadString.Request()
+            request.attr_path = self.get_parameter('current_adc_scale').value
+            future = self.attr_read_string_client.call_async(request)
+            future.scale_type = 'current'
+            future.add_done_callback(self.scale_response_callback)
 
     def scale_response_callback(self, future):
         try:
@@ -181,10 +185,11 @@ class ServoFeedback(Node):
         msg.loop_rate = loop_rate
         self.attr_enable_topic_client.call_async(msg)
 
-        msg = AttrEnableTopic.Request()
-        msg.attr_path = self.get_parameter('current_adc_raw').value
-        msg.loop_rate = loop_rate
-        self.attr_enable_topic_client.call_async(msg)
+        if self.has_current:
+            msg = AttrEnableTopic.Request()
+            msg.attr_path = self.get_parameter('current_adc_raw').value
+            msg.loop_rate = loop_rate
+            self.attr_enable_topic_client.call_async(msg)
 
     def position_raw_callback(self, msg: String):
         try:
@@ -210,18 +215,20 @@ class ServoFeedback(Node):
         return voltage_mv / self.r_sense
 
     def timer_callback(self):
-        if self.position_scale is None or self.current_scale is None:
+        if self.position_scale is None or (self.has_current and self.current_scale is None):
             self.get_logger().warn('Scales not yet available.')
             return
-        if self.position_raw is None or self.current_raw is None:
+        if self.position_raw is None or (self.has_current and self.current_raw is None):
             self.get_logger().debug('Waiting for ADC readings...')
             return
 
         pos_voltage_mv = self.position_raw * self.position_scale
         measured_angle = self.voltage_to_angle(pos_voltage_mv)
 
-        cur_voltage_mv = self.current_raw * self.current_scale
-        measured_current = self.voltage_to_current(cur_voltage_mv)
+        measured_current = 0.0
+        if self.has_current:
+            cur_voltage_mv = self.current_raw * self.current_scale
+            measured_current = self.voltage_to_current(cur_voltage_mv)
 
         joint_msg = JointState()
         joint_msg.header.stamp = self.get_clock().now().to_msg()

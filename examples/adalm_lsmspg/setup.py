@@ -32,6 +32,8 @@ setup(
             'servo_commander = adalm_lsmspg.servo_commander:main',
             'servo_feedback = adalm_lsmspg.servo_feedback:main',
             'sweep_generator = adalm_lsmspg.sweep_generator:main',
+            'pid_controller = adalm_lsmspg.pid_controller:main',
+            'step_generator = adalm_lsmspg.step_generator:main',
         ],
     },
 )
