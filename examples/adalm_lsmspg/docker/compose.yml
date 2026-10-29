@@ -1,0 +1,34 @@
+services:
+  adi_iio:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: adalm_lsmspg:latest
+    container_name: adalm-lsmspg-iio
+    privileged: true
+    network_mode: host
+    ipc: host
+    command: ros2 run adi_iio adi_iio_node --ros-args -p uri:="ip:127.0.0.1"
+
+  demo:
+    image: adalm_lsmspg:latest
+    container_name: adalm-lsmspg-demo
+    privileged: true
+    network_mode: host
+    ipc: host
+    depends_on:
+      - adi_iio
+    command: >
+      bash -c "sleep 3 && ros2 launch adalm_lsmspg adalm_lsmspg_bringup.launch.py"
+
+  shell:
+    image: adalm_lsmspg:latest
+    container_name: adalm-lsmspg-shell
+    privileged: true
+    network_mode: host
+    ipc: host
+    stdin_open: true
+    tty: true
+    command: bash
+    profiles:
+      - debug
